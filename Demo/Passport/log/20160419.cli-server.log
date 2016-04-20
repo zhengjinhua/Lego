@@ -1,7 +1,0 @@
-[2016-04-19 23:32:42][ERROR] Object of class Closure could not be converted to string /Users/jinhuazheng/github/Lego/Lego/Core/Lego.php(60)
-[2016-04-19 23:33:34][ERROR] Object of class Closure could not be converted to string /Users/jinhuazheng/github/Lego/Lego/Core/Lego.php(60)
-[2016-04-19 23:34:58][ERROR] Object of class Closure could not be converted to string /Users/jinhuazheng/github/Lego/Lego/Core/Lego.php(60)
-[2016-04-19 23:35:25][ERROR] Object of class Closure could not be converted to string /Users/jinhuazheng/github/Lego/Lego/Core/Lego.php(60)
-[2016-04-19 23:45:09][ERROR] Use of undefined constant reutrn - assumed 'reutrn' /Users/jinhuazheng/github/Lego/Lego/Plugin/Concurrency/Plugin.php(32)
-[2016-04-19 23:45:56][ERROR] Object of class Closure could not be converted to string /Users/jinhuazheng/github/Lego/Lego/Core/Lego.php(60)
-[2016-04-19 23:55:59][ERROR] /Plugin/FileUpload/Router.php CLASS LOAD ERROR /Users/jinhuazheng/github/Lego/Lego/Core/Lego.php(128)
