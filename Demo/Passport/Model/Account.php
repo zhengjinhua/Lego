@@ -12,7 +12,7 @@ use Core\Model;
 
 class Account extends Model
 {
-    private $tableNum = 20;
+    private $tableNum = 8;
 
     protected function init()
     {

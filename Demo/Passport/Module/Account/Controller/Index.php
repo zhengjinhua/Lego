@@ -77,7 +77,7 @@ class Index extends Controller
             ];
         }
 
-        exit(json_encode($result));
+        echo json_encode($result);
     }
 
     /**
@@ -104,6 +104,6 @@ class Index extends Controller
             ];
         }
 
-        exit(json_encode($result));
+        echo json_encode($result);
     }
 }
