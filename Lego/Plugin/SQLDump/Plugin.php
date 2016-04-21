@@ -9,6 +9,7 @@ namespace Plugin\SQLDump;
 
 use Core\Event;
 use Core\PluginInterface;
+use Util;
 
 /**
  * Class Plugin
@@ -31,6 +32,10 @@ class Plugin implements PluginInterface
 
     public static function register()
     {
+        if (Util::isAjax()) {
+            return;
+        }
+
         Event::attach('CORE.DB.EXECUTE.PRE', function ($sql, $bindVar) {
             self::$sqls[] = $sql . ' ' . json_encode($bindVar);
         });
