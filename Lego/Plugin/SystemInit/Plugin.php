@@ -24,7 +24,6 @@ class Plugin implements PluginInterface
 
     public static function register()
     {
-        //程序运行耗时
         Event::attach('CORE.REQUEST.INIT', function () {
 
             //字符集

@@ -20,7 +20,7 @@ abstract class Model
      */
     private $cacheInstance = null;
     private $cacheKey = '';
-    private $cacheTime = -1;
+    private $cacheTime = 0;
 
     /**
      * @var \Core\DB
@@ -104,7 +104,7 @@ abstract class Model
         if ($this->cacheInstance && $this->cacheKey && $this->cacheTime) {
             $this->cacheInstance->set($this->cacheKey, $data, $this->cacheTime);
             $this->cacheKey = '';
-            $this->cacheTime = -1;
+            $this->cacheTime = 0;
         }
 
         return $data;
