@@ -97,7 +97,8 @@ class Extension
         return $plugins;
     }
 
-    public static function breakToMain(){
+    public static function breakToMain()
+    {
         throw new BreakException();
     }
 }
@@ -127,7 +128,8 @@ interface PluginInterface
  */
 class BreakException extends \Exception
 {
-    public function __construct($message = "PLUGIN BREAK") {
+    public function __construct($message = "PLUGIN BREAK")
+    {
         parent::__construct($message);
     }
 }

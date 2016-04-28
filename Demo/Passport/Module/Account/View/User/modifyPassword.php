@@ -1,5 +1,5 @@
 <div class="home-left">
-    <?php include(__DIR__ . '/Common/leftMenu.php');?>
+    <?php include(__DIR__ . '/Common/leftMenu.php'); ?>
 </div>
 <div class="home-right">
     <form class="form-horizontal">

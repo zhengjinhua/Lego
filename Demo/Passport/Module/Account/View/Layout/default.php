@@ -47,7 +47,8 @@
                     &nbsp;<span class="divider">|</span>&nbsp;
                     <a href="<?= \Core\Router::url(['\Module\Account\Controller\Index::logout']) ?>">退出</a>
                 <?php else: ?>
-                    <a class="login-a ml10" href="<?= \Core\Router::url(['\Module\Account\Controller\Index::login']) ?>">登录</a>
+                    <a class="login-a ml10"
+                       href="<?= \Core\Router::url(['\Module\Account\Controller\Index::login']) ?>">登录</a>
                     &nbsp;<span class="divider">|</span>&nbsp;
                     <a href="<?= \Core\Router::url(['\Module\Account\Controller\Index::reg']) ?>">注册</a>
                 <?php endif; ?>

@@ -25,17 +25,19 @@ class Module implements ModuleInterface
 
     public static function init()
     {
-        Router::get('/',                '\Module\Account\Controller\Index::login');
-        Router::get('/reg',             '\Module\Account\Controller\Index::reg');
-        Router::get('/logout',          '\Module\Account\Controller\Index::logout');
-        Router::post('/loginX',         '\Module\Account\Controller\Index::loginX');
-        Router::post('/regX',           '\Module\Account\Controller\Index::regX');
+        Router::rewrite('/home', '/user/home');
 
-        Router::get('/user/home',        '\Module\Account\Controller\User::index');
-        Router::mixed('/user/password',  '\Module\Account\Controller\User::modifyPassword');
-        Router::mixed('/user/email',     '\Module\Account\Controller\User::modifyEmail');
-        Router::mixed('/user/mobile',    '\Module\Account\Controller\User::modifyMobile');
-        Router::mixed('/user/info',      '\Module\Account\Controller\User::modifyInfo');
+        Router::get('/', '\Module\Account\Controller\Index::login');
+        Router::get('/reg', '\Module\Account\Controller\Index::reg');
+        Router::get('/logout', '\Module\Account\Controller\Index::logout');
+        Router::post('/loginX', '\Module\Account\Controller\Index::loginX');
+        Router::post('/regX', '\Module\Account\Controller\Index::regX');
+
+        Router::get('/user/home', '\Module\Account\Controller\User::index');
+        Router::mixed('/user/password', '\Module\Account\Controller\User::modifyPassword');
+        Router::mixed('/user/email', '\Module\Account\Controller\User::modifyEmail');
+        Router::mixed('/user/mobile', '\Module\Account\Controller\User::modifyMobile');
+        Router::mixed('/user/info', '\Module\Account\Controller\User::modifyInfo');
 
     }
 

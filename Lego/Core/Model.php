@@ -69,7 +69,7 @@ abstract class Model
         $this->cacheTime = $time;
 
         $cacheConfig = Config::get('CACHE');
-        if($cacheConfig){
+        if ($cacheConfig) {
             $this->cacheInstance || $this->cacheInstance = Cache::instance($cacheConfig);
             if ($time === 0 && $key) {
                 $this->cacheInstance->del($key);

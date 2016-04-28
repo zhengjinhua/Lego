@@ -13,19 +13,19 @@
 </div>
 
 <script>
-    $("button[type=\"submit\"]").click(function(){
+    $("button[type=\"submit\"]").click(function () {
         var identify = $("input[name=\"identify\"]").val();
         var password = $("input[name=\"password\"]").val();
-        if (identify || password){
+        if (identify || password) {
             $.post("<?=\Core\Router::url(['\Module\Account\Controller\Index::loginX'])?>",
-                {"identify":identify,"password":password},
-                function(data){
-                    if(data.msg){
+                {"identify": identify, "password": password},
+                function (data) {
+                    if (data.msg) {
                         alert(data.msg);
                         return false;
                     }
                     window.location.assign(data.r)
-            },'json');
+                }, 'json');
         }
         return false;
     });

@@ -1,39 +1,160 @@
-body{font-family:"hiragino sans gb","microsoft yahei";color:#686868;background-color: #eee}
+body {
+    font-family: "hiragino sans gb", "microsoft yahei";
+    color: #686868;
+    background-color: #eee
+}
+
 /*header*/
-.page-head{background:#148CCA !important;width:100%;height:50px;border-radius: 0 !important;margin-bottom: 20px;}
-.head{width:1140px;height:50px;margin:0 auto;font-family:"hiragino sans gb","microsoft yahei";font-size:14px;color:#fff;background:#148CCA;}
-.head .head-logo{float:left;margin-right:70px;}
-.head .head-logo a{float: left;color: #fff;
+.page-head {
+    background: #148CCA !important;
+    width: 100%;
+    height: 50px;
+    border-radius: 0 !important;
+    margin-bottom: 20px;
+}
+
+.head {
+    width: 1140px;
+    height: 50px;
+    margin: 0 auto;
+    font-family: "hiragino sans gb", "microsoft yahei";
+    font-size: 14px;
+    color: #fff;
+    background: #148CCA;
+}
+
+.head .head-logo {
+    float: left;
+    margin-right: 70px;
+}
+
+.head .head-logo a {
+    float: left;
+    color: #fff;
     height: 50px;
     padding: 15px 15px;
     font-size: 18px;
-    line-height: 20px;}
-.head .navbar{float:left;margin-bottom:0;border:none;}
-.head .navbar ul{margin:0;}
-.head .navbar ul li{float:left;}
-.head .navbar ul li a{padding:15px;color:#fff;text-shadow:none;box-shadow:none;}
-.head .navbar ul li a:link{color:#fff;}
-.head .navbar ul li a:hover{color:#686868;background:#fff;}
-.head .navbar ul li a:visited{color:#fff;}
-.head .navbar ul li:hover a{color:#686868;}
-.head .navbar ul li.active a{color:#fff;background:#38ACE7;box-shadow:none;}
-.head .navbar ul li.active a:hover{color:#686868;background:#fff;box-shadow:none;}
-.head .navbar ul li.active ul.nav-dropdown-list li a{background:none;}
-.head .account-dropbox{float:right;height:50px;line-height:50px;}
-.head .account-dropbox a{color:#fff;text-decoration:none;}
-.head .account-dropbox img.user-avatar{width:30px;height:30px;margin-right:5px;border-radius:50%;}
-.head .account-dropbox a.user{padding-right:6px;}
-.head .account-dropbox a.logout-a{padding:0 10px;}
-.head .account-dropbox span.divider{display:inline-block;margin-right:-1px;}
-.head .account-dropbox li.nav-dropdown,div.db{position:relative;display:inline-block;}
-.head .account-dropbox div.db{padding:0 3px 0 10px;}
+    line-height: 20px;
+}
 
-.head .navbar .nav li ul li:hover{background:#ebebeb;}
-.head .navbar .nav li ul li:hover a{background:#ebebeb;text-decoration:none;}
-.head .navbar .nav li ul li a:hover{background:#ebebeb;}
-.head .navbar .nav li:hover ul{left: auto;}
-.head .navbar .nav li:hover{background:#fff;}
-.head .navbar .nav a:hover{text-decoration:none;}
+.head .navbar {
+    float: left;
+    margin-bottom: 0;
+    border: none;
+}
+
+.head .navbar ul {
+    margin: 0;
+}
+
+.head .navbar ul li {
+    float: left;
+}
+
+.head .navbar ul li a {
+    padding: 15px;
+    color: #fff;
+    text-shadow: none;
+    box-shadow: none;
+}
+
+.head .navbar ul li a:link {
+    color: #fff;
+}
+
+.head .navbar ul li a:hover {
+    color: #686868;
+    background: #fff;
+}
+
+.head .navbar ul li a:visited {
+    color: #fff;
+}
+
+.head .navbar ul li:hover a {
+    color: #686868;
+}
+
+.head .navbar ul li.active a {
+    color: #fff;
+    background: #38ACE7;
+    box-shadow: none;
+}
+
+.head .navbar ul li.active a:hover {
+    color: #686868;
+    background: #fff;
+    box-shadow: none;
+}
+
+.head .navbar ul li.active ul.nav-dropdown-list li a {
+    background: none;
+}
+
+.head .account-dropbox {
+    float: right;
+    height: 50px;
+    line-height: 50px;
+}
+
+.head .account-dropbox a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.head .account-dropbox img.user-avatar {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    border-radius: 50%;
+}
+
+.head .account-dropbox a.user {
+    padding-right: 6px;
+}
+
+.head .account-dropbox a.logout-a {
+    padding: 0 10px;
+}
+
+.head .account-dropbox span.divider {
+    display: inline-block;
+    margin-right: -1px;
+}
+
+.head .account-dropbox li.nav-dropdown, div.db {
+    position: relative;
+    display: inline-block;
+}
+
+.head .account-dropbox div.db {
+    padding: 0 3px 0 10px;
+}
+
+.head .navbar .nav li ul li:hover {
+    background: #ebebeb;
+}
+
+.head .navbar .nav li ul li:hover a {
+    background: #ebebeb;
+    text-decoration: none;
+}
+
+.head .navbar .nav li ul li a:hover {
+    background: #ebebeb;
+}
+
+.head .navbar .nav li:hover ul {
+    left: auto;
+}
+
+.head .navbar .nav li:hover {
+    background: #fff;
+}
+
+.head .navbar .nav a:hover {
+    text-decoration: none;
+}
 
 .home-left {
     background-color: #fff;

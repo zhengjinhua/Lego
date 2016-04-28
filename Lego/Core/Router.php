@@ -13,7 +13,8 @@ class Router
     private static $map = [];
     private static $rewrite = [];
 
-    public static function rewrite($pattern, $next){
+    public static function rewrite($pattern, $next)
+    {
         if (empty($pattern) || empty($next)) {
             throw new \Exception("ROUTER REWRITE ERROR : {$pattern} {$next}", 500);
         }
@@ -82,9 +83,9 @@ class Router
         $method = $_SERVER['REQUEST_METHOD'];
         $pathInfo = $_SERVER['PATH_INFO'];
 
-        foreach(self::$rewrite as $pattern=>$next){
-            if(preg_match('#^' . $pattern . '$#', $pathInfo)){
-                $pathInfo = preg_replace('#^' . $pattern . '$#',$next);
+        foreach (self::$rewrite as $pattern => $next) {
+            if (preg_match('#^' . $pattern . '$#', $pathInfo)) {
+                $pathInfo = preg_replace('#^' . $pattern . '$#', $next, $pathInfo);
             }
         }
 

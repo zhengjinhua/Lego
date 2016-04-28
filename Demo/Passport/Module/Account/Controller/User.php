@@ -29,10 +29,10 @@ class User extends Controller
     {
         $AccountModel = Account::instance();
         $AccountModel->setId($_SESSION['account_id']);
-        $account = $AccountModel->get(['id'=>$_SESSION['account_id']]);
+        $account = $AccountModel->get(['id' => $_SESSION['account_id']]);
 
 
-        $this->assign('account',$account);
+        $this->assign('account', $account);
         $this->render('User/index');
     }
 

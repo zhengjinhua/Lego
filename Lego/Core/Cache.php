@@ -143,6 +143,7 @@ class RedisCache
      * @var \Redis
      */
     private $Redis = null;
+
     /**
      * @param $config
      */
