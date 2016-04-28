@@ -7,7 +7,7 @@
  */
 namespace Plugin\Captcha;
 
-use Core\BreakException;
+use Core\Extension;
 use Core\Event;
 use Core\PluginInterface;
 use Core\Router;
@@ -36,7 +36,7 @@ class Plugin implements PluginInterface
                 $Captcha = new Captcha(140,40,4);
                 $Captcha->showImage();
                 $_SESSION['captcha'] = $Captcha->getCode();
-                throw new BreakException();
+                Extension::breakToMain();
             }*/
 
             Router::get('/captcha', function () {

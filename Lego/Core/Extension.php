@@ -96,6 +96,10 @@ class Extension
         }
         return $plugins;
     }
+
+    public static function breakToMain(){
+        throw new BreakException();
+    }
 }
 
 interface ModuleInterface

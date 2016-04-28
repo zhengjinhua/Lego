@@ -9,6 +9,7 @@
 namespace Module\Account\Controller;
 
 use Core\Controller;
+use Core\Router;
 use Model\Account;
 use Util;
 
@@ -17,7 +18,7 @@ class User extends Controller
     public function __construct()
     {
         if (!isset($_SESSION['islogin'])) {
-            Util::redirect(Util::url(['\Module\Account\Controller\Index::login']));
+            Util::redirect(Router::url(['\Module\Account\Controller\Index::login']));
         }
     }
 

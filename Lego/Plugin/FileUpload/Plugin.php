@@ -7,7 +7,7 @@
  */
 namespace Plugin\FileUpload;
 
-use Core\BreakException;
+use Core\Extension;
 use Core\Event;
 use Core\PluginInterface;
 use Core\Config;
@@ -45,7 +45,7 @@ class Plugin implements PluginInterface
                     $File = new File(Config::get('FILEUPLOAD'));
                     $result = $File->upload();
                     json_encode($result,JSON_UNESCAPED_UNICODE);
-                    throw new BreakException();
+                    Extension::breakToMain();
                 }*/
 
             Router::post('/fileupload', function () {

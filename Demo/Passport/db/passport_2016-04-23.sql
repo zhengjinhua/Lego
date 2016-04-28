@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: passport
-# Generation Time: 2016-04-21 15:24:56 +0000
+# Generation Time: 2016-04-23 08:03:54 +0000
 # ************************************************************
 
 
@@ -234,7 +234,7 @@ LOCK TABLES `account_4` WRITE;
 
 INSERT INTO `account_4` (`id`, `username`, `password`, `salt`, `nickname`, `email`, `mobile`, `origin`, `ext_int_1`, `ext_int_2`, `ext_int_3`, `ext_bigint_1`, `ext_bigint_2`, `ext_char_1`, `ext_char_2`, `ext_char_3`, `ext_char_4`, `status`, `regip`, `lastip`, `ctreatetime`, `updatetime`)
 VALUES
-	(28,'李四','$2y$10$qzh1qd.5GRagGnrzp.ekCeLC/.poCocscEzKaxz7OxP3HmYE0tPjS','640d75f5','','','','',0,0,0,0,0,'','','','',0,2130706433,0,'2016-04-21 23:22:08','2016-04-21 23:22:08');
+	(28,'李四','$2y$10$qzh1qd.5GRagGnrzp.ekCeLC/.poCocscEzKaxz7OxP3HmYE0tPjS','640d75f5','','','','',0,0,0,0,0,'','','','',0,2130706433,2130706433,'2016-04-21 23:22:08','2016-04-21 23:43:02');
 
 /*!40000 ALTER TABLE `account_4` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -345,6 +345,38 @@ CREATE TABLE `account_7` (
 
 
 
+# Dump of table account_email_index
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `account_email_index`;
+
+CREATE TABLE `account_email_index` (
+  `email` char(64) NOT NULL DEFAULT '' COMMENT '邮箱',
+  `account_id` bigint(20) unsigned NOT NULL COMMENT '账号ID',
+  `ctreatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+/*!50100 PARTITION BY KEY (email)
+PARTITIONS 10 */;
+
+
+
+# Dump of table account_mobile_index
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `account_mobile_index`;
+
+CREATE TABLE `account_mobile_index` (
+  `mobile` char(11) NOT NULL DEFAULT '' COMMENT '手机',
+  `account_id` bigint(20) unsigned NOT NULL COMMENT '账号ID',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `mobile` (`mobile`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+/*!50100 PARTITION BY KEY (mobile)
+PARTITIONS 10 */;
+
+
+
 # Dump of table account_username_index
 # ------------------------------------------------------------
 
@@ -353,6 +385,7 @@ DROP TABLE IF EXISTS `account_username_index`;
 CREATE TABLE `account_username_index` (
   `username` char(20) NOT NULL DEFAULT '' COMMENT '账号',
   `account_id` bigint(20) unsigned NOT NULL COMMENT '账号ID',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 /*!50100 PARTITION BY KEY (username)
@@ -361,16 +394,64 @@ PARTITIONS 10 */;
 LOCK TABLES `account_username_index` WRITE;
 /*!40000 ALTER TABLE `account_username_index` DISABLE KEYS */;
 
-INSERT INTO `account_username_index` (`username`, `account_id`)
+INSERT INTO `account_username_index` (`username`, `account_id`, `createtime`)
 VALUES
-	('a',24),
-	('b',25),
-	('c',26),
-	('李四',28),
-	('d',27);
+	('a',24,'2016-04-23 16:01:42'),
+	('b',25,'2016-04-23 16:01:42'),
+	('c',26,'2016-04-23 16:01:42'),
+	('李四',28,'2016-04-23 16:01:42'),
+	('d',27,'2016-04-23 16:01:42');
 
 /*!40000 ALTER TABLE `account_username_index` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Dump of table third_qq_index
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `third_qq_index`;
+
+CREATE TABLE `third_qq_index` (
+  `openid` char(32) NOT NULL DEFAULT '' COMMENT 'QQ OPENID',
+  `account_id` bigint(20) unsigned NOT NULL COMMENT '账号ID',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `openid` (`openid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+/*!50100 PARTITION BY KEY (openid)
+PARTITIONS 10 */;
+
+
+
+# Dump of table third_weibo_index
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `third_weibo_index`;
+
+CREATE TABLE `third_weibo_index` (
+  `openid` char(32) NOT NULL DEFAULT '' COMMENT 'WEIBO OPENID',
+  `account_id` bigint(20) unsigned NOT NULL COMMENT '账号ID',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `openid` (`openid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+/*!50100 PARTITION BY KEY (openid)
+PARTITIONS 10 */;
+
+
+
+# Dump of table third_weixin_index
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `third_weixin_index`;
+
+CREATE TABLE `third_weixin_index` (
+  `openid` char(32) NOT NULL DEFAULT '' COMMENT 'WEIXIN OPENID',
+  `account_id` bigint(20) unsigned NOT NULL COMMENT '账号ID',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `openid` (`openid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+/*!50100 PARTITION BY KEY (openid)
+PARTITIONS 10 */;
+
 
 
 # Dump of table uniqueid

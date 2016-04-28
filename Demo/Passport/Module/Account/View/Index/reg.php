@@ -21,7 +21,7 @@
         var password = $("input[name=\"password\"]").val();
         var password2 = $("input[name=\"password2\"]").val();
         if (username || password){
-            $.post("<?=Util::url(['\Module\Account\Controller\Index::regX'])?>",
+            $.post("<?=\Core\Router::url(['\Module\Account\Controller\Index::regX'])?>",
                 {"username":username,"password":password,"password2":password2},
                 function(data){
                     if(data.msg){

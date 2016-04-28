@@ -7,7 +7,7 @@
  */
 namespace Plugin\HTML;
 
-use Core\BreakException;
+use Core\Extension;
 use Core\Event;
 use Core\Config;
 use Core\PluginInterface;
@@ -55,7 +55,7 @@ class Plugin implements PluginInterface
                 self::$htmlFile = $htmlPath . $fileName;
                 if (is_file(self::$htmlFile) && filemtime(self::$htmlFile) > $_SERVER['REQUEST_TIME'] - self::$lifeTime) {
                     require(self::$htmlFile);
-                    throw new BreakException();
+                    Extension::breakToMain();
                 }
 
                 //开启输出控制
