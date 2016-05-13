@@ -10,18 +10,13 @@ namespace Plugin\SystemInit;
 use Core\Event;
 use Core\PluginInterface;
 
+/**
+ * 系统初始化插件
+ *
+ * @package Plugin\SystemInit
+ */
 class Plugin implements PluginInterface
 {
-    public static function name()
-    {
-        return '系统初始化插件';
-    }
-
-    public static function desc()
-    {
-        return '系统初始化插件';
-    }
-
     public static function register()
     {
         Event::attach('CORE.REQUEST.INIT', function () {

@@ -11,18 +11,12 @@ use Core\Event;
 use Core\PluginInterface;
 use Util;
 
+/**
+ * 程序运行耗时调试
+ * @package Plugin\TimeSpend
+ */
 class Plugin implements PluginInterface
 {
-    public static function name()
-    {
-        return '程序运行耗时';
-    }
-
-    public static function desc()
-    {
-        return '程序运行耗时';
-    }
-
     public static function register()
     {
         if(Util::isAjax()){

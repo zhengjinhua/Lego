@@ -27,16 +27,6 @@ use Core\Router;
  */
 class Plugin implements PluginInterface
 {
-    public static function name()
-    {
-        return '文件上传插件';
-    }
-
-    public static function desc()
-    {
-        return '文件上传插件';
-    }
-
     public static function register()
     {
         Event::attach("CORE.MODULE.LOAD.PRE", function () {

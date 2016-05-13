@@ -29,20 +29,12 @@ use Core\PluginInterface;
  */
 
 /**
+ * 菜单焦点
+ *
  * @package Plugin
  */
 class Plugin implements PluginInterface
 {
-    public static function name()
-    {
-        return '菜单焦点';
-    }
-
-    public static function desc()
-    {
-        return '菜单焦点';
-    }
-
     public static function register()
     {
         //AFTER_ROUTE阶段检测静态化需求

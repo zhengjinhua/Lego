@@ -18,16 +18,6 @@ use Core\Router;
  */
 class Plugin implements PluginInterface
 {
-    public static function name()
-    {
-        return '验证码插件';
-    }
-
-    public static function desc()
-    {
-        return '验证码插件';
-    }
-
     public static function register()
     {
         Event::attach("CORE.MODULE.LOAD.PRE", function () {

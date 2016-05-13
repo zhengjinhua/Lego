@@ -12,20 +12,13 @@ use Core\PluginInterface;
 
 /**
  * 并发控制
+ *
+ * 同一个接口在0.1s内禁止并发
+ *
  * @package Plugin
  */
 class Plugin implements PluginInterface
 {
-    public static function name()
-    {
-        return '并发控制';
-    }
-
-    public static function desc()
-    {
-        return '同一个接口在0.1s内禁止并发';
-    }
-
     public static function register()
     {
         //禁止单个用户在同个接口范围内并发

@@ -10,6 +10,10 @@ namespace Plugin\HTMLCompress;
 use Core\Event;
 use Core\PluginInterface;
 
+/**
+ * HTML压缩
+ * @package Plugin\HTMLCompress
+ */
 class Plugin implements PluginInterface
 {
     public static function name()

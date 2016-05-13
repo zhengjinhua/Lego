@@ -24,16 +24,6 @@ class Plugin implements PluginInterface
     private static $lifeTime;
     private static $htmlFile;
 
-    public static function name()
-    {
-        return '接口静态化';
-    }
-
-    public static function desc()
-    {
-        return '接口静态化';
-    }
-
     public static function register()
     {
         //AFTER_ROUTE阶段检测静态化需求

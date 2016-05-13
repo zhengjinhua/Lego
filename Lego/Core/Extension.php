@@ -105,19 +105,11 @@ class Extension
 
 interface ModuleInterface
 {
-    public static function name();
-
-    public static function desc();
-
     public static function init();
 }
 
 interface PluginInterface
 {
-    public static function name();
-
-    public static function desc();
-
     public static function register();
 }
 

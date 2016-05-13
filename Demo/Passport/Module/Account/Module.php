@@ -13,16 +13,6 @@ use Core\Router;
 
 class Module implements ModuleInterface
 {
-    public static function name()
-    {
-        return '单点登陆';
-    }
-
-    public static function desc()
-    {
-        return '单点登陆';
-    }
-
     public static function init()
     {
         Router::rewrite('/home', '/user/home');

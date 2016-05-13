@@ -12,23 +12,13 @@ use Core\PluginInterface;
 use Util;
 
 /**
- * Class Plugin
+ * SQL调试输出
  *
  * @package Plugin\SQLDump
  */
 class Plugin implements PluginInterface
 {
     private static $sqls = [];
-
-    public static function name()
-    {
-        return 'SQLDump';
-    }
-
-    public static function desc()
-    {
-        return 'SQLDump';
-    }
 
     public static function register()
     {
