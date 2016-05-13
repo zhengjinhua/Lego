@@ -6,7 +6,7 @@
  * Time: 22:45
  */
 
-namespace Model;
+namespace Module\Account\Model;
 
 use Core\Model;
 

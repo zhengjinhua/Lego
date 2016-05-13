@@ -10,7 +10,7 @@ namespace Module\Account\Controller;
 
 use Core\Controller;
 use Core\Router;
-use Model\Account;
+use Module\Account\Model\Account;
 use Util;
 
 class User extends Controller
@@ -28,7 +28,6 @@ class User extends Controller
     public function index()
     {
         $AccountModel = Account::instance();
-        $AccountModel->setId($_SESSION['account_id']);
         $account = $AccountModel->get(['id' => $_SESSION['account_id']]);
 
 

@@ -4,6 +4,13 @@ namespace Core;
 
 use PDO;
 
+/**
+ * 数据库访问层
+ *
+ * 集成的功能:读写分离
+ *
+ * @package Core
+ */
 class DB
 {
     private static $instance;

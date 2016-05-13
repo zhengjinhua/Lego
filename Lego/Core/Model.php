@@ -8,12 +8,21 @@
 
 namespace Core;
 
+/**
+ * Class Model
+ *
+ * 集成的功能:分表,数据库查询缓存,分页查询
+ *
+ * @package Core
+ */
 abstract class Model
 {
     private static $instance;
 
     protected $table;
     protected $config = [];
+
+    protected $shardingKey = null;
 
     /**
      * @var \Core\Cache
@@ -56,6 +65,46 @@ abstract class Model
      * @return void
      */
     abstract protected function init();
+
+    /**
+     * 分表算法
+     * @param $key 分表字段
+     * @return bool|int
+     */
+    protected function shardingAlgorithm($key)
+    {
+        return false;
+    }
+
+    /**
+     * 分表情况下算出表名
+     * @param $whereCondition
+     * @throws \Exception
+     */
+    private function shardingTable($whereCondition)
+    {
+        //检查是否分表
+        if (!$this->shardingKey) {
+            return;
+        }
+        if (!isset($whereCondition[$this->shardingKey])) {
+            throw new \Exception("MODEL SHARDING ERROR", 500);
+        }
+
+        //避免重复修改表名
+        static $shardingKeyValue = null;
+        if ($shardingKeyValue !== $whereCondition[$this->shardingKey]) {
+            $shardingKeyValue = $whereCondition[$this->shardingKey];
+        } else {
+            return;
+        }
+
+        $tableNumber = $this->shardingAlgorithm($shardingKeyValue);
+        if ($tableNumber === false) {
+            throw new \Exception("MODEL SHARDING_ALGORITHM ERROR", 500);
+        }
+        $this->table = $this->table . '_' . $tableNumber;
+    }
 
     /**
      * 设置缓存写一个查询
@@ -118,6 +167,7 @@ abstract class Model
      */
     final public function get($where = [], $columns = [])
     {
+        $this->shardingTable($where);
         //return $this->db->get($this->table, $columns, $where);
         return $this->cacheForDBQuery('get', $columns, $where);
     }
@@ -130,6 +180,7 @@ abstract class Model
      */
     final public function select($where = [], $columns = [])
     {
+        $this->shardingTable($where);
         //return $this->db->select($this->table, $columns, $where);
         return $this->cacheForDBQuery('select', $columns, $where);
     }
@@ -142,6 +193,7 @@ abstract class Model
      */
     final public function column($column, $where = [])
     {
+        $this->shardingTable($where);
         return $this->db->column($this->table, $column, $where);
     }
 
@@ -152,6 +204,7 @@ abstract class Model
      */
     final public function insert($data)
     {
+        $this->shardingTable($data);
         return $this->db->insert($this->table, $data);
     }
 
@@ -163,6 +216,7 @@ abstract class Model
      */
     final public function update($data, $where = [])
     {
+        $this->shardingTable($where);
         return $this->db->update($this->table, $data, $where);
     }
 
@@ -173,6 +227,7 @@ abstract class Model
      */
     final public function delete($where)
     {
+        $this->shardingTable($where);
         return $this->db->delete($this->table, $where);
     }
 
@@ -183,6 +238,7 @@ abstract class Model
      */
     final public function has($where = [])
     {
+        $this->shardingTable($where);
         return $this->db->has($this->table, $where);
     }
 

@@ -8,9 +8,9 @@
  */
 namespace Module\Account\Transaction;
 
-use Model\Account as AccountModel;
-use Model\Uniqueid;
-use Model\AccountUsernameIndex;
+use Module\Account\Model\Account as AccountModel;
+use Module\Account\Model\Uniqueid;
+use Module\Account\Model\AccountUsernameIndex;
 use Util;
 
 class Account
@@ -38,7 +38,6 @@ class Account
         $encodePassword = password_hash(Util::password($password, $salt), PASSWORD_DEFAULT);
 
         $AccountModel = AccountModel::instance();
-        $AccountModel->setId($accountId);
 
         $AccountModel->beginTransaction();
 
@@ -81,8 +80,11 @@ class Account
 
         $AccountUsernameIndexModel = AccountUsernameIndex::instance();
         $Index = $AccountUsernameIndexModel->get(['username' => $username]);
+        if (!$Index) {
+            self::$errorMsg = '账号不存在';
+            return 4;
+        }
         $AccountModel = AccountModel::instance();
-        $AccountModel->setId($Index['account_id']);
         $account = $AccountModel->get(['id' => $Index['account_id']], '*');
 
         if (!$account) {
