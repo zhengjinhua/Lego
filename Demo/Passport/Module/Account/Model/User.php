@@ -10,11 +10,11 @@ namespace Module\Account\Model;
 
 use Core\Model;
 
-class Account extends Model
+class User extends Model
 {
     protected function init()
     {
-        $this->table = 'account';
+        $this->table = 'user';
         $this->shardingKey = 'id';
     }
 

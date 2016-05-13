@@ -43,7 +43,7 @@
             <div class="account-dropbox">
                 <?php if (isset($_SESSION['islogin'])): ?>
                     <a class="login-a ml10"
-                       href="<?= \Core\Router::url(['\Module\Account\Controller\User::index']) ?>"><?= $_SESSION['account_name'] ?></a>
+                       href="<?= \Core\Router::url(['\Module\Account\Controller\User::index']) ?>"><?= $_SESSION['user_name'] ?></a>
                     &nbsp;<span class="divider">|</span>&nbsp;
                     <a href="<?= \Core\Router::url(['\Module\Account\Controller\Index::logout']) ?>">退出</a>
                 <?php else: ?>

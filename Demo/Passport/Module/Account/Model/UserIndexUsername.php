@@ -10,10 +10,10 @@ namespace Module\Account\Model;
 
 use Core\Model;
 
-class AccountUsernameIndex extends Model
+class UserIndexUsername extends Model
 {
     protected function init()
     {
-        $this->table = 'account_username_index';
+        $this->table = 'user_index_username';
     }
 }

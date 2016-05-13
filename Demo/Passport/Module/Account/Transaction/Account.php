@@ -8,9 +8,9 @@
  */
 namespace Module\Account\Transaction;
 
-use Module\Account\Model\Account as AccountModel;
+use Module\Account\Model\User as UserModel;
 use Module\Account\Model\Uniqueid;
-use Module\Account\Model\AccountUsernameIndex;
+use Module\Account\Model\UserIndexUsername;
 use Util;
 
 class Account
@@ -25,24 +25,24 @@ class Account
             return 1;
         }
 
-        $AccountUsernameIndexModel = AccountUsernameIndex::instance();
-        $exitAccount = $AccountUsernameIndexModel->get(['username' => $username]);
-        if ($exitAccount) {
+        $UserIndexUsernameModel = UserIndexUsername::instance();
+        $exitUser = $UserIndexUsernameModel->get(['username' => $username]);
+        if ($exitUser) {
             self::$errorMsg = '账号已经存在';
             return 2;
         }
 
         $UniqueidModel = Uniqueid::instance();
-        $accountId = $UniqueidModel->generate();
+        $userId = $UniqueidModel->generate();
         $salt = Util::salt(8);
         $encodePassword = password_hash(Util::password($password, $salt), PASSWORD_DEFAULT);
 
-        $AccountModel = AccountModel::instance();
+        $UserModel = UserModel::instance();
 
-        $AccountModel->beginTransaction();
+        $UserModel->beginTransaction();
 
-        $r = $AccountModel->insert([
-            'id' => $accountId,
+        $r = $UserModel->insert([
+            'id' => $userId,
             'username' => $username,
             'password' => $encodePassword,
             'salt' => $salt,
@@ -53,19 +53,19 @@ class Account
             return 3;
         }
 
-        $r = $AccountUsernameIndexModel->insert([
+        $r = $UserIndexUsernameModel->insert([
             'username' => $username,
-            'account_id' => $accountId
+            'user_id' => $userId
         ]);
         if (!$r) {
-            $AccountModel->rollBack();
+            $UserModel->rollBack();
             self::$errorMsg = '注册失败';
             return 3;
         }
-        $AccountModel->commit();
+        $UserModel->commit();
 
-        $_SESSION['account_id'] = $accountId;
-        $_SESSION['account_name'] = $username;
+        $_SESSION['user_id'] = $userId;
+        $_SESSION['user_name'] = $username;
         $_SESSION['islogin'] = 1;
 
         return 0;
@@ -78,29 +78,29 @@ class Account
             return 1;
         }
 
-        $AccountUsernameIndexModel = AccountUsernameIndex::instance();
-        $Index = $AccountUsernameIndexModel->get(['username' => $username]);
+        $UserIndexUsernameModel = UserIndexUsername::instance();
+        $Index = $UserIndexUsernameModel->get(['username' => $username]);
         if (!$Index) {
             self::$errorMsg = '账号不存在';
             return 4;
         }
-        $AccountModel = AccountModel::instance();
-        $account = $AccountModel->get(['id' => $Index['account_id']], '*');
+        $UserModel = UserModel::instance();
+        $user = $UserModel->get(['id' => $Index['user_id']], '*');
 
-        if (!$account) {
+        if (!$user) {
             self::$errorMsg = '参数错误';
             return 2;
         }
 
-        if (!password_verify(Util::password($password, $account['salt']), $account['password'])) {
+        if (!password_verify(Util::password($password, $user['salt']), $user['password'])) {
             self::$errorMsg = '参数错误';
             return 3;
         }
 
-        $AccountModel->update(['lastip' => ip2long(Util::clientIp())], ['id' => $account['id']]);
+        $UserModel->update(['lastip' => ip2long(Util::clientIp())], ['id' => $user['id']]);
 
-        $_SESSION['account_id'] = $account['id'];
-        $_SESSION['account_name'] = $account['username'];
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_name'] = $user['username'];
         $_SESSION['islogin'] = 1;
 
         return 0;

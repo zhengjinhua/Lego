@@ -10,7 +10,7 @@ namespace Module\Account\Controller;
 
 use Core\Controller;
 use Core\Router;
-use Module\Account\Model\Account;
+use Module\Account\Model\User as UserModel;
 use Util;
 
 class User extends Controller
@@ -27,11 +27,11 @@ class User extends Controller
      */
     public function index()
     {
-        $AccountModel = Account::instance();
-        $account = $AccountModel->get(['id' => $_SESSION['account_id']]);
+        $UserModel = UserModel::instance();
+        $user = $UserModel->get(['id' => $_SESSION['user_id']]);
 
 
-        $this->assign('account', $account);
+        $this->assign('user', $user);
         $this->render('User/index');
     }
 

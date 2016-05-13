@@ -2,6 +2,6 @@
     <?php include(__DIR__ . '/Common/leftMenu.php'); ?>
 </div>
 <div class="home-right">
-    <?php var_dump($account) ?>
+    <?php var_dump($user) ?>
 </div>
 
