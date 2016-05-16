@@ -18,7 +18,8 @@ class User extends Model
         $this->shardingKey = 'id';
     }
 
-    protected function shardingAlgorithm($key){
+    protected function shardingAlgorithm($key)
+    {
         return $key % 8;
     }
 }

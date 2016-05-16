@@ -9,10 +9,14 @@
 
 namespace Core;
 
+/**
+ * 框架入口类
+ * @package Core
+ */
 class Lego
 {
     /**
-     * 项目运行
+     * 框架入口
      *
      * @param string $appPath 项目路径
      * @param string $appConfigFile 配置文件

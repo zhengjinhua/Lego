@@ -7,6 +7,10 @@
  */
 namespace Plugin\Captcha;
 
+/**
+ * 验证码类
+ * @package Plugin\Captcha
+ */
 class Captcha
 {
     private $width;

@@ -6,6 +6,10 @@
  * Date: 2015/12/31
  * Time: 10:54
  */
+
+/**
+ * 过滤类
+ */
 class Filter
 {
     public static function filterVar($value, $filter, $options = null)

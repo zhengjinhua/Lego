@@ -9,10 +9,8 @@
 namespace Core;
 
 /**
- * Class Model
- *
+ * 模型类
  * 集成的功能:分表,数据库查询缓存,分页查询
- *
  * @package Core
  */
 abstract class Model

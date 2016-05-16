@@ -28,14 +28,17 @@ class Plugin implements PluginInterface
     {
         //AFTER_ROUTE阶段检测静态化需求
         Event::attach('CORE.ACTION.RUN.PRE', function ($Controller) {
+
             $action = $Controller->action;
             $staticActionList = $Controller->staticActionList;
-            if (isset($staticActionList[$action]) && (substr($_SERVER['PATH_INFO'], -5) === '.html' || $_SERVER['PATH_INFO'] === '/')
-            ) {
+
+            if (isset($staticActionList[$action]) && (substr($_SERVER['PATH_INFO'], -5) === '.html' || $_SERVER['PATH_INFO'] === '/')) {
+
                 self::$lifeTime = $staticActionList[$action];
 
                 $htmlPath = Config::get('HTML_DIR');
                 $htmlPath || $htmlPath = APP_PATH . DIRECTORY_SEPARATOR . 'html';
+
                 $path = $htmlPath . substr($_SERVER['PATH_INFO'], 0, strrpos($_SERVER['PATH_INFO'], '/'));
                 if (!is_dir($path)) {
                     mkdir($path, 0777, true);

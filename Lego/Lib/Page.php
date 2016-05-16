@@ -6,6 +6,10 @@
  * Date: 2015/11/5
  * Time: 14:04
  */
+
+/**
+ * 分页类
+ */
 class Page
 {
     const placeholder = '__PAGE__';

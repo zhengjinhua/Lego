@@ -11,7 +11,6 @@ namespace Core;
 /**
  * 事件注册表
  *
- * Class Event
  * @package Core
  */
 class Event

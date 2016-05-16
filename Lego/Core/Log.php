@@ -8,6 +8,10 @@
 
 namespace Core;
 
+/**
+ * 框架日志类
+ * @package Core
+ */
 class Log
 {
     private static $logDir = '';

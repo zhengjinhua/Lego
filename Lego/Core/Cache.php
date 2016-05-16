@@ -9,7 +9,7 @@
 namespace Core;
 
 /**
- * Class Cache
+ * 缓存类
  * @package Core
  */
 class Cache
@@ -81,7 +81,6 @@ class Cache
 
 /**
  * 文件缓存
- * Class FileCache
  * @package Core
  */
 class FileCache
@@ -134,7 +133,6 @@ class FileCache
 
 /**
  * Redis缓存
- * Class RedisCache
  * @package Core
  */
 class RedisCache

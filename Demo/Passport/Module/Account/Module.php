@@ -11,6 +11,10 @@ namespace Module\Account;
 use Core\ModuleInterface;
 use Core\Router;
 
+/**
+ * 帐号模块
+ * @package Module\Account
+ */
 class Module implements ModuleInterface
 {
     public static function init()

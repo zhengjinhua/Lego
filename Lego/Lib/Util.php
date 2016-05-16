@@ -9,6 +9,9 @@
 
 use Core\Config;
 
+/**
+ * 工具方法类
+ */
 class Util
 {
     /**

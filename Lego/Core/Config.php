@@ -10,8 +10,6 @@ namespace Core;
 
 /**
  * 配置注册表
- *
- * Class Config
  * @package Core
  */
 class Config

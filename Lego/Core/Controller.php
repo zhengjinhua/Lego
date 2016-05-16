@@ -8,6 +8,13 @@
 
 namespace Core;
 
+/**
+ * 控制器基类
+ *
+ * 集成的功能:接口静态化
+ *
+ * @package Core
+ */
 class Controller
 {
     /**

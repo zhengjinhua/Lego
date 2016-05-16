@@ -17,10 +17,10 @@ class Response
      */
     public function __construct($code, $raw_body, $headers, $json_args = array())
     {
-        $this->code     = $code;
-        $this->headers  = $this->parseHeaders($headers);
+        $this->code = $code;
+        $this->headers = $this->parseHeaders($headers);
         $this->raw_body = $raw_body;
-        $this->body     = $raw_body;
+        $this->body = $raw_body;
 
         // make sure raw_body is the first argument
         array_unshift($json_args, $raw_body);
@@ -61,7 +61,7 @@ class Response
                     $key = $h[0];
                 } else {
                     if (substr($h[0], 0, 1) == "\t") {
-                        $headers[$key] .= "\r\n\t".trim($h[0]);
+                        $headers[$key] .= "\r\n\t" . trim($h[0]);
                     } elseif (!$key) {
                         $headers[0] = trim($h[0]);
                     }

@@ -11,6 +11,10 @@ namespace Module\Status;
 use Core\ModuleInterface;
 use Core\Router;
 
+/**
+ * 应用信息模块
+ * @package Module\Status
+ */
 class Module implements ModuleInterface
 {
     public static function init()

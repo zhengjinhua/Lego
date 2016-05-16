@@ -8,6 +8,10 @@
 
 namespace Core;
 
+/**
+ * 路由类
+ * @package Core
+ */
 class Router
 {
     private static $map = [];

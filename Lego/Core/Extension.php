@@ -8,6 +8,12 @@
 
 namespace Core;
 
+/**
+ * 框架扩展类
+ *
+ * 集成的功能: 插件,模块,模块插件
+ * @package Core
+ */
 class Extension
 {
     /**
@@ -103,18 +109,33 @@ class Extension
     }
 }
 
+/**
+ * 模块接口
+ * @package Core
+ */
 interface ModuleInterface
 {
+    /**
+     * 模块初始化
+     * @return mixed
+     */
     public static function init();
 }
 
+/**
+ * 插件接口
+ * @package Core
+ */
 interface PluginInterface
 {
+    /**
+     * 插件注册
+     * @return mixed
+     */
     public static function register();
 }
 
 /**
- * Class BreakException
  * 插件中断请求处理
  * @package Core
  */
