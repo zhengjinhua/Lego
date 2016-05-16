@@ -14,7 +14,7 @@ class Request
     private static $verifyPeer = true;
     private static $verifyHost = true;
 
-    private static $auth = array (
+    private static $auth = array(
         'user' => '',
         'pass' => '',
         'method' => CURLAUTH_BASIC
@@ -25,7 +25,7 @@ class Request
         'tunnel' => false,
         'address' => false,
         'type' => CURLPROXY_HTTP,
-        'auth' => array (
+        'auth' => array(
             'user' => '',
             'pass' => '',
             'method' => CURLAUTH_BASIC
@@ -56,7 +56,7 @@ class Request
     {
         return self::$verifyPeer = $enabled;
     }
-    
+
     /**
      * Verify SSL host
      *
@@ -456,25 +456,25 @@ class Request
 
         if (!empty(self::$auth['user'])) {
             curl_setopt_array(self::$handle, array(
-                CURLOPT_HTTPAUTH    => self::$auth['method'],
-                CURLOPT_USERPWD     => self::$auth['user'] . ':' . self::$auth['pass']
+                CURLOPT_HTTPAUTH => self::$auth['method'],
+                CURLOPT_USERPWD => self::$auth['user'] . ':' . self::$auth['pass']
             ));
         }
 
         if (self::$proxy['address'] !== false) {
             curl_setopt_array(self::$handle, array(
-                CURLOPT_PROXYTYPE       => self::$proxy['type'],
-                CURLOPT_PROXY           => self::$proxy['address'],
-                CURLOPT_PROXYPORT       => self::$proxy['port'],
+                CURLOPT_PROXYTYPE => self::$proxy['type'],
+                CURLOPT_PROXY => self::$proxy['address'],
+                CURLOPT_PROXYPORT => self::$proxy['port'],
                 CURLOPT_HTTPPROXYTUNNEL => self::$proxy['tunnel'],
-                CURLOPT_PROXYAUTH       => self::$proxy['auth']['method'],
-                CURLOPT_PROXYUSERPWD    => self::$proxy['auth']['user'] . ':' . self::$proxy['auth']['pass']
+                CURLOPT_PROXYAUTH => self::$proxy['auth']['method'],
+                CURLOPT_PROXYUSERPWD => self::$proxy['auth']['user'] . ':' . self::$proxy['auth']['pass']
             ));
         }
 
-        $response   = curl_exec(self::$handle);
-        $error      = curl_error(self::$handle);
-        $info       = self::getInfo();
+        $response = curl_exec(self::$handle);
+        $error = curl_error(self::$handle);
+        $info = self::getInfo();
 
         if ($error) {
             throw new \Exception($error);
@@ -482,9 +482,9 @@ class Request
 
         // Split the full response in its headers and body
         $header_size = $info['header_size'];
-        $header      = substr($response, 0, $header_size);
-        $body        = substr($response, $header_size);
-        $httpCode    = $info['http_code'];
+        $header = substr($response, 0, $header_size);
+        $body = substr($response, $header_size);
+        $httpCode = $info['http_code'];
 
         return new Response($httpCode, $body, $header, self::$jsonOpts);
     }
@@ -509,7 +509,7 @@ class Request
     {
         $formattedHeaders = array();
 
-        $combinedHeaders = array_change_key_case(array_merge((array) $headers, self::$defaultHeaders));
+        $combinedHeaders = array_change_key_case(array_merge((array)$headers, self::$defaultHeaders));
 
         foreach ($combinedHeaders as $key => $val) {
             $formattedHeaders[] = self::getHeaderString($key, $val);
@@ -547,10 +547,10 @@ class Request
         $url_parsed = parse_url($url);
 
         $scheme = $url_parsed['scheme'] . '://';
-        $host   = $url_parsed['host'];
-        $port   = (isset($url_parsed['port']) ? $url_parsed['port'] : null);
-        $path   = (isset($url_parsed['path']) ? $url_parsed['path'] : null);
-        $query  = (isset($url_parsed['query']) ? $url_parsed['query'] : null);
+        $host = $url_parsed['host'];
+        $port = (isset($url_parsed['port']) ? $url_parsed['port'] : null);
+        $path = (isset($url_parsed['path']) ? $url_parsed['path'] : null);
+        $query = (isset($url_parsed['query']) ? $url_parsed['query'] : null);
 
         if ($query !== null) {
             $query = '?' . http_build_query(self::getArrayFromQuerystring($query));

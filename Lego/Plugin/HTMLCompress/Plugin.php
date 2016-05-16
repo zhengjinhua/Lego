@@ -36,9 +36,9 @@ class Plugin implements PluginInterface
                 //过滤单行注释
                 $html = preg_replace('#([^:|\"])//.*#', '$1', $html);
                 //过滤多行注释
-                $html = preg_replace(['#/\*.*\*/#sU','#<!--.*-->#sU'], ' ', $html);
+                $html = preg_replace(['#/\*.*\*/#sU', '#<!--.*-->#sU'], ' ', $html);
                 //过滤换行和空格
-                $html = preg_replace(['#\s*\n+\s*#','#\s{2,}#',"#>\s+<#"], [' ',' ','><'], $html);
+                $html = preg_replace(['#\s*\n+\s*#', '#\s{2,}#', "#>\s+<#"], [' ', ' ', '><'], $html);
                 echo $html;
             });
         });

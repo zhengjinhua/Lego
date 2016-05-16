@@ -8,7 +8,10 @@
 
 namespace Plugin\FileUpload;
 
-
+/**
+ * 文件上传类
+ * @package Plugin\FileUpload
+ */
 class File
 {
     private $config = [
@@ -36,7 +39,7 @@ class File
     {
         $result = [];
 
-        if(!$_FILES){
+        if (!$_FILES) {
             return $result;
         }
 

@@ -38,7 +38,9 @@
                 <ol>
                     <?php ksort($map); ?>
                     <?php foreach ($map as $pathInfo => $action): ?>
-                        <li><span style="display:inline-block;width: 200px"><?= $pathInfo ?></span><?= is_string($action) ? $action : 'Closure' ?></li>
+                        <li><span
+                                style="display:inline-block;width: 200px"><?= $pathInfo ?></span><?= is_string($action) ? $action : 'Closure' ?>
+                        </li>
                     <?php endforeach; ?>
                 </ol>
             <?php endforeach; ?>
