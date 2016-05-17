@@ -71,10 +71,12 @@ class Extension
      */
     public static function getModuleList()
     {
-        $modules = glob(APP_PATH . '/Module/*');
-        $modules = array_map('basename', $modules);
-        $modules = array_unique($modules);
-
+        $modules = Config::get('MODULES');
+        if (!$modules) {
+            $modules = glob(APP_PATH . '/Module/*');
+            $modules = array_map('basename', $modules);
+            $modules = array_unique($modules);
+        }
         return $modules;
     }
 
@@ -88,11 +90,12 @@ class Extension
         if (PHP_SAPI === 'cli') {
             return [];
         }
-
-        $plugins = glob(APP_PATH . '/Plugin/*');
-        $plugins = array_map('basename', $plugins);
-        $plugins = array_unique($plugins);
-
+        $plugins = Config::get('PLUGINS');
+        if (!$plugins) {
+            $plugins = glob(APP_PATH . '/Plugin/*');
+            $plugins = array_map('basename', $plugins);
+            $plugins = array_unique($plugins);
+        }
         return $plugins;
     }
 
