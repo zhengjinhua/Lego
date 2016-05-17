@@ -89,11 +89,7 @@ class Controller
         //获取模块视图路径
         $calledClassPath = explode('\\', get_called_class());
         $viewPath = implode(DIRECTORY_SEPARATOR, array_slice($calledClassPath, 0, -2));
-        if ($calledClassPath[1] === 'Status') {
-            $moduleViewPath = LEGO_PATH . DIRECTORY_SEPARATOR . $viewPath . DIRECTORY_SEPARATOR . 'View';
-        } else {
-            $moduleViewPath = APP_PATH . DIRECTORY_SEPARATOR . $viewPath . DIRECTORY_SEPARATOR . 'View';
-        }
+        $moduleViewPath = APP_PATH . DIRECTORY_SEPARATOR . $viewPath . DIRECTORY_SEPARATOR . 'View';
 
         //检查视图文件
         $viewFile = $moduleViewPath . DIRECTORY_SEPARATOR . $viewFile . '.php';

@@ -115,26 +115,28 @@ class Lego
             $className = DIRECTORY_SEPARATOR . $className;
         }
 
-        $appFile = APP_PATH . $className . '.php';
-        $legoFile = LEGO_PATH . $className . '.php';
-        $appLibFile = APP_PATH . DIRECTORY_SEPARATOR . 'Lib' . $className . '.php';
-        $legoLibFile = LEGO_PATH . DIRECTORY_SEPARATOR . 'Lib' . $className . '.php';
+        if (strpos($className, 'Core', 1) === 1) {
+            $file = LEGO_PATH . $className . '.php';
+        } elseif (strpos($className, 'Module', 1) === 1 || strpos($className, 'Plugin', 1) === 1) {
+            $file = APP_PATH . $className . '.php';
+        } else {
+            $legoLibFile = LEGO_PATH . DIRECTORY_SEPARATOR . 'Lib' . $className . '.php';
+            $appLibFile = APP_PATH . DIRECTORY_SEPARATOR . 'Lib' . $className . '.php';
+            $appFile = APP_PATH . $className . '.php';
 
-        switch (1) {
-            case is_file($appFile):
-                $file = $appFile;
-                break;
-            case is_file($legoFile):
-                $file = $legoFile;
-                break;
-            case is_file($appLibFile):
-                $file = $appLibFile;
-                break;
-            case is_file($legoLibFile):
-                $file = $legoLibFile;
-                break;
-            default:
-                throw new \Exception("{$className}.php CLASS LOAD ERROR", 500);
+            switch (1) {
+                case is_file($legoLibFile):
+                    $file = $legoLibFile;
+                    break;
+                case is_file($appLibFile):
+                    $file = $appLibFile;
+                    break;
+                case is_file($appFile):
+                    $file = $appFile;
+                    break;
+                default:
+                    throw new \Exception("{$className}.php CLASS LOAD ERROR", 500);
+            }
         }
 
         require $file;

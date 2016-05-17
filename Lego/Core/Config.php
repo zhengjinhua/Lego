@@ -23,13 +23,6 @@ class Config
      */
     public static function load($appConfigFile)
     {
-        //框架配置文件
-        static $loadedLegoConfig = false;
-        if (!$loadedLegoConfig) {
-            include(LEGO_PATH . DIRECTORY_SEPARATOR . 'Conf' . DIRECTORY_SEPARATOR . 'config.php');
-            $loadedLegoConfig = true;
-        }
-
         if (substr($appConfigFile, -4) !== '.php') {
             $appConfigFile = $appConfigFile . '.php';
         }

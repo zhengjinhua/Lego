@@ -43,24 +43,6 @@ class Extension
     }
 
     /**
-     * 获取模块列表
-     *
-     * @return array|null
-     */
-    public static function getModuleList()
-    {
-        $modules = Config::get('MODULES');
-        if (!$modules) {
-            $legoModules = glob(LEGO_PATH . '/Module/*');
-            $appModules = glob(APP_PATH . '/Module/*');
-            $modules = array_merge($legoModules, $appModules);
-            $modules = array_map('basename', $modules);
-            $modules = array_unique($modules);
-        }
-        return $modules;
-    }
-
-    /**
      * 加载插件
      *
      * @param array $modulePlugins 模块插件列表
@@ -83,6 +65,20 @@ class Extension
     }
 
     /**
+     * 获取模块列表
+     *
+     * @return array|null
+     */
+    public static function getModuleList()
+    {
+        $modules = glob(APP_PATH . '/Module/*');
+        $modules = array_map('basename', $modules);
+        $modules = array_unique($modules);
+
+        return $modules;
+    }
+
+    /**
      * 获取插件列表
      * @return array|null
      */
@@ -92,14 +88,11 @@ class Extension
         if (PHP_SAPI === 'cli') {
             return [];
         }
-        $plugins = Config::get('PLUGINS');
-        if (!$plugins) {
-            $legoPlugins = glob(LEGO_PATH . '/Plugin/*');
-            $appPlugins = glob(APP_PATH . '/Plugin/*');
-            $plugins = array_merge($legoPlugins, $appPlugins);
-            $plugins = array_map('basename', $plugins);
-            $plugins = array_unique($plugins);
-        }
+
+        $plugins = glob(APP_PATH . '/Plugin/*');
+        $plugins = array_map('basename', $plugins);
+        $plugins = array_unique($plugins);
+
         return $plugins;
     }
 
