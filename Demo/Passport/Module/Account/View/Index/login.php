@@ -17,7 +17,7 @@
         var identify = $("input[name=\"identify\"]").val();
         var password = $("input[name=\"password\"]").val();
         if (identify || password) {
-            $.post("<?=\Core\Router::url(['\Module\Account\Controller\Index::loginX'])?>",
+            $.post("<?=url(['\Module\Account\Controller\Index::loginX'])?>",
                 {"identify": identify, "password": password},
                 function (data) {
                     if (data.msg) {

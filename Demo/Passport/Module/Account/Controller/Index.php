@@ -9,7 +9,6 @@
 namespace Module\Account\Controller;
 
 use Core\Controller;
-use Core\Router;
 use Util;
 use Module\Account\Transaction\Account as AccountTransaction;
 
@@ -25,7 +24,7 @@ class Index extends Controller
     public function reg()
     {
         if (isset($_SESSION['islogin'])) {
-            Util::redirect(Router::url(['\Module\Account\Controller\User::index']));
+            Util::redirect(url(['\Module\Account\Controller\User::index']));
         }
         $this->render('Index/reg');
     }
@@ -36,7 +35,7 @@ class Index extends Controller
     public function login()
     {
         if (isset($_SESSION['islogin'])) {
-            Util::redirect(Router::url(['\Module\Account\Controller\User::index']));
+            Util::redirect(url(['\Module\Account\Controller\User::index']));
         }
         $this->render('Index/login');
     }
@@ -49,7 +48,7 @@ class Index extends Controller
 
         session_destroy();
         $result = [
-            'r' => isset($_GET['r']) ? $_GET['r'] : Router::url(['\Module\Account\Controller\Index::login'])
+            'r' => isset($_GET['r']) ? $_GET['r'] : url(['\Module\Account\Controller\Index::login'])
         ];
 
         $this->assign('result', $result);
@@ -69,7 +68,7 @@ class Index extends Controller
             $result = [
                 'error' => 0,
                 //'msg' => '注册成功',
-                'r' => isset($_GET['r']) ? $_GET['r'] : Router::url(['\Module\Account\Controller\User::index'])
+                'r' => isset($_GET['r']) ? $_GET['r'] : url(['\Module\Account\Controller\User::index'])
             ];
         } else {
             $result = [
@@ -96,7 +95,7 @@ class Index extends Controller
             $result = [
                 'error' => 0,
                 //'msg' => '登陆成功',
-                'r' => isset($_GET['r']) ? $_GET['r'] : Router::url(['\Module\Account\Controller\User::index'])
+                'r' => isset($_GET['r']) ? $_GET['r'] : url(['\Module\Account\Controller\User::index'])
             ];
         } else {
             $result = [
