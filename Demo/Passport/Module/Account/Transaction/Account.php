@@ -8,9 +8,9 @@
  */
 namespace Module\Account\Transaction;
 
-use Module\Account\Model\User as UserModel;
-use Module\Account\Model\Uniqueid;
-use Module\Account\Model\UserIndexUsername;
+use Model\User as UserModel;
+use Model\Uniqueid;
+use Model\UserIndexUsername;
 use Util;
 
 class Account

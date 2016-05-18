@@ -15,7 +15,7 @@ use Core\PluginInterface;
 /**
  * 请求静态化
  *
- * 静态化文件目录配置 Config::set('HTML_DIR', APP_PATH . DIRECTORY_SEPARATOR . 'html');
+ * 静态化文件目录配置 Config::set('HTML_DIR', APP_PATH . '/html');
  *
  * @package Plugin
  */
@@ -37,7 +37,7 @@ class Plugin implements PluginInterface
                 self::$lifeTime = $staticActionList[$action];
 
                 $htmlPath = Config::get('HTML_DIR');
-                $htmlPath || $htmlPath = APP_PATH . DIRECTORY_SEPARATOR . 'html';
+                $htmlPath || $htmlPath = APP_PATH . '/html';
 
                 $path = $htmlPath . substr($_SERVER['PATH_INFO'], 0, strrpos($_SERVER['PATH_INFO'], '/'));
                 if (!is_dir($path)) {

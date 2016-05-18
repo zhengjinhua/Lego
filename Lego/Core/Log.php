@@ -25,7 +25,7 @@ class Log
     public static function setLevel($level)
     {
         self::$level = $level;
-        self::$logDir = APP_PATH . DIRECTORY_SEPARATOR . 'log';
+        self::$logDir = APP_PATH . '/log';
     }
 
     /**
@@ -78,7 +78,7 @@ class Log
         if (!is_dir(self::$logDir)) {
             mkdir(self::$logDir, 0777);
         }
-        $logPath = self::$logDir . DIRECTORY_SEPARATOR . date('Ymd') . '.' . PHP_SAPI . '.log';
+        $logPath = self::$logDir . '/' . date('Ymd') . '.' . PHP_SAPI . '.log';
         file_put_contents($logPath, $log, FILE_APPEND | LOCK_EX);
         self::$logs = [];
     }

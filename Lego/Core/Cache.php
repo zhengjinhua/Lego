@@ -92,7 +92,7 @@ class FileCache
      */
     public function __construct($config)
     {
-        $this->cacheDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR;
+        $this->cacheDir = sys_get_temp_dir() . '/';
     }
 
     public function get($key)

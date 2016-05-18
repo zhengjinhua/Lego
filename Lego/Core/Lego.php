@@ -32,6 +32,7 @@ class Lego
         self::repairPathInfo();
 
         //自动加载
+        self::repairIncludePath();
         spl_autoload_register('self::autoLoad');
 
         //异常处理
@@ -97,6 +98,18 @@ class Lego
         }
     }
 
+    private function repairIncludePath()
+    {
+        $modulePathArr = glob(APP_PATH . '/Module/*');
+        $modulePathStr = implode(PATH_SEPARATOR, $modulePathArr);
+        set_include_path(
+            LEGO_PATH . PATH_SEPARATOR .
+            LEGO_PATH . '/Lib' . PATH_SEPARATOR .
+            APP_PATH . PATH_SEPARATOR .
+            APP_PATH . '/Lib' . PATH_SEPARATOR .
+            $modulePathStr);
+    }
+
     /**
      * 框架自动加载文件查找规则
      *      1 项目下Module/Plugin
@@ -110,35 +123,8 @@ class Lego
      */
     private static function autoLoad($className)
     {
-        $className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
-        if ($className[0] !== DIRECTORY_SEPARATOR) {
-            $className = DIRECTORY_SEPARATOR . $className;
-        }
-
-        if (strpos($className, 'Core', 1) === 1) {
-            $file = LEGO_PATH . $className . '.php';
-        } elseif (strpos($className, 'Module', 1) === 1 || strpos($className, 'Plugin', 1) === 1) {
-            $file = APP_PATH . $className . '.php';
-        } else {
-            $legoLibFile = LEGO_PATH . DIRECTORY_SEPARATOR . 'Lib' . $className . '.php';
-            $appLibFile = APP_PATH . DIRECTORY_SEPARATOR . 'Lib' . $className . '.php';
-            $appFile = APP_PATH . $className . '.php';
-
-            switch (1) {
-                case is_file($legoLibFile):
-                    $file = $legoLibFile;
-                    break;
-                case is_file($appLibFile):
-                    $file = $appLibFile;
-                    break;
-                case is_file($appFile):
-                    $file = $appFile;
-                    break;
-                default:
-                    throw new \Exception("{$className}.php CLASS LOAD ERROR", 500);
-            }
-        }
-
+        $className = str_replace('\\', '/', $className);
+        $file = $className[0] === '/' ? substr($className, 1) . '.php' : $className . '.php';
         require $file;
     }
 

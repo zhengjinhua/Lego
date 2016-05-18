@@ -62,7 +62,7 @@ class Controller
 
     /**
      * 设置主题目录
-     * @param string $fileName
+     * @param string $dirName
      */
     final protected function setTheme($dirName)
     {
@@ -113,26 +113,26 @@ class Controller
 
         //查找主题下的视图文件和框架文件
         if ($this->theme) {
-            $moduleName = implode(DIRECTORY_SEPARATOR, array_slice($calledClassPath, 1, -2));
-            $viewFile = APP_PATH . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . $this->theme . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . $view . '.php';
-            $layoutFile = APP_PATH . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . $this->theme . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . $this->layout . '.php';
+            $moduleName = implode('/', array_slice($calledClassPath, 1, -2));
+            $viewFile = APP_PATH . '/View/' . $this->theme . '/' . $moduleName . '/' . $view . '.php';
+            $layoutFile = APP_PATH . '/View/' . $this->theme . '/Layout/' . $this->layout . '.php';
         }
 
         //获取模块视图路径
-        $moduleViewPath = APP_PATH . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, array_slice($calledClassPath, 0, -2)) . DIRECTORY_SEPARATOR . 'View';
+        $moduleViewPath = APP_PATH . '/' . implode('/', array_slice($calledClassPath, 0, -2)) . '/' . 'View';
 
         //查找模块下的视图文件
         if (!$viewFile || !is_file($viewFile)) {
-            $viewFile = $moduleViewPath . DIRECTORY_SEPARATOR . $view . '.php';
+            $viewFile = $moduleViewPath . '/' . $view . '.php';
         }
 
         //查找模块下的框架文件
         if (!$layoutFile || !is_file($layoutFile)) {
-            $layoutFile = $moduleViewPath . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . $this->layout . '.php';
+            $layoutFile = $moduleViewPath . '/Layout/' . $this->layout . '.php';
         }
         //查找公用的框架文件
         if (!$layoutFile || !is_file($layoutFile)) {
-            $layoutFile = APP_PATH . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . $this->layout . '.php';
+            $layoutFile = APP_PATH . '/View/Layout/' . $this->layout . '.php';
         }
 
         if (!is_file($viewFile)) {

@@ -58,7 +58,7 @@ class File
             $files[] = $_FILES;
         }
 
-        $path = $this->config['savePath'] . DIRECTORY_SEPARATOR . date("Y/m/d/H/i/s/");
+        $path = $this->config['savePath'] . '/' . date("Y/m/d/H/i/s/");
 
         foreach ($files as $key2 => $file) {
             if (!empty($file['name'])) {

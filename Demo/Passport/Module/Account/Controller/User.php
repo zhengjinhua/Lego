@@ -9,7 +9,7 @@
 namespace Module\Account\Controller;
 
 use Core\Controller;
-use Module\Account\Model\User as UserModel;
+use Model\User as UserModel;
 use Util;
 
 class User extends Controller

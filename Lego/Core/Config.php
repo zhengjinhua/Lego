@@ -26,7 +26,7 @@ class Config
         if (substr($appConfigFile, -4) !== '.php') {
             $appConfigFile = $appConfigFile . '.php';
         }
-        $appConfigFile = APP_PATH . DIRECTORY_SEPARATOR . 'Conf' . DIRECTORY_SEPARATOR . $appConfigFile;
+        $appConfigFile = APP_PATH . '/Conf/' . $appConfigFile;
         if (!is_file($appConfigFile)) {
             throw new \Exception("CONFIG FILE {$appConfigFile} LOAD ERROR", 500);
         }

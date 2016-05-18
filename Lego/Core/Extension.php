@@ -33,10 +33,6 @@ class Extension
             $plugins = glob(APP_PATH . '/Module/' . $moduleName . '/Plugin/*');
             if ($plugins) {
                 $pluginNames = array_map('basename', $plugins);
-                $pluginNames = array_unique($pluginNames);
-                foreach ($pluginNames as &$pluginName) {
-                    $pluginName = "{$moduleName}\\Plugin\\{$pluginName}";
-                }
                 self::loadPlugin($pluginNames);
             }
         }
@@ -45,17 +41,16 @@ class Extension
     /**
      * 加载插件
      *
-     * @param array $modulePlugins 模块插件列表
+     * @param array $plugins 模块插件列表
      *
      * @throws \Exception
      */
-    public static function loadPlugin($modulePlugins = [])
+    public static function loadPlugin($plugins = [])
     {
-        $isModule = !!$modulePlugins;
-        $plugins = $isModule ? $modulePlugins : self::getPluginList();
+        $plugins = $plugins ? $plugins : self::getPluginList();
 
         foreach ($plugins as $pluginName) {
-            $className = $isModule ? "\\Module\\{$pluginName}\\Plugin" : "\\Plugin\\{$pluginName}\\Plugin";
+            $className = "\\Plugin\\{$pluginName}\\Plugin";
             if (!is_subclass_of($className, '\Core\PluginInterface')) {
                 throw new \Exception("{$className}  NOT IMPLEMENTS \\Core\\PluginInterface", 500);
             }
