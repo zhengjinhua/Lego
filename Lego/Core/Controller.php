@@ -28,6 +28,11 @@ class Controller
     public $staticActionList = [];
 
     /**
+     * @var string 主题
+     */
+    private $theme = '';
+
+    /**
      * @var string 页面框架
      */
     private $layout = 'default';
@@ -56,6 +61,15 @@ class Controller
     }
 
     /**
+     * 设置主题目录
+     * @param string $fileName
+     */
+    final protected function setTheme($dirName)
+    {
+        $this->theme = $dirName;
+    }
+
+    /**
      * 设置框架文件名
      * @param string $fileName
      */
@@ -80,35 +94,51 @@ class Controller
 
     /**
      * 渲染模版
-     * @param string $viewFile
+     *
+     * 视图文件查找路径:主题下的视图->模块下的视图
+     * 框架文件查找路径:主题下的框架->模块下的框架->公用的框架
+     * @param string $view
      * @param string $layout
      * @throws \Exception
      */
-    final protected function render($viewFile, $layout = null)
+    final protected function render($view, $layout = null)
     {
-        //获取模块视图路径
-        $calledClassPath = explode('\\', get_called_class());
-        $viewPath = implode(DIRECTORY_SEPARATOR, array_slice($calledClassPath, 0, -2));
-        $moduleViewPath = APP_PATH . DIRECTORY_SEPARATOR . $viewPath . DIRECTORY_SEPARATOR . 'View';
-
-        //检查视图文件
-        $viewFile = $moduleViewPath . DIRECTORY_SEPARATOR . $viewFile . '.php';
-        if (!is_file($viewFile)) {
-            throw new \Exception("{$viewFile} VIEW NOT FIND", 500);
-        }
-
         if ($layout !== null) {
             $this->layout = $layout;
         }
 
-        //检查框架文件
-        $moduleLayout = $moduleViewPath . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . $this->layout . '.php';
-        $appLayout = APP_PATH . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . $this->layout . '.php';
-        if (is_file($moduleLayout)) {
-            $layoutFile = $moduleLayout;
-        } elseif (is_file($appLayout)) {
-            $layoutFile = $appLayout;
-        } else {
+        $viewFile = $layoutFile = '';
+
+        $calledClassPath = explode('\\', get_called_class());
+
+        //查找主题下的视图文件和框架文件
+        if ($this->theme) {
+            $moduleName = implode(DIRECTORY_SEPARATOR, array_slice($calledClassPath, 1, -2));
+            $viewFile = APP_PATH . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . $this->theme . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . $view . '.php';
+            $layoutFile = APP_PATH . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . $this->theme . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . $this->layout . '.php';
+        }
+
+        //获取模块视图路径
+        $moduleViewPath = APP_PATH . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, array_slice($calledClassPath, 0, -2)) . DIRECTORY_SEPARATOR . 'View';
+
+        //查找模块下的视图文件
+        if (!$viewFile || !is_file($viewFile)) {
+            $viewFile = $moduleViewPath . DIRECTORY_SEPARATOR . $view . '.php';
+        }
+
+        //查找模块下的框架文件
+        if (!$layoutFile || !is_file($layoutFile)) {
+            $layoutFile = $moduleViewPath . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . $this->layout . '.php';
+        }
+        //查找公用的框架文件
+        if (!$layoutFile || !is_file($layoutFile)) {
+            $layoutFile = APP_PATH . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . 'Layout' . DIRECTORY_SEPARATOR . $this->layout . '.php';
+        }
+
+        if (!is_file($viewFile)) {
+            throw new \Exception("{$viewFile} VIEW NOT FIND", 500);
+        }
+        if (!is_file($layoutFile)) {
             throw new \Exception("{$this->layout} LAYOUT NOT FIND", 500);
         }
 
