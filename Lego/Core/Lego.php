@@ -32,7 +32,7 @@ class Lego
         self::repairPathInfo();
 
         //自动加载
-        self::repairIncludePath();
+        self::setIncludePath();
         spl_autoload_register('self::autoLoad');
 
         //异常处理
@@ -98,16 +98,19 @@ class Lego
         }
     }
 
-    private function repairIncludePath()
+    private function setIncludePath()
     {
         $modulePathArr = glob(APP_PATH . '/Module/*');
-        $modulePathStr = implode(PATH_SEPARATOR, $modulePathArr);
-        set_include_path(
-            LEGO_PATH . PATH_SEPARATOR .
-            LEGO_PATH . '/Lib' . PATH_SEPARATOR .
-            APP_PATH . PATH_SEPARATOR .
-            APP_PATH . '/Lib' . PATH_SEPARATOR .
-            $modulePathStr);
+        $icludePathArr = array_merge(
+            array(
+                LEGO_PATH . PATH_SEPARATOR,
+                LEGO_PATH . '/Lib' . PATH_SEPARATOR,
+                APP_PATH . PATH_SEPARATOR,
+                APP_PATH . '/Lib' . PATH_SEPARATOR
+            ),
+            $modulePathArr);
+        $icludePathStr = implode(PATH_SEPARATOR, $icludePathArr);
+        set_include_path($icludePathStr);
     }
 
     /**
