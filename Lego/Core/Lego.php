@@ -87,7 +87,7 @@ class Lego
     /**
      * 规范PATH_INFO,为了路由
      */
-    private function repairPathInfo()
+    private static function repairPathInfo()
     {
         if (PHP_SAPI === 'cli') {
             $_SERVER['REQUEST_METHOD'] = 'CLI';
@@ -98,7 +98,7 @@ class Lego
         }
     }
 
-    private function setIncludePath()
+    private static function setIncludePath()
     {
         $modulePathArr = glob(APP_PATH . '/Module/*');
         $icludePathArr = array_merge(
