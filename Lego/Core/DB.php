@@ -522,7 +522,6 @@ class DB
             if (in_array($upKey, ['AND', 'OR']) && $type === 'array') {
                 array_push($wheres, '(' . implode(" {$upKey} ", $this->whereCondition($value)) . ')');
             } elseif (is_int($key) && $type === 'array') {
-                $a = $this->whereCondition($value);
                 array_push($wheres, implode(" AND ", $this->whereCondition($value)));
             } else {
                 preg_match('/([\w]+)\s*(\[(\>|\>\=|\<|\<\=|\!\=|\<\>|\&|\!\&|IN|\!IN|LIKE|\!LIKE|BETWEEN|\!BETWEEN)\])?/i', $key, $match);
