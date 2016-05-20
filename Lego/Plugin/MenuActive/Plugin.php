@@ -14,6 +14,7 @@ use Core\PluginInterface;
 /*
 \Core\Config::set('MENU', [
     '设置' => [
+        'icon' => 'fa-tasks',
         'submenu' => [
             '帐号管理' => [
                 'path' => '\Module\Account\Controller\User::index',
