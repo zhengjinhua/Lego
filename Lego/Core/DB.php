@@ -410,7 +410,7 @@ class DB
 
         $columnArr = [];
         foreach ($columns as $column) {
-            preg_match('/([\w\-\.()]+)\s+AS\s+([\w\-]+)/i', $column, $match);
+            preg_match('/([\w\-\.\(\)\*]+)\s+AS\s+([\w\-]+)/i', $column, $match);
 
             if (isset($match[1], $match[2])) {
                 if (strpos($match[1], '(')) {
@@ -457,7 +457,7 @@ class DB
             }
 
             if (isset($where['GROUP'])) {
-                $where_clause .= " GROUP BY `{$where['GROUP']}`";
+                $where_clause .= " GROUP BY {$where['GROUP']}";
                 if (isset($where['HAVING'])) {
                     $where_clause .= ' HAVING ' . implode(' AND ', $this->whereCondition($where['HAVING']));
                 }
