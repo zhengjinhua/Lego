@@ -5,9 +5,10 @@
  * Date: 15/9/7
  * Time: 23:17
  */
+use Core\Config;
 
 //数据库
-\Core\Config::set('DB', [
+Config::set('DB', [
     'database_type' => 'mysql',
     'host' => '127.0.0.1',
     'port' => 3306,

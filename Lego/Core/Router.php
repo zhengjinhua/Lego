@@ -26,6 +26,17 @@ namespace Core {
         }
 
         /**
+         * 注册CLI路由
+         *
+         * @param string $pattern
+         * @param callback $callback
+         */
+        public static function cli($pattern, $callback)
+        {
+            self::register('CLI', $pattern, $callback);
+        }
+
+        /**
          * 注册GET路由
          *
          * @param string $pattern

@@ -35,8 +35,8 @@ class Util
         $time = $time * 1000;
         echo "<!DOCTYPE html><html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf8\"/>
             <title>提示信息</title></head><body>
-            <div style=\"border: 2px solid red;width: 320px;height:160px;margin: 100px auto;padding: 10px 30px\">
-            <h5>提示信息</h5><div style=\"height:70px\">{$msg}</div><div class=\"bottom\">
+            <div style=\"border: 1px solid #191B65;width: 320px;height:160px;margin: 300px auto;background-color:#F9F8F8;padding: 10px 30px\">
+            <h3>提示信息</h3><div style=\"height:70px;font-size: 14px;\">{$msg}</div><div class=\"bottom\">
             <a href=\"{$redirect}\" style=\"font-size: 12px\">如果您的浏览器没有自动跳转，请点击这里</a>
             <script language=\"javascript\">setTimeout(\"location.assign('{$redirect}');\", {$time});</script>
             </div></div></body></html>";

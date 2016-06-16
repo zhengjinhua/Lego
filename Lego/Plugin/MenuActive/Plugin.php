@@ -12,7 +12,7 @@ use Core\Config;
 use Core\PluginInterface;
 
 /*
-\Core\Config::set('MENU', [
+Config::set('MENU', [
     '设置' => [
         'icon' => 'fa-tasks',
         'submenu' => [
