@@ -66,7 +66,7 @@ abstract class Model
 
     /**
      * 分表算法
-     * @param $key 分表字段
+     * @param int $key 分表字段
      * @return bool|int
      */
     protected function shardingAlgorithm($key)

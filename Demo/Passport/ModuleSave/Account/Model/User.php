@@ -18,9 +18,20 @@ class User extends Model
         $this->shardingKey = 'id';
     }
 
+    /**
+     *
+     * @param int $key
+     * @return int
+     */
     protected function shardingAlgorithm($key)
     {
-        //每张表一千万
-        return floor($key / 10000000);
+        switch ($key) {
+            case $key > 0 && $key <= 10000000:
+                $table = 1;
+                break;
+            default:
+                $table = 0;
+        }
+        return $table;
     }
 }

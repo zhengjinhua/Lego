@@ -91,7 +91,11 @@ class Util
      */
     public static function password($password, $userSalt)
     {
-        return md5(md5($password) . $userSalt);
+        $firstHash = md5($password . $userSalt);
+        $secondHash = md5($userSalt . $password);
+        $thirdHash = md5(substr($firstHash, 0, 13) . substr($secondHash, 13));
+        $forthHash = md5(substr($secondHash, 0, 13) . substr($firstHash, 13));
+        return md5($thirdHash . $forthHash);
     }
 
     public static function salt($length)

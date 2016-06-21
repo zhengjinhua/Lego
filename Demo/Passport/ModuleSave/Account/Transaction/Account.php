@@ -9,7 +9,6 @@
 namespace Module\Account\Transaction;
 
 use Model\User as UserModel;
-use Model\Uniqueid;
 use Model\UserIndexUsername;
 use Util;
 
@@ -32,8 +31,6 @@ class Account
             return 2;
         }
 
-        $UniqueidModel = Uniqueid::instance();
-        $userId = $UniqueidModel->generate();
         $salt = Util::salt(8);
         $encodePassword = Util::password($password, $salt);
 
@@ -42,7 +39,7 @@ class Account
         $UserModel->beginTransaction();
 
         $r = $UserModel->insert([
-            'id' => $userId,
+            'id' => 0,
             'username' => $username,
             'password' => $encodePassword,
             'salt' => $salt,
@@ -52,6 +49,7 @@ class Account
             self::$errorMsg = '注册失败';
             return 3;
         }
+        $userId = $UserModel->lastInsertId();
 
         $r = $UserIndexUsernameModel->insert([
             'username' => $username,
