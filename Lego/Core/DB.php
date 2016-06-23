@@ -538,12 +538,10 @@ class DB
                             array_push($wheres, "{$column} & {$value} ");
                         }
                     } elseif ($operator === 'IN' || $operator === '!IN') {
-                        if (!empty($value)) {
-                            if ($operator === '!IN') {
-                                $column .= ' NOT';
-                            }
-                            array_push($wheres, "{$column} IN (" . $this->placeholder($value) . ")");
+                        if ($operator === '!IN') {
+                            $column .= ' NOT';
                         }
+                        array_push($wheres, "{$column} IN (" . $this->placeholder($value) . ")");
                     } elseif ($operator === 'BETWEEN' || $operator === '!BETWEEN') {
                         if ($type === 'array') {
                             if ($operator === '!BETWEEN') {
@@ -552,12 +550,10 @@ class DB
                             array_push($wheres, "{$column} BETWEEN " . $this->placeholder($value[0]) . ' AND ' . $this->placeholder($value[1]));
                         }
                     } elseif ($operator === 'LIKE' || $operator === '!LIKE') {
-                        if (!empty($value)) {
-                            if ($operator === '!LIKE') {
-                                $column .= ' NOT';
-                            }
-                            array_push($wheres, "{$column} LIKE " . $this->placeholder($value));
+                        if ($operator === '!LIKE') {
+                            $column .= ' NOT';
                         }
+                        array_push($wheres, "{$column} LIKE " . $this->placeholder($value));
                     }
                 } else {
                     array_push($wheres, "{$column} = " . $this->placeholder($value));
