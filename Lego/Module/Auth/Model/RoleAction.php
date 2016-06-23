@@ -14,6 +14,7 @@ class RoleAction extends Model
 {
 
     /**
+     * 模型初始化回调
      * @return void
      */
     protected function init()
