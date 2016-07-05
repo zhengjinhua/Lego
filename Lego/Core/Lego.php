@@ -103,10 +103,10 @@ class Lego
         $modulePathArr = glob(APP_PATH . '/Module/*');
         $icludePathArr = array_merge(
             array(
-                LEGO_PATH . PATH_SEPARATOR,
-                LEGO_PATH . '/Lib' . PATH_SEPARATOR,
                 APP_PATH . PATH_SEPARATOR,
-                APP_PATH . '/Lib' . PATH_SEPARATOR
+                APP_PATH . '/Lib' . PATH_SEPARATOR,
+                LEGO_PATH . PATH_SEPARATOR,
+                LEGO_PATH . '/Lib' . PATH_SEPARATOR
             ),
             $modulePathArr);
         $icludePathStr = implode(PATH_SEPARATOR, $icludePathArr);
