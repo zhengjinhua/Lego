@@ -31,17 +31,10 @@ class Plugin implements PluginInterface
     {
         Event::attach("CORE.MODULE.LOAD.PRE", function () {
 
-            /*if ($_SERVER['PATH_INFO'] === '/fileupload') {
-                    $File = new File(Config::get('FILEUPLOAD'));
-                    $result = $File->upload();
-                    json_encode($result,JSON_UNESCAPED_UNICODE);
-                    Extension::breakToMain();
-                }*/
-
             Router::post('/fileupload', function () {
                 $File = new File(Config::get('FILEUPLOAD'));
                 $result = $File->upload();
-                json_encode($result, JSON_UNESCAPED_UNICODE);
+                echo json_encode($result, JSON_UNESCAPED_UNICODE);
             });
         });
     }

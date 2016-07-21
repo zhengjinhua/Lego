@@ -77,7 +77,7 @@ class Plugin implements PluginInterface
                     if (Util::isAjax()) {
 
                     } else {
-//                        Util::showmessage('您没有权限访问这个接口');
+                        Util::showmessage('您没有权限访问这个接口');
                     }
                 }
             }

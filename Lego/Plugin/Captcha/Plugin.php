@@ -22,13 +22,6 @@ class Plugin implements PluginInterface
     {
         Event::attach("CORE.MODULE.LOAD.PRE", function () {
 
-            /*if($_SERVER['PATH_INFO'] === '/captcha'){
-                $Captcha = new Captcha(140,40,4);
-                $Captcha->showImage();
-                $_SESSION['captcha'] = $Captcha->getCode();
-                Extension::breakToMain();
-            }*/
-
             Router::get('/captcha', function () {
                 $Captcha = new Captcha(140, 40, 4);
                 $Captcha->showImage();

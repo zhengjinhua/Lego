@@ -11,6 +11,8 @@ namespace Module\Auth\Controller;
 use Controller\UserLoginedBase;
 use Model\Role as RoleModel;
 use Model\User as UserModel;
+use Model\RoleAction as RoleActionModel;
+use Model\UserRole as UserRoleModel;
 use Page;
 use Util;
 
@@ -97,6 +99,13 @@ class Role extends UserLoginedBase
     {
         $result = $this->Model->delete(['id' => $id]);
         if ($result) {
+
+            $RoleActionModel = RoleActionModel::instance();
+            $RoleActionModel->delete(['role_id'=>$id]);
+
+            $UserRoleModel = UserRoleModel::instance();
+            $UserRoleModel->delete(['role_id'=>$id]);
+
             Util::redirect(url(['\Module\Auth\Controller\Role::index']));
         } else {
             Util::showmessage("删除失败");

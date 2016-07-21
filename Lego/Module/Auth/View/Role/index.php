@@ -31,7 +31,7 @@
 
         <div class="panel-body">
             <!-- table -->
-            <table class="table table-striped table-hover">
+            <table class="table table-striped table-hover table-bordered text-center">
                 <thead>
                 <tr>
                     <th>ID</th>
