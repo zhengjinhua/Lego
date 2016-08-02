@@ -20,8 +20,7 @@ Config::set('MENU', [
                 'path' => '\Module\Account\Controller\User::index',
                 'ext' => [
                     '\Module\Account\Controller\User::detail',
-                    '\Module\Account\Controller\User::add',
-                    '\Module\Account\Controller\User::update'
+                    '\Module\Account\Controller\User::',
                 ]
             ],
         ]
@@ -40,6 +39,33 @@ class Plugin implements PluginInterface
     {
         //AFTER_ROUTE阶段检测静态化需求
         Event::attach('CORE.ROUTE.POST', function ($callback) {
+
+            /*if (!isset($_SESSION['auth'])) {
+                return;
+            }
+
+            if (!isset($_SESSION['menu'])) {
+                $menu = Config::get('MENU');
+                $authExcludedAction = Config::get('AUTH_EXCLUDED_ACTION');
+                $authExcluded = isset($authExcludedAction['GET']) ? $authExcludedAction['GET'] : [];
+                $userAuth = isset($_SESSION['auth']['GET']) ? $_SESSION['auth']['GET'] : [];
+                $userAllAuth = array_unique(array_merge($authExcluded,$userAuth));
+
+                foreach ($menu as $k => $v) {
+                    foreach ($v['submenu'] as $kk => $vv) {
+                        if (!in_array($vv['path'], $userAllAuth)) {
+                            unset($menu[$k]['submenu'][$kk]);
+                        }
+                    }
+                    if (empty($menu[$k]['submenu'])) {
+                        unset($menu[$k]);
+                    }
+                }
+                $_SESSION['menu'] = $menu;
+            }
+
+            $menu = $_SESSION['menu'];*/
+
             $menu = Config::get('MENU');
             $findActive = false;
             if (is_array($menu)) {
@@ -49,9 +75,14 @@ class Plugin implements PluginInterface
                             $menuItem['active'] = 1;
                             $findActive = true;
                         }
-                        if (!$findActive && in_array($callback, $menuItem['ext'])) {
-                            $menuItem['active'] = 1;
-                            $findActive = true;
+                        if (!$findActive) {
+                            foreach($menuItem['ext'] as $extPath){
+                                if(strpos($callback,$extPath) !== false){
+                                    $menuItem['active'] = 1;
+                                    $findActive = true;
+                                    break;
+                                }
+                            }
                         }
                         if (isset($menuItem['active'])) {
                             $group['active'] = 1;

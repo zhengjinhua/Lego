@@ -25,7 +25,10 @@ class Log
     public static function setLevel($level)
     {
         self::$level = $level;
-        self::$logDir = APP_PATH . '/log';
+        self::$logDir = sys_get_temp_dir() . '/Lego/Log/';
+        if (!is_dir(self::$logDir)) {
+            mkdir(self::$logDir, 0777, true);
+        }
     }
 
     /**
@@ -75,10 +78,10 @@ class Log
             return;
         }
         $log = implode('', self::$logs);
-        if (!is_dir(self::$logDir)) {
-            mkdir(self::$logDir, 0777);
-        }
-        $logPath = self::$logDir . '/' . date('Ymd') . '.' . PHP_SAPI . '.log';
+
+        $hostName = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+        $logFileName = date('Ymd') . '.' . PHP_SAPI . '.' . $hostName . '.log';
+        $logPath = self::$logDir . $logFileName;
         file_put_contents($logPath, $log, FILE_APPEND | LOCK_EX);
         self::$logs = [];
     }

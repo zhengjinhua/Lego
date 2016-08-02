@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `auth_action` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `method` char(4) NOT NULL,
   `action` varchar(50) NOT NULL,
-  `name` varchar(10) NOT NULL DEFAULT '',
+  `name` varchar(20) NOT NULL DEFAULT '',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatetime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -44,6 +44,23 @@ CREATE TABLE IF NOT EXISTS `auth_role_action` (
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY `role_id_action_id` (`role_id`,`action_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 数据导出被取消选择。
+
+
+-- 导出  表 kams.auth_user_log 结构
+CREATE TABLE IF NOT EXISTS `auth_user_log` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `username` char(20) NOT NULL DEFAULT '',
+  `method` char(10) NOT NULL DEFAULT '',
+  `pathinfo` varchar(50) NOT NULL DEFAULT '',
+  `action` varchar(50) NOT NULL DEFAULT '',
+  `param` varchar(200) NOT NULL DEFAULT '',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `createtime_username` (`createtime`,`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户操作日志';
 
 -- 数据导出被取消选择。
 

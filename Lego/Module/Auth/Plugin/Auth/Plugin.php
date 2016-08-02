@@ -15,6 +15,7 @@ use Core\Config;
 use Model\Action;
 use Model\RoleAction;
 use Model\UserRole;
+use Model\UserLog;
 use Util;
 
 /**
@@ -79,6 +80,17 @@ class Plugin implements PluginInterface
                     } else {
                         Util::showmessage('您没有权限访问这个接口');
                     }
+                } else {
+                    //操作日志
+                    $UserLogModel = UserLog::instance();
+                    $UserLogModel->insert([
+                        'user_id' => $_SESSION['user']['id'],
+                        'username' => $_SESSION['user']['username'],
+                        'method' => $_SERVER['REQUEST_METHOD'],
+                        'pathinfo' => $_SERVER['PATH_INFO'],
+                        'action' => $callback,
+                        'param' => $_REQUEST ? json_encode($_REQUEST, JSON_UNESCAPED_UNICODE) : ''
+                    ]);
                 }
             }
         });

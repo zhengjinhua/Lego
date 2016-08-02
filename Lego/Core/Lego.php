@@ -101,7 +101,7 @@ class Lego
     private static function setIncludePath()
     {
         $modulePathArr = glob(APP_PATH . '/Module/*');
-        $includePathArr = array_merge(
+        $icludePathArr = array_merge(
             array(
                 APP_PATH . PATH_SEPARATOR,
                 APP_PATH . '/Lib' . PATH_SEPARATOR,
@@ -109,8 +109,8 @@ class Lego
                 LEGO_PATH . '/Lib' . PATH_SEPARATOR
             ),
             $modulePathArr);
-        $includePathStr = implode(PATH_SEPARATOR, $includePathArr);
-        set_include_path($includePathStr);
+        $icludePathStr = implode(PATH_SEPARATOR, $icludePathArr);
+        set_include_path($icludePathStr);
     }
 
     /**
