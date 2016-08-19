@@ -65,6 +65,7 @@ class Lego
             list($callback, $args) = Router::match();
             $callbackName = is_string($callback) ? $callback : null;
             Log::info("ROUTER MATCH {$_SERVER['PATH_INFO']} => {$callbackName}");
+
             Event::raise('CORE.ROUTE.POST', $callbackName);
 
             //实例化控制器

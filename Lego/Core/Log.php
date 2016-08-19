@@ -25,7 +25,7 @@ class Log
     public static function setLevel($level)
     {
         self::$level = $level;
-        self::$logDir = sys_get_temp_dir() . '/Lego/Log/';
+        self::$logDir = APP_PATH . '/Var/Log/';
         if (!is_dir(self::$logDir)) {
             mkdir(self::$logDir, 0777, true);
         }

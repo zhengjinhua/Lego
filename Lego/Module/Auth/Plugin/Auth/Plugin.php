@@ -62,6 +62,11 @@ class Plugin implements PluginInterface
 
         //每次请求判断是否有权限
         Event::attach('CORE.ROUTE.POST', function ($callback) {
+
+            if(!$callback){
+                return;
+            }
+
             if (isset($_SESSION['logined'])) {
                 //排除接口
                 $configAuthExcludedAction = Config::get('AUTH_EXCLUDED_ACTION');
