@@ -21,7 +21,7 @@ class Plugin implements PluginInterface
     {
         Event::attach("CORE.ROUTE.PRE", function () {
 
-            Router::get('/[4-5]\d\d.html', function () {
+            Router::get('/[45]\d\d.html', function () {
                 echo "ERROR PAGE: {$_SERVER['PATH_INFO']}";
                 die;
             });
