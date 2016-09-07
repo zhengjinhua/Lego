@@ -22,7 +22,7 @@ class Plugin implements PluginInterface
 
     public static function register()
     {
-        if (Util::isAjax()) {
+        if (Util::isAjax() || !isset($_SERVER['HTTP_USER_AGENT'])) {
             return;
         }
 
