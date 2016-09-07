@@ -19,7 +19,8 @@ use Core\Router;
  *      'maxSize' => 2097152,
  *      'allowExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
  *      'allowType' => [],
- *      'savePath' => './upload',
+ *      'savePath' => APP_PATH . '/Var/upload/tmp',
+ *      'showPath' => '[domain]/tmp'
  * ]);
  *
  * @package Plugin

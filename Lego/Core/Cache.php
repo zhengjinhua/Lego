@@ -92,7 +92,7 @@ class FileCache
      */
     public function __construct($config)
     {
-        $this->cacheDir = sys_get_temp_dir() . '/Lego/Cache/';
+        $this->cacheDir = APP_PATH . '/Var/Cache/';
         if(!is_dir($this->cacheDir)){
             mkdir($this->cacheDir,0777,true);
         }

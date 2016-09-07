@@ -62,7 +62,7 @@
         },
 
         editID:function(_this){
-            var msg ={"roleId": roleId, "actionId": _this.value}
+            var msg ={"roleId": setings.roleId, "actionId": _this.val()}
             $.post("<?=url(['\Module\Auth\Controller\Auth::actionAuthX'])?>",msg,function ($result) {
                 if ($result.error === 0) {
                     console.log('更新成功');

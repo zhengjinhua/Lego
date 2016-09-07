@@ -40,6 +40,10 @@ class Plugin implements PluginInterface
         //AFTER_ROUTE阶段检测静态化需求
         Event::attach('CORE.ROUTE.POST', function ($callback) {
 
+            if(!$callback){
+                return;
+            }
+
             /*if (!isset($_SESSION['auth'])) {
                 return;
             }
