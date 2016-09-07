@@ -83,9 +83,7 @@ namespace Core {
             if (empty($method) || empty($pattern)) {
                 throw new \Exception("ROUTER REGISTER ERROR : {$method} {$pattern}", 500);
             }
-            $isPreg = strpos($pattern, '(');
-            $isPreg && self::$map[$method]['preg'][$pattern] = $callback;
-            $isPreg || self::$map[$method]['string'][$pattern] = $callback;
+            self::$map[$method][$pattern] = $callback;
         }
 
         /**
@@ -104,11 +102,11 @@ namespace Core {
                 }
             }
 
-            if (isset(self::$map[$method]['string'][$pathInfo])) {
-                return array(self::$map[$method]['string'][$pathInfo], []);
-            } else {
-                if (isset(self::$map[$method]['preg'])) {
-                    foreach (self::$map[$method]['preg'] as $pattern => $callback) {
+            if (isset(self::$map[$method])) {
+                if (isset(self::$map[$method][$pathInfo])) {
+                    return array(self::$map[$method][$pathInfo], []);
+                } else {
+                    foreach (self::$map[$method] as $pattern => $callback) {
                         $pattern = str_replace('.html', '\.html', $pattern);
                         if (preg_match('#^' . $pattern . '$#', $pathInfo, $matches) === 1) {
                             array_shift($matches);
@@ -117,6 +115,7 @@ namespace Core {
                     }
                 }
             }
+
             throw new \Exception("{$method} {$pathInfo} 404 NOT FIND", 404);
         }
 
@@ -180,15 +179,7 @@ namespace Core {
          */
         public static function map()
         {
-            static $rowMap = [];
-            if (!$rowMap) {
-                foreach (self::$map as $method => $splitArray) {
-                    $rowMap[$method] = isset($splitArray['preg']) ? $splitArray['preg'] : [];
-                    $rowMap[$method] += isset($splitArray['string']) ? $splitArray['string'] : [];
-                }
-            }
-
-            return $rowMap;
+            return self::$map;
         }
 
     }

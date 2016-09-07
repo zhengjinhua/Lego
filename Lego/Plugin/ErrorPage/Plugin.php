@@ -2,17 +2,17 @@
 /**
  * Created by PhpStorm.
  * User: zheng
- * Date: 15/8/10
+ * Date: 16/8/10
  * Time: 14:06
  */
-namespace Plugin\Captcha;
+namespace Plugin\ErrorPage;
 
 use Core\Event;
 use Core\PluginInterface;
 use Core\Router;
 
 /**
- * 验证码插件
+ * 404/500跳转接口
  * @package Plugin
  */
 class Plugin implements PluginInterface
@@ -21,10 +21,9 @@ class Plugin implements PluginInterface
     {
         Event::attach("CORE.ROUTE.PRE", function () {
 
-            Router::get('/captcha', function () {
-                $Captcha = new Captcha(140, 40, 4);
-                $Captcha->showImage();
-                $_SESSION['captcha'] = $Captcha->getCode();
+            Router::get('/[4-5]\d\d.html', function () {
+                echo "ERROR PAGE: {$_SERVER['PATH_INFO']}";
+                die;
             });
         });
     }

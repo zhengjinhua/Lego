@@ -7,7 +7,6 @@
  */
 namespace Plugin\FileUpload;
 
-use Core\Extension;
 use Core\Event;
 use Core\PluginInterface;
 use Core\Config;
@@ -29,7 +28,7 @@ class Plugin implements PluginInterface
 {
     public static function register()
     {
-        Event::attach("CORE.MODULE.LOAD.PRE", function () {
+        Event::attach("CORE.ROUTE.PRE", function () {
 
             Router::post('/fileupload', function () {
                 $File = new File(Config::get('FILEUPLOAD'));
