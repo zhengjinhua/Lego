@@ -103,7 +103,7 @@ abstract class Model
         }
 
         static $oTable = null;
-        if($oTable === null){
+        if ($oTable === null) {
             $oTable = $this->table;
         }
 
@@ -208,7 +208,7 @@ abstract class Model
      */
     final public function insert($data)
     {
-        $this->shardingTable($data);
+        $this->shardingTable(isset($data[0]) ? $data[0] : $data);
         return $this->db->insert($this->table, $data);
     }
 
