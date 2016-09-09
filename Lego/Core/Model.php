@@ -101,7 +101,13 @@ abstract class Model
         if ($tableNumber === false) {
             throw new \Exception("MODEL SHARDING_ALGORITHM ERROR", 500);
         }
-        $this->table = $this->table . '_' . $tableNumber;
+
+        static $oTable = null;
+        if($oTable === null){
+            $oTable = $this->table;
+        }
+
+        $this->table = $oTable . '_' . $tableNumber;
     }
 
     /**
