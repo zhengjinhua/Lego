@@ -19,8 +19,6 @@ class Module implements ModuleInterface
 {
     public static function init()
     {
-        Router::rewrite('/home', '/user/home');
-
         Router::get('/', '\Module\Account\Controller\Index::login');
         Router::get('/reg', '\Module\Account\Controller\Index::reg');
         Router::get('/logout', '\Module\Account\Controller\Index::logout');

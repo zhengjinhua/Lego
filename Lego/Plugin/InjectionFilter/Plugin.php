@@ -30,18 +30,6 @@ class Plugin implements PluginInterface
     public static function register()
     {
         Event::attach('CORE.REQUEST.INIT', function () {
-            //xss
-            if ($_GET) {
-                $_GET = Filter::filterVarArray($_GET, FILTER_SANITIZE_STRING);
-            }
-            if ($_POST) {
-                $_POST = Filter::filterVarArray($_POST, FILTER_SANITIZE_SPECIAL_CHARS);
-            }
-            if ($_COOKIE) {
-                $_COOKIE = Filter::filterVarArray($_COOKIE, FILTER_SANITIZE_STRING);
-            }
-
-            //sql injection
             foreach ($_GET as $key => $value) {
                 self::stopAttack($key, $value, self::$getfilter);
             }

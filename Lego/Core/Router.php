@@ -15,15 +15,6 @@ namespace Core {
     class Router
     {
         private static $map = [];
-        private static $rewrite = [];
-
-        public static function rewrite($pattern, $next)
-        {
-            if (empty($pattern) || empty($next)) {
-                throw new \Exception("ROUTER REWRITE ERROR : {$pattern} {$next}", 500);
-            }
-            self::$rewrite[$pattern] = $next;
-        }
 
         /**
          * 注册CLI路由
@@ -95,12 +86,6 @@ namespace Core {
         {
             $method = $_SERVER['REQUEST_METHOD'];
             $pathInfo = $_SERVER['PATH_INFO'];
-
-            foreach (self::$rewrite as $pattern => $next) {
-                if (preg_match('#^' . $pattern . '$#', $pathInfo)) {
-                    $pathInfo = preg_replace('#^' . $pattern . '$#', $next, $pathInfo);
-                }
-            }
 
             if (isset(self::$map[$method])) {
                 if (isset(self::$map[$method][$pathInfo])) {
