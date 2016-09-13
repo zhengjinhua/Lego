@@ -504,12 +504,6 @@ class DB
      * 'field [BETWEEN]'=> [500,1000],
      * 'field [!BETWEEN]'=> [500,1000],
      *
-     * 函数格式
-     * 'field'=> 'UNIX_TIMESTAMP(1456932584)',
-     *
-     * 字段格式
-     * 'field'=> '`field`',//符号注意
-     *
      * @param array $condition 条件关联数据
      * @return array
      */
@@ -571,10 +565,6 @@ class DB
     private function placeholder($value)
     {
         static $bindVarIncrement = 1;
-        //支持在值上用mysql函数、字段名
-        if (is_string($value) && (preg_match('#\w+\(\w{0,20}\)#i', $value) || preg_match('#`\w{0,20}`#i', $value))) {
-            return $value;
-        }
 
         if (!is_array($value)) {
             $bindVarName = ':v_' . $bindVarIncrement++;
