@@ -129,6 +129,8 @@ class DB
      * 更新数据
      *
      * $data格式
+     *  key 字段名,支持8个一元运算符
+     *  value 字符串,数字,不支持mysql函数
      * 8中运算符格式
      * 'field [+]'=> 600, 自增
      * 'field [-]'=> 600, 自减
@@ -138,9 +140,6 @@ class DB
      * 'field [&]'=> 600, 与
      * 'field [|]'=> 600, 或
      * 'field [^]'=> 600, 异或
-     *
-     * 函数格式
-     * 'field'=> 'UNIX_TIMESTAMP(1456932584)',
      *
      * @param string $table 表名
      * @param array $data 数据
@@ -165,6 +164,11 @@ class DB
 
     /**
      * 插入数据
+     *
+     * $data格式
+     *  key 字段名
+     *  value 字符串,数字,不支持mysql函数
+     *
      * @param string $table 表名
      * @param array $datas 数据
      * @return int 受影响的行数
@@ -391,6 +395,47 @@ class DB
 
     /**
      * 查询语句组装
+     *
+     * $columns格式 支持所有mysql允许的格式
+     * 如:['field','SUM(field) AS sum']
+     *
+     * $where格式
+     * [
+     *  'AND'=>['field'=> 'val','field'=> 'val'],
+     *  'OR' =>['field'=> 'val','field'=> 'val'],
+     *  'OR' = [
+     *      ['field'=> 'val','field'=> 'val'],
+     *      ['field'=> 'val','field'=> 'val']
+     *  ]
+     *  'GROUP' => 'field ASC',
+     *  'HAVING' => ['field'=> 'val'],
+     *  'ORDER' => 'field ASC',
+     *  'LIMIT' => 10
+     * ]
+     *
+     * $where底层格式
+     *  key 字段名,支持15操作符格式,支持mysql函数
+     *  value 字符串,数字,不支持mysql函数
+     *
+     * 15操作符格式
+     * 'field [>]'=> 600,
+     * 'field [>]'=> 600,
+     * 'field [<]'=> 600,
+     * 'field [>=]'=> 600,
+     * 'field [<=]'=> 600,
+     * 'field [!=]'=> 600,
+     * 'field [<>]'=> 600,
+     * 'field [&]'=> 1,  位运行与
+     * 'field [!&]'=> 1, 位运行取反
+     * 'field [IN]'=> ['val','val'],
+     * 'field [!IN]'=> ['val','val'],
+     * 'field [LIKE]'=> 'val',
+     * 'field [!LIKE]'=> 'val',
+     * 'field [BETWEEN]'=> [500,1000],
+     * 'field [!BETWEEN]'=> [500,1000],
+     * 函数格式
+     * 'YEAR(field)'=>2015
+     *
      * @param string $table 表名
      * @param array $columns 字段
      * @param array $where 条件
@@ -435,15 +480,20 @@ class DB
     /**
      * 条件语句组装
      *
-     * 格式
+     * $where格式
      * [
      *  'AND'=>['field'=> 'val','field'=> 'val'],
      *  'OR' =>['field'=> 'val','field'=> 'val'],
+     *  'OR' = [
+     *      ['field'=> 'val','field'=> 'val'],
+     *      ['field'=> 'val','field'=> 'val']
+     *  ]
      *  'GROUP' => 'field ASC',
-     *  'HAVING' => ['field'=> 'val'],,
+     *  'HAVING' => ['field'=> 'val'],
      *  'ORDER' => 'field ASC',
      *  'LIMIT' => 10
      * ]
+     *
      * @param array $where 条件
      * @return string
      */
@@ -487,6 +537,10 @@ class DB
     /**
      * 条件语句操作符处理
      *
+     * $condition格式
+     *  key 字段名,支持15操作符格式,支持mysql函数
+     *  value 字符串,数字,不支持mysql函数
+     *
      * 15操作符格式
      * 'field [>]'=> 600,
      * 'field [>]'=> 600,
@@ -503,6 +557,8 @@ class DB
      * 'field [!LIKE]'=> 'val',
      * 'field [BETWEEN]'=> [500,1000],
      * 'field [!BETWEEN]'=> [500,1000],
+     * 函数格式
+     * 'YEAR(field)'=>2015
      *
      * @param array $condition 条件关联数据
      * @return array

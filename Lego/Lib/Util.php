@@ -31,7 +31,7 @@ class Util
      */
     public static function showmessage($msg, $redirect = '', $time = 10)
     {
-        $redirect = $redirect !== '' ? $redirect : $_SERVER['HTTP_REFERER'];
+        $redirect = $redirect !== '' ? $redirect : (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/');
         $time = $time * 1000;
         echo "<!DOCTYPE html><html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf8\"/>
             <body><div style=\"font-size: 12px\">提示: {$msg}... <a href=\"{$redirect}\">返回</a>
