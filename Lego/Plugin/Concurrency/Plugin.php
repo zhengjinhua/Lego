@@ -24,7 +24,11 @@ class Plugin implements PluginInterface
         //禁止单个用户在同个接口范围内并发
         Event::attach('CORE.ROUTE.POST', function ($callback) {
 
-            if(!$callback){
+            if (!$callback) {
+                return;
+            }
+
+            if (!isset($_SESSION)) {
                 return;
             }
 

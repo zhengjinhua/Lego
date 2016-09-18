@@ -19,7 +19,7 @@ class Plugin implements PluginInterface
 {
     public static function register()
     {
-        Event::attach('CORE.REQUEST.INIT', function () {
+        Event::attach('CORE.ROUTE.POST', function () {
 
             //字符集
             header("Content-type: text/html; charset=utf-8");
