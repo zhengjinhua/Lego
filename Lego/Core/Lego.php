@@ -55,9 +55,7 @@ class Lego
             Event::raise('CORE.REQUEST.INIT');
 
             //加载模块
-            Event::raise('CORE.MODULE.LOAD.PRE');
             Extension::loadModule();
-            Event::raise('CORE.MODULE.LOAD.POST');
 
             #################请求处理###############################
             //匹配路由
