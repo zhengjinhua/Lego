@@ -28,7 +28,7 @@ class Plugin implements PluginInterface
             //会话
             session_start();
 
-        });
+        }, true);
 
     }
 }

@@ -22,9 +22,10 @@ class Event
      *
      * @param string $name 事件
      * @param callback $handler 回调
+     * @param bool $priority 优先顺序
      * @throws \Exception
      */
-    public static function attach($name, $handler)
+    public static function attach($name, $handler, $priority = false)
     {
         if (!is_string($name)) {
             throw new \Exception("{$name} EVENT NAME ERROR", 500);
@@ -32,7 +33,15 @@ class Event
         if (!is_callable($handler)) {
             throw new \Exception("{$handler} EVENT HANDLER ERROR", 500);
         }
-        self::$map[$name][] = $handler;
+
+        isset(self::$map[$name]) || self::$map[$name] = [];
+
+        if($priority){
+            array_unshift(self::$map[$name],$handler);
+        }else{
+            array_push(self::$map[$name],$handler);
+        }
+
     }
 
     /**
