@@ -44,15 +44,15 @@ class Plugin implements PluginInterface
                 return;
             }
 
-            /*if (!isset($_SESSION['auth'])) {
+            if (!isset($_SESSION['auth'])) {
                 return;
             }
 
             if (!isset($_SESSION['menu'])) {
                 $menu = Config::get('MENU');
                 $authExcludedAction = Config::get('AUTH_EXCLUDED_ACTION');
-                $authExcluded = isset($authExcludedAction['GET']) ? $authExcludedAction['GET'] : [];
-                $userAuth = isset($_SESSION['auth']['GET']) ? $_SESSION['auth']['GET'] : [];
+                $authExcluded = isset($authExcludedAction) ? $authExcludedAction : [];
+                $userAuth = isset($_SESSION['auth']) ? $_SESSION['auth'] : [];
                 $userAllAuth = array_unique(array_merge($authExcluded,$userAuth));
 
                 foreach ($menu as $k => $v) {
@@ -68,9 +68,9 @@ class Plugin implements PluginInterface
                 $_SESSION['menu'] = $menu;
             }
 
-            $menu = $_SESSION['menu'];*/
+            $menu = $_SESSION['menu'];
 
-            $menu = Config::get('MENU');
+            //$menu = Config::get('MENU');
             $findActive = false;
             if (is_array($menu)) {
                 foreach ($menu as &$group) {

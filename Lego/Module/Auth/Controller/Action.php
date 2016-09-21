@@ -22,46 +22,34 @@ class Action extends UserLoginedBase
         $routerMap = Router::map();
         isset($routerMap['GET']) || $routerMap['GET'] = [];
         isset($routerMap['POST']) || $routerMap['POST'] = [];
+
         $routerMap['GET'] = array_filter($routerMap['GET'], function ($var) {
             return is_string($var);
         });
         $routerMap['POST'] = array_filter($routerMap['POST'], function ($var) {
             return is_string($var);
         });
+        $routerMap = array_unique(array_merge($routerMap['GET'],$routerMap['POST']));
 
         //排除接口
         $configAuthExcludedAction = Config::get('AUTH_EXCLUDED_ACTION');
         if ($configAuthExcludedAction) {
-            isset($configAuthExcludedAction['GET']) || $configAuthExcludedAction['GET'] = [];
-            isset($configAuthExcludedAction['POST']) || $configAuthExcludedAction['POST'] = [];
-
-            $routerMap['GET'] = array_diff($routerMap['GET'], $configAuthExcludedAction['GET']);
-            $routerMap['POST'] = array_diff($routerMap['POST'], $configAuthExcludedAction['POST']);
+            $routerMap = array_diff($routerMap, $configAuthExcludedAction);
         }
 
         //数据库中接口列表
         $ActionModel = ActionModel::instance();
-        $result = $ActionModel->select([], ['method', 'action']);
+        $result = $ActionModel->select([], ['action']);
         $dbActionList = [];
         foreach ($result as $action) {
-            $dbActionList[$action['method']][] = $action['action'];
+            $dbActionList[] = $action['action'];
         }
         unset($result);
-        isset($dbActionList['GET']) || $dbActionList['GET'] = [];
-        isset($dbActionList['POST']) || $dbActionList['POST'] = [];
 
         //取已经删除接口差集
-        $getDeleteActions = array_diff($dbActionList['GET'], $routerMap['GET']);
-        $postDeleteActions = array_diff($dbActionList['POST'], $routerMap['POST']);
-
-        if ($getDeleteActions || $postDeleteActions) {
-            $deleteCondition = [];
-            foreach ($getDeleteActions as $action) {
-                $deleteCondition['OR'][]['AND'] = ['method' => 'GET', 'action' => $action];
-            }
-            foreach ($postDeleteActions as $action) {
-                $deleteCondition['OR'][]['AND'] = ['method' => 'POST', 'action' => $action];
-            }
+        $deleteActions = array_diff($dbActionList, $routerMap);
+        if ($deleteActions) {
+            $deleteCondition['action [IN]'] = $deleteActions;
             $result = $ActionModel->select($deleteCondition, ['id']);
             $deleteIdArr = [];
             foreach ($result as $actionId) {
@@ -74,17 +62,11 @@ class Action extends UserLoginedBase
         }
 
         //取新增接口差集
-        $getInsertActions = array_diff($routerMap['GET'], $dbActionList['GET']);
-        $postInsertActions = array_diff($routerMap['POST'], $dbActionList['POST']);
-
-        if ($getInsertActions || $postInsertActions) {
-
+        $insertActions = array_diff($routerMap, $dbActionList);
+        if ($insertActions) {
             $isertData = [];
-            foreach ($getInsertActions as $action) {
-                $isertData[] = ['method' => 'GET', 'action' => $action];
-            }
-            foreach ($postInsertActions as $action) {
-                $isertData[] = ['method' => 'POST', 'action' => $action];
+            foreach ($insertActions as $action) {
+                $isertData[] = ['action' => $action];
             }
             $ActionModel->insert($isertData);
         }

@@ -22,7 +22,7 @@ use Util;
  * 权限控制插件
  *
  * 权限控制排除接口配置
- * Config::set('AUTH_EXCLUDED_ACTION', ['GET'=>[],'POST'=>[]]);
+ * Config::set('AUTH_EXCLUDED_ACTION', []]);
  *
  * @package Plugin\Auth
  */
@@ -53,7 +53,7 @@ class Plugin implements PluginInterface
             if ($roleActionIds) {
                 $result = $ActionModel->select(['id [IN]' => $roleActionIds]);
                 foreach ($result as $row) {
-                    $roleActions[$row['method']][] = $row['action'];
+                    $roleActions[] = $row['action'];
                 }
             }
 
@@ -70,15 +70,14 @@ class Plugin implements PluginInterface
             if (isset($_SESSION['logined'])) {
                 //排除接口
                 $configAuthExcludedAction = Config::get('AUTH_EXCLUDED_ACTION');
-                if ($configAuthExcludedAction &&
-                    isset($configAuthExcludedAction[$_SERVER['REQUEST_METHOD']]) &&
-                    array_search($callback, $configAuthExcludedAction[$_SERVER['REQUEST_METHOD']]) !== false
+                if ($configAuthExcludedAction  &&
+                    array_search($callback, $configAuthExcludedAction) !== false
                 ) {
                     return;
                 }
 
-                $pass = isset($_SESSION['auth'][$_SERVER['REQUEST_METHOD']]) &&
-                    array_search($callback, $_SESSION['auth'][$_SERVER['REQUEST_METHOD']]) !== false;
+                $pass = isset($_SESSION['auth']) &&
+                    array_search($callback, $_SESSION['auth']) !== false;
                 if (!$pass) {
                     if (Util::isAjax()) {
 

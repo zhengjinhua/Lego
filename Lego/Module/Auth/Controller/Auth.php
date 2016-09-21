@@ -41,7 +41,7 @@ class Auth extends UserLoginedBase
         unset($result);
 
         $ActionModel = ActionModel::instance();
-        $actions = $ActionModel->select(['ORDER' => 'action'], ['id', 'method', 'action', 'name']);
+        $actions = $ActionModel->select(['ORDER' => 'action'], ['id', 'action', 'name']);
 
         $this->assign('role', $role);
         $this->assign('roleActions', $roleActions);

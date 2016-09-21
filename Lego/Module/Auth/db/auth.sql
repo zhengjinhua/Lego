@@ -13,13 +13,12 @@
 -- 导出  表 kams.auth_action 结构
 CREATE TABLE IF NOT EXISTS `auth_action` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `method` char(4) NOT NULL,
   `action` varchar(50) NOT NULL,
   `name` varchar(20) NOT NULL DEFAULT '',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatetime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `method_action` (`method`,`action`)
+  UNIQUE KEY `action` (`action`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 数据导出被取消选择。
