@@ -128,7 +128,7 @@ class FileCache
     {
         $cacheFile = $this->cacheDir . $key;
         if (is_file($cacheFile)) {
-            unset($cacheFile);
+            unlink($cacheFile);
         }
         return true;
     }

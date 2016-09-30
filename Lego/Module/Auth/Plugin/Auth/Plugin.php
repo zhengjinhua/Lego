@@ -80,7 +80,7 @@ class Plugin implements PluginInterface
                     array_search($callback, $_SESSION['auth']) !== false;
                 if (!$pass) {
                     if (Util::isAjax()) {
-
+                        die('{"error":10001}');
                     } else {
                         Util::showmessage('您没有权限访问这个接口');
                     }

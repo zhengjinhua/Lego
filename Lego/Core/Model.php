@@ -182,11 +182,23 @@ abstract class Model
      * @param array $columns 列名
      * @return array|bool
      */
-    final public function select($where = [], $columns = [])
+    final public function select($where = [], $columns = [], $returnArrayKey = '')
     {
         $this->shardingTable($where);
         //return $this->db->select($this->table, $columns, $where);
-        return $this->cacheForDBQuery('select', $columns, $where);
+        $resultTmp = $this->cacheForDBQuery('select', $columns, $where);
+
+        $result = [];
+        if ($returnArrayKey && $resultTmp) {
+            if(isset($resultTmp[0][$returnArrayKey])){
+                foreach ($resultTmp as $row) {
+                    $result[$row[$returnArrayKey]] = $row;
+                }
+            }else{
+                $result = $resultTmp;
+            }
+        }
+        return $result;
     }
 
     /**
