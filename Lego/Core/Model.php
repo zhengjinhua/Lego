@@ -189,8 +189,8 @@ abstract class Model
         $resultTmp = $this->cacheForDBQuery('select', $columns, $where);
 
         $result = [];
-        if (!$returnArrayKey && $resultTmp) {
-            if(isset($resultTmp[0][$returnArrayKey])){
+        if($resultTmp){
+            if($returnArrayKey && isset($resultTmp[0][$returnArrayKey])){
                 foreach ($resultTmp as $row) {
                     $result[$row[$returnArrayKey]] = $row;
                 }
