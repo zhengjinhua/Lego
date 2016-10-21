@@ -17,14 +17,14 @@ class Log
     private static $logDir = '';
     private static $logs = [];
 
-    private static $level = 2;
+    private static $level = 0XFF;
 
     /**
      * @param int $level
      */
     public static function setLevel($level)
     {
-        self::$level = $level;
+        $level && self::$level = $level;
         self::$logDir = APP_PATH . '/Var/Log/';
         if (!is_dir(self::$logDir)) {
             mkdir(self::$logDir, 0777, true);

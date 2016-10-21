@@ -15,7 +15,7 @@ use Core\Config;
 class Util
 {
     /**
-     * 重定向
+     * URL重定向
      * @param string $url
      */
     public static function redirect($url)
@@ -25,6 +25,7 @@ class Util
     }
 
     /**
+     * HTTP错误提示页面
      * @param string $msg 提示信息
      * @param string $redirect 跳转地址
      * @param int $time 跳转等待时间
@@ -41,7 +42,7 @@ class Util
     }
 
     /**
-     * 设置 cookie
+     * 设置加密Cookie
      * @param string $name 变量名
      * @param string $value 变量值
      * @param int $time 过期时间
@@ -56,6 +57,7 @@ class Util
     }
 
     /**
+     * 读取加密Cookie
      * @param string $name 变量名
      * @return string
      */
@@ -65,7 +67,7 @@ class Util
     }
 
     /**
-     *
+     * 设置Cookie令牌
      * @return bool
      */
     public static function setToken()
@@ -73,6 +75,10 @@ class Util
         return self::setSecureCookie('t', time(), $_SERVER['REQUEST_TIME'] + 60 * 5);
     }
 
+    /**
+     * 校验Cookie令牌
+     * @return bool
+     */
     public static function verifyToken()
     {
         $token = self::getSecureCookie('t');
@@ -93,6 +99,27 @@ class Util
         $thirdHash = md5(substr($firstHash, 0, 13) . substr($secondHash, 13));
         $forthHash = md5(substr($secondHash, 0, 13) . substr($firstHash, 13));
         return md5($thirdHash . $forthHash);
+    }
+
+    /**
+     * 高时间成本密码加密,防彩虹表碰撞
+     * @param string $password
+     * @param string $userSalt
+     * @return string
+     */
+    public static function passwordX($password, $userSalt)
+    {
+        $passwordHash = md5($password);
+        $userSaltHash = md5($userSalt);
+        for ($i = 0; $i < 1000; $i++) {
+            if (ord($passwordHash[0]) % 2) {
+                $passwordHash = md5($passwordHash . $userSaltHash);
+            } else {
+                $passwordHash = md5($userSaltHash . $passwordHash);
+            }
+            $userSaltHash = md5($userSaltHash);
+        }
+        return $passwordHash;
     }
 
     public static function salt($length)
@@ -317,4 +344,6 @@ class Util
     }
 
 }
+
+
 
