@@ -372,24 +372,11 @@ class DB
         if ($Statement === false) {
             throw new \Exception("PDO PREPARE ERROR: {$sql} " . json_encode($this->bindVar), 500);
         }
-        foreach ($this->bindVar as $name => $value) {
-            $type = gettype($value);
-            switch ($type) {
-                case 'integer':
-                case 'double':
-                    $Statement->bindValue($name, $value, PDO::PARAM_INT);
-                    break;
-                case 'string':
-                    $Statement->bindValue($name, $value, PDO::PARAM_STR);
-                    break;
-                default:
-                    $Statement->bindValue($name, $value, PDO::PARAM_STR);
-            }
-        }
+
+        $Statement->execute($this->bindVar);
 
         $this->bindVar = [];
 
-        $Statement->execute();
         return $Statement;
     }
 
