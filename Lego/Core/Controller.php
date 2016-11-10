@@ -52,7 +52,7 @@ class Controller
     {
         $this->action = $action;
         if (!method_exists($this, $action) && !is_callable(array($this, $action))) {
-            throw new \Exception("{$action} ACTION NOT FIND", 500);
+            throw new \Exception("{$action} ACTION NOT FIND", 611);
         }
         //运行接口
         Event::raise('CORE.ACTION.RUN.PRE', $this);
@@ -136,10 +136,10 @@ class Controller
         }
 
         if (!is_file($viewFile)) {
-            throw new \Exception("{$viewFile} VIEW NOT FIND", 500);
+            throw new \Exception("{$viewFile} VIEW NOT FIND", 612);
         }
         if (!is_file($layoutFile)) {
-            throw new \Exception("{$this->layout} LAYOUT NOT FIND", 500);
+            throw new \Exception("{$this->layout} LAYOUT NOT FIND", 613);
         }
 
         Event::raise('CORE.VIEW.RENDER.PRE', $this);

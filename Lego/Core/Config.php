@@ -34,7 +34,7 @@ class Config
         }
         $appConfigFile = APP_PATH . '/Conf/' . $appConfigFile;
         if (!is_file($appConfigFile)) {
-            throw new \Exception("CONFIG FILE {$appConfigFile} LOAD ERROR", 500);
+            throw new \Exception("CONFIG FILE {$appConfigFile} LOAD ERROR", 601);
         }
         include($appConfigFile);
     }

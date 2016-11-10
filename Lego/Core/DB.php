@@ -261,7 +261,7 @@ class DB
             try {
                 $this->masterPDO = $this->connect($this->config);
             } catch (\PDOException $e) {
-                throw new \Exception("DB {$this->config['host']}:{$this->config['port']} CONNECT ERROR", 500);
+                throw new \Exception("DB {$this->config['host']}:{$this->config['port']} CONNECT ERROR", 621);
             }
 
             if (!empty($this->config['charset'])) {
@@ -370,7 +370,7 @@ class DB
         }
         $Statement = $pdo->prepare($sql);
         if ($Statement === false) {
-            throw new \Exception("PDO PREPARE ERROR: {$sql} " . json_encode($this->bindVar), 500);
+            throw new \Exception("PDO PREPARE ERROR: {$sql} " . json_encode($this->bindVar), 622);
         }
 
         $Statement->execute($this->bindVar);

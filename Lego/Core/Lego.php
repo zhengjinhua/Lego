@@ -145,22 +145,18 @@ class Lego
             }
         });
         set_exception_handler(function (\Exception $e) {
+
             $err = sprintf('%s %s(%s)', $e->getMessage(), $e->getFile(), $e->getLine());
-
             Log::error($err);
-
+            ini_set('display_errors',0);
             if (ini_get('display_errors') == 1) {
                 echo $err, "\n";
             } else {
                 $code = $e->getCode();
-                switch ($code) {
-                    case 404:
-                    case 500:
-                        header("Location: /{$code}.html");
-                        break;
-                    default:
-                        header("Location: /500.html");
+                if($code < 600 || $code > 690){
+                    $code = 699;
                 }
+                header("HTTP/1.1 {$code} Exception");
             }
         });
     }
