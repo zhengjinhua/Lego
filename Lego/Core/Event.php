@@ -28,10 +28,10 @@ class Event
     public static function attach($name, $handler, $priority = false)
     {
         if (!is_string($name)) {
-            throw new \Exception("{$name} EVENT NAME ERROR", 631);
+            throw new \Exception("{$name} EVENT NAME ERROR", 609);
         }
         if (!is_callable($handler)) {
-            throw new \Exception("{$handler} EVENT HANDLER ERROR", 632);
+            throw new \Exception("{$handler} EVENT HANDLER ERROR", 610);
         }
 
         isset(self::$map[$name]) || self::$map[$name] = [];

@@ -72,7 +72,7 @@ namespace Core {
         public static function register($method, $pattern, $callback)
         {
             if (empty($method) || empty($pattern)) {
-                throw new \Exception("ROUTER REGISTER ERROR : {$method} {$pattern}", 661);
+                throw new \Exception("ROUTER REGISTER ERROR : {$method} {$pattern}", 605);
             }
             self::$map[$method][$pattern] = $callback;
         }
@@ -101,7 +101,7 @@ namespace Core {
                 }
             }
 
-            throw new \Exception("ROUTER NOT FIND {$method} {$pathInfo}", 662);
+            throw new \Exception("{$method} {$pathInfo} NOT FIND", 604);
         }
 
         /**

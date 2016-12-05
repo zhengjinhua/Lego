@@ -84,6 +84,9 @@ class DB
      */
     public function column($table, $column, $where = [])
     {
+        if (isset($where['ORDER'])) {
+            unset($where['ORDER']);
+        }
         $Statement = $this->execute($this->selectContext($table, $column, $where) . ' LIMIT 1');
         return $Statement->fetchColumn();
     }
@@ -261,7 +264,7 @@ class DB
             try {
                 $this->masterPDO = $this->connect($this->config);
             } catch (\PDOException $e) {
-                throw new \Exception("DB {$this->config['host']}:{$this->config['port']} CONNECT ERROR", 621);
+                throw new \Exception("DB {$this->config['host']}:{$this->config['port']} CONNECT ERROR", 602);
             }
 
             if (!empty($this->config['charset'])) {
@@ -370,7 +373,7 @@ class DB
         }
         $Statement = $pdo->prepare($sql);
         if ($Statement === false) {
-            throw new \Exception("PDO PREPARE ERROR: {$sql} " . json_encode($this->bindVar), 622);
+            throw new \Exception("PDO PREPARE ERROR: {$sql} " . json_encode($this->bindVar), 603);
         }
 
         $Statement->execute($this->bindVar);

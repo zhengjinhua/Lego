@@ -9,9 +9,6 @@ namespace Plugin\InjectionFilter;
 
 use Core\Event;
 use Core\PluginInterface;
-use Core\Log;
-use Util;
-use Filter;
 
 /**
  * 注入过滤
@@ -52,8 +49,7 @@ class Plugin implements PluginInterface
     {
         $StrFiltValue = self::arrForeach($StrFiltValue);
         if (preg_match("/" . $ArrFiltReq . "/is", $StrFiltValue) == 1 || preg_match("/" . $ArrFiltReq . "/is", $StrFiltKey) == 1) {
-            Log::error("INJECTION FILTER:{$_SERVER['PATH_INFO']} {$StrFiltKey} {$StrFiltValue}");
-            Util::redirect('/404.html');
+            throw new \Exception("INJECTION FILTER:{$_SERVER['PATH_INFO']} {$StrFiltKey} {$StrFiltValue}", 661);
         }
     }
 

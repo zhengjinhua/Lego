@@ -86,7 +86,7 @@ abstract class Model
             return;
         }
         if (!isset($whereCondition[$this->shardingKey])) {
-            throw new \Exception("MODEL SHARDING ERROR", 651);
+            throw new \Exception("MODEL SHARDING ERROR", 613);
         }
 
         //避免重复修改表名
@@ -99,7 +99,7 @@ abstract class Model
 
         $tableNumber = $this->shardingAlgorithm($shardingKeyValue);
         if ($tableNumber === false) {
-            throw new \Exception("MODEL SHARDING_ALGORITHM ERROR", 652);
+            throw new \Exception("MODEL SHARDING_ALGORITHM ERROR", 614);
         }
 
         static $oTable = null;

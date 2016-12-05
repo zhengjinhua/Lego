@@ -25,7 +25,7 @@ class Extension
         foreach ($modules as $moduleName) {
             $className = "\\Module\\{$moduleName}\\Module";
             if (!is_subclass_of($className, '\Core\ModuleInterface')) {
-                throw new \Exception("{$className} NOT IMPLEMENTS \\Core\\ModuleInterface", 641);
+                throw new \Exception("{$className} NOT IMPLEMENTS \\Core\\ModuleInterface", 611);
             }
             Log::info("INIT MODULE {$moduleName}");
             $className::init();
@@ -52,7 +52,7 @@ class Extension
         foreach ($plugins as $pluginName) {
             $className = "\\Plugin\\{$pluginName}\\Plugin";
             if (!is_subclass_of($className, '\Core\PluginInterface')) {
-                throw new \Exception("{$className}  NOT IMPLEMENTS \\Core\\PluginInterface", 642);
+                throw new \Exception("{$className}  NOT IMPLEMENTS \\Core\\PluginInterface", 612);
             }
             Log::info("REGISTER PLUGIN {$pluginName}");
             $className::register();
