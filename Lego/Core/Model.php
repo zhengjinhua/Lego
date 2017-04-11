@@ -154,6 +154,9 @@ abstract class Model
 
         $data = $this->db->$method($this->table, $columns, $where);
 
+        //缓存穿透保护(空数据时缓存空对象)
+        $data === false && $data = null;
+
         if ($this->cacheInstance && $this->cacheKey && $this->cacheTime) {
             $this->cacheInstance->set($this->cacheKey, $data, $this->cacheTime);
             $this->cacheKey = '';
@@ -167,7 +170,7 @@ abstract class Model
      * 查询单条数据
      * @param array $where 条件
      * @param array $columns 列名
-     * @return bool
+     * @return array|bool
      */
     final public function get($where = [], $columns = [])
     {
@@ -189,12 +192,12 @@ abstract class Model
         $resultTmp = $this->cacheForDBQuery('select', $columns, $where);
 
         $result = [];
-        if($resultTmp){
-            if($returnArrayKey && isset($resultTmp[0][$returnArrayKey])){
+        if ($resultTmp) {
+            if ($returnArrayKey && isset($resultTmp[0][$returnArrayKey])) {
                 foreach ($resultTmp as $row) {
                     $result[$row[$returnArrayKey]] = $row;
                 }
-            }else{
+            } else {
                 $result = $resultTmp;
             }
         }
@@ -216,12 +219,13 @@ abstract class Model
     /**
      * 插入数据
      * @param array $data
+     * @param bool $replace
      * @return array|int
      */
-    final public function insert($data)
+    final public function insert($data, $replace = false)
     {
         $this->shardingTable(isset($data[0]) ? $data[0] : $data);
-        return $this->db->insert($this->table, $data);
+        return $this->db->insert($this->table, $data, $replace);
     }
 
     /**

@@ -93,8 +93,8 @@ class FileCache
     public function __construct($config)
     {
         $this->cacheDir = APP_PATH . '/Var/Cache/';
-        if(!is_dir($this->cacheDir)){
-            mkdir($this->cacheDir,0777,true);
+        if (!is_dir($this->cacheDir)) {
+            mkdir($this->cacheDir, 0777, true);
         }
     }
 
@@ -152,7 +152,12 @@ class RedisCache
     {
         $this->Redis = new \Redis();
         $this->Redis->connect($config['host'], $config['port'], $config['timeout']);
-        //$this->Redis->select($config['db']);
+        if (!empty($config['password'])) {
+            $this->Redis->auth($config['password']);
+        }
+        if (!empty($config['db'])) {
+            $this->Redis->select($config['db']);
+        }
     }
 
     public function get($key)

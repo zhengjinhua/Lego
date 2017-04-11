@@ -8,13 +8,13 @@
 
 namespace Module\Auth\Controller;
 
-use Controller\UserLoginedBase;
 use Core\Router;
 use Core\Config;
-use Model\Action as ActionModel;
-use Model\RoleAction as RoleActionModel;
+use Controller\AdminBase;
+use Module\Auth\Model\ActionModel;
+use Module\Auth\Model\RoleActionModel;
 
-class Action extends UserLoginedBase
+class Action extends AdminBase
 {
     public function initDbX()
     {
@@ -29,7 +29,7 @@ class Action extends UserLoginedBase
         $routerMap['POST'] = array_filter($routerMap['POST'], function ($var) {
             return is_string($var);
         });
-        $routerMap = array_unique(array_merge($routerMap['GET'],$routerMap['POST']));
+        $routerMap = array_unique(array_merge($routerMap['GET'], $routerMap['POST']));
 
         //排除接口
         $configAuthExcludedAction = Config::get('AUTH_EXCLUDED_ACTION');
@@ -77,10 +77,11 @@ class Action extends UserLoginedBase
     public function setNameX()
     {
         $id = intval($_POST['id']);
+        $class = $_POST['class'];
         $name = $_POST['name'];
 
         $ActionModel = ActionModel::instance();
-        $result = $ActionModel->update(['name' => $name], ['id' => $id]);
+        $result = $ActionModel->update(['class' => $class, 'name' => $name], ['id' => $id]);
 
         if ($result) {
             echo json_encode(['error' => 0, 'msg' => '更新完成'], JSON_UNESCAPED_UNICODE);

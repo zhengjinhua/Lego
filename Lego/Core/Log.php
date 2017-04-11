@@ -79,7 +79,7 @@ class Log
         }
         $log = implode('', self::$logs);
 
-        $hostName = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+        $hostName = strpos($_SERVER['HTTP_HOST'], ':') ? str_replace(':', '.', $_SERVER['HTTP_HOST']) : $_SERVER['HTTP_HOST'];
         $logFileName = date('Ymd') . '.' . PHP_SAPI . '.' . $hostName . '.log';
         $logPath = self::$logDir . $logFileName;
         file_put_contents($logPath, $log, FILE_APPEND | LOCK_EX);

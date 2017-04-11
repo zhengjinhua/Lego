@@ -8,18 +8,17 @@
 
 namespace Module\Auth\Controller;
 
-use Controller\UserLoginedBase;
-use Model\Role as RoleModel;
-use Model\User as UserModel;
-use Model\RoleAction as RoleActionModel;
-use Model\UserRole as UserRoleModel;
 use Page;
 use Util;
+use Controller\AdminBase;
+use Module\Auth\Model\RoleModel;
+use Module\Auth\Model\UserRoleModel;
+use Module\Auth\Model\RoleActionModel;
 
-class Role extends UserLoginedBase
+class Role extends AdminBase
 {
     /**
-     * @var \Model\Role
+     * @var \Module\Auth\Model\Role
      */
     private $Model;
 
@@ -38,7 +37,7 @@ class Role extends UserLoginedBase
         $pageNum = isset($_GET['page']) ? intval($_GET['page']) : 1;
         $Page = new Page($pageNum, 20);
         $Page->setUrl(url(['\Module\Auth\Controller\Role::index'], ['page' => Page::placeholder]));
-        $where = [];
+        $where['ORDER'] = 'id DESC';
         if (isset($_GET['name'])) {
             $where = ['name' => $_GET['name']];
         }
@@ -101,10 +100,10 @@ class Role extends UserLoginedBase
         if ($result) {
 
             $RoleActionModel = RoleActionModel::instance();
-            $RoleActionModel->delete(['role_id'=>$id]);
+            $RoleActionModel->delete(['role_id' => $id]);
 
             $UserRoleModel = UserRoleModel::instance();
-            $UserRoleModel->delete(['role_id'=>$id]);
+            $UserRoleModel->delete(['role_id' => $id]);
 
             Util::redirect(url(['\Module\Auth\Controller\Role::index']));
         } else {

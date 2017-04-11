@@ -16,6 +16,16 @@ namespace Core;
  */
 class Extension
 {
+    private static $defaultLoadPlugin = [
+        'Captcha',
+        'InjectionFilter',
+        'SQLDump',
+        'Status',
+        'SystemInit',
+        'TimeSpend'
+    ];
+    public static $autoLoadPlugin = [];
+
     /**
      * 加载模块
      */
@@ -30,10 +40,15 @@ class Extension
             Log::info("INIT MODULE {$moduleName}");
             $className::init();
 
-            $plugins = glob(APP_PATH . '/Module/' . $moduleName . '/Plugin/*');
+            if(is_dir(APP_PATH . '/Module/' . $moduleName)){
+                $plugins = glob(APP_PATH . '/Module/' . $moduleName . '/Plugin/*');
+            }else{
+                $plugins = glob(LEGO_PATH . '/Module/' . $moduleName . '/Plugin/*');
+            }
+
             if ($plugins) {
-                $pluginNames = array_map('basename', $plugins);
-                self::loadPlugin($pluginNames);
+                self::$autoLoadPlugin[$moduleName] = $pluginNames = array_map('basename', $plugins);
+                self::loadPlugin($pluginNames, $moduleName);
             }
         }
     }
@@ -45,12 +60,12 @@ class Extension
      *
      * @throws \Exception
      */
-    public static function loadPlugin($plugins = [])
+    public static function loadPlugin($plugins = [], $moduleName = '')
     {
         $plugins = $plugins ? $plugins : self::getPluginList();
-
+        $modulePath = $moduleName ? "\\Module\\$moduleName" : '';
         foreach ($plugins as $pluginName) {
-            $className = "\\Plugin\\{$pluginName}\\Plugin";
+            $className = "$modulePath\\Plugin\\{$pluginName}\\Plugin";
             if (!is_subclass_of($className, '\Core\PluginInterface')) {
                 throw new \Exception("{$className}  NOT IMPLEMENTS \\Core\\PluginInterface", 612);
             }
@@ -91,6 +106,9 @@ class Extension
             $plugins = array_map('basename', $plugins);
             $plugins = array_unique($plugins);
         }
+        //加入默认模块
+        $plugins = array_unique(array_merge($plugins, self::$defaultLoadPlugin));
+
         return $plugins;
     }
 

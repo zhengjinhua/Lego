@@ -37,9 +37,9 @@ class Captcha
         $this->fontSize = intval($height / 2);
         $this->codeSize = $codeSize;
 
-        //$this->font = __DIR__ . '/elephant.ttf';
+        $this->font = __DIR__ . '/elephant.ttf';
         //$this->font = __DIR__ . '/WoollyOutline.ttf';
-        $this->font = __DIR__ . '/UniTortred.ttf';
+        //$this->font = __DIR__ . '/UniTortred.ttf';
     }
 
     /**

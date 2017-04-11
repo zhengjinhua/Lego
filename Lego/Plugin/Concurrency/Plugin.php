@@ -45,7 +45,7 @@ class Plugin implements PluginInterface
         });
 
         Event::attach('CORE.REQUEST.OVER', function () {
-            $_SESSION['ConcurrenceLockTime'] -= 100;
+            isset($_SESSION['ConcurrenceLockAPI']) && $_SESSION['ConcurrenceLockTime'] -= 100;
         });
     }
 }

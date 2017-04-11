@@ -8,15 +8,15 @@
 
 namespace Module\Auth\Controller;
 
-use Controller\UserLoginedBase;
-use Model\Role as RoleModel;
-use Model\Action as ActionModel;
-use Model\RoleAction as RoleActionModel;
-use Model\User as UserModel;
-use Model\UserRole as UserRoleModel;
 use Util;
+use Controller\AdminBase;
+use Module\Auth\Model\RoleModel;
+use Module\Auth\Model\ActionModel;
+use Module\Auth\Model\RoleActionModel;
+use Module\Admin\Model\AdminUserModel;
+use Module\Auth\Model\UserRoleModel;
 
-class Auth extends UserLoginedBase
+class Auth extends AdminBase
 {
     /**
      * 角色授权页面
@@ -41,11 +41,15 @@ class Auth extends UserLoginedBase
         unset($result);
 
         $ActionModel = ActionModel::instance();
-        $actions = $ActionModel->select(['ORDER' => 'action'], ['id', 'action', 'name']);
-
+        $actions = $ActionModel->select(['ORDER' => 'action'], ['id', 'action', 'class', 'name']);
+        $actionGroups = [];
+        foreach ($actions as $act) {
+            $actionGroups[$act['class']][] = $act;
+        }
         $this->assign('role', $role);
         $this->assign('roleActions', $roleActions);
-        $this->assign('actions', $actions);
+        //$this->assign('actions', $actions);
+        $this->assign('actionGroups', $actionGroups);
 
         $this->render('Auth/action');
     }
@@ -84,8 +88,8 @@ class Auth extends UserLoginedBase
      */
     public function user($id)
     {
-        $UserModel = UserModel::instance();
-        $user = $UserModel->get(['id' => $id]);
+        $AdminUserModel = AdminUserModel::instance();
+        $user = $AdminUserModel->get(['id' => $id]);
         if (!$user) {
             Util::showmessage("用户不存在");
         }

@@ -6,17 +6,17 @@
  * Time: 9:57
  */
 
-namespace Plugin\Auth;
+namespace Module\Auth\Plugin\Auth;
 
 
-use Core\Event;
-use Core\PluginInterface;
-use Core\Config;
-use Model\Action;
-use Model\RoleAction;
-use Model\UserRole;
-use Model\UserLog;
 use Util;
+use Core\Event;
+use Core\Config;
+use Core\PluginInterface;
+use Module\Auth\Model\ActionModel;
+use Module\Auth\Model\RoleActionModel;
+use Module\Auth\Model\UserRoleModel;
+use Module\Auth\Model\UserLogModel;
 
 /**
  * 权限控制插件
@@ -24,7 +24,7 @@ use Util;
  * 权限控制排除接口配置
  * Config::set('AUTH_EXCLUDED_ACTION', []]);
  *
- * @package Plugin\Auth
+ * @package Module\Auth\Plugin\Auth
  */
 class Plugin implements PluginInterface
 {
@@ -32,9 +32,9 @@ class Plugin implements PluginInterface
     {
         //登录时从数据库拉取用户权限
         Event::attach('APP.USER.LOGINED', function ($user) {
-            $UserRoleModel = UserRole::instance();
-            $RoleActionModel = RoleAction::instance();
-            $ActionModel = Action::instance();
+            $UserRoleModel = UserRoleModel::instance();
+            $RoleActionModel = RoleActionModel::instance();
+            $ActionModel = ActionModel::instance();
 
             $userRoleIds = $roleActionIds = $roleActions = [];
 
@@ -63,14 +63,14 @@ class Plugin implements PluginInterface
         //每次请求判断是否有权限
         Event::attach('CORE.ROUTE.POST', function ($callback) {
 
-            if(!$callback){
+            if (!$callback) {
                 return;
             }
 
-            if (isset($_SESSION['logined'])) {
+            if (isset($_SESSION['user'])) {
                 //排除接口
                 $configAuthExcludedAction = Config::get('AUTH_EXCLUDED_ACTION');
-                if ($configAuthExcludedAction  &&
+                if ($configAuthExcludedAction &&
                     array_search($callback, $configAuthExcludedAction) !== false
                 ) {
                     return;
@@ -86,7 +86,7 @@ class Plugin implements PluginInterface
                     }
                 } else {
                     //操作日志
-                    $UserLogModel = UserLog::instance();
+                    $UserLogModel = UserLogModel::instance();
                     $UserLogModel->insert([
                         'user_id' => $_SESSION['user']['id'],
                         'username' => $_SESSION['user']['username'],

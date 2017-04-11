@@ -23,6 +23,9 @@
                         <a class="btn btn-important" href="<?= url(['\Module\Auth\Controller\Role::add']) ?>"><i
                                 class="fa fa-plus"></i> 新建 </a>
                     </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" id="refresh"><i class="fa fa-refresh"></i> 刷新路由</button>
+                    </div>
                 </form>
             </div>
             <!-- search-form /-->
@@ -50,7 +53,7 @@
                             <a href="<?= url(['\Module\Auth\Controller\Auth::action', $role['id']]) ?>"
                                class="btn btn-warning btn-xs">授权</a>&nbsp;
                             <a href="<?= url(['\Module\Auth\Controller\Role::delete', $role['id']]) ?>"
-                               onclick= "return confirm('确定删除吗?');"  class="btn btn-warning btn-xs">删除</a>&nbsp;
+                               onclick="return confirm('确定删除吗?');" class="btn btn-warning btn-xs">删除</a>&nbsp;
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -63,3 +66,20 @@
 
     </div>
 </div>
+
+<script>
+    $(function () {
+        $("#refresh").click(function () {
+            $.ajax({
+                type: "GET",
+                url: "<?= url(['\Module\Auth\Controller\Action::initDbX']) ?>",
+                dataType: "json",
+                success: function (json) {
+                    if (json.error === 0) {
+                        alert(json.msg);
+                    }
+                }
+            });
+        });
+    });
+</script>

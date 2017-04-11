@@ -36,10 +36,10 @@ class Event
 
         isset(self::$map[$name]) || self::$map[$name] = [];
 
-        if($priority){
-            array_unshift(self::$map[$name],$handler);
-        }else{
-            array_push(self::$map[$name],$handler);
+        if ($priority) {
+            array_unshift(self::$map[$name], $handler);
+        } else {
+            array_push(self::$map[$name], $handler);
         }
 
     }

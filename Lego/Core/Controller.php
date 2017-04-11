@@ -11,8 +11,6 @@ namespace Core;
 /**
  * 控制器基类
  *
- * 集成的功能:接口静态化
- *
  * @package Core
  */
 class Controller
@@ -21,11 +19,6 @@ class Controller
      * @var string 当前请求的方法
      */
     public $action = '';
-
-    /**
-     * @var array 静态化方法列表
-     */
-    public $staticActionList = [];
 
     /**
      * @var string 主题
@@ -103,34 +96,42 @@ class Controller
      */
     final protected function render($view, $layout = null)
     {
+        $viewFile = $layoutFile = '';
+
         if ($layout !== null) {
             $this->layout = $layout;
         }
 
-        $viewFile = $layoutFile = '';
-
         $calledClassPath = explode('\\', get_called_class());
+        $moduleName = implode('/', array_slice($calledClassPath, 1, -2));
 
-        //查找主题下的视图文件和框架文件
+        // STEP: I 查找主题下的视图文件和框架文件
         if ($this->theme) {
-            $moduleName = implode('/', array_slice($calledClassPath, 1, -2));
             $viewFile = APP_PATH . '/View/' . $this->theme . '/' . $moduleName . '/' . $view . '.php';
             $layoutFile = APP_PATH . '/View/' . $this->theme . '/Layout/' . $this->layout . '.php';
         }
 
-        //获取模块视图路径
-        $moduleViewPath = APP_PATH . '/' . implode('/', array_slice($calledClassPath, 0, -2)) . '/' . 'View';
-
-        //查找模块下的视图文件
-        if (!$viewFile || !is_file($viewFile)) {
-            $viewFile = $moduleViewPath . '/' . $view . '.php';
+        // STEP: II.I 查找APP模块下的视图文件和框架文件
+        $appModuleViewPath = APP_PATH . '/Module/' . $moduleName . '/' . 'View';
+        if (is_dir($appModuleViewPath)) {
+            if (!$viewFile || !is_file($viewFile)) {
+                $viewFile = $appModuleViewPath . '/' . $view . '.php';
+            }
+            if (!$layoutFile || !is_file($layoutFile)) {
+                $layoutFile = $appModuleViewPath . '/Layout/' . $this->layout . '.php';
+            }
+        } else {
+            // STEP: II.II 查找公用模块下的视图文件和框架文件
+            $commonModuleViewPath = LEGO_PATH . '/Module/' . $moduleName . '/' . 'View';
+            if (!$viewFile || !is_file($viewFile)) {
+                $viewFile = $commonModuleViewPath . '/' . $view . '.php';
+            }
+            if (!$layoutFile || !is_file($layoutFile)) {
+                $layoutFile = $commonModuleViewPath . '/Layout/' . $this->layout . '.php';
+            }
         }
 
-        //查找模块下的框架文件
-        if (!$layoutFile || !is_file($layoutFile)) {
-            $layoutFile = $moduleViewPath . '/Layout/' . $this->layout . '.php';
-        }
-        //查找公用的框架文件
+        //STEP: III 查找APP公用的框架文件
         if (!$layoutFile || !is_file($layoutFile)) {
             $layoutFile = APP_PATH . '/View/Layout/' . $this->layout . '.php';
         }

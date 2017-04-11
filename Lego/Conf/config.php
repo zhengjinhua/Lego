@@ -7,13 +7,10 @@
  */
 use Core\Config;
 
-Config::set('SYS_KEY', '123@ASD&');
+Config::set('SYS_KEY', 'CWKKsx4g3Q8nsjvbY1iAtlkAWC1BHpsV');
 
 //日志等级 选值范围: 1=INFO,2=DEBUG,4=ERROR
 Config::set('LOG_LEVEL', 4);
-
-//URL重写 选值范围: true,false
-Config::set('URL_REWRITE', false);
 
 //缓存
 Config::set('CACHE', ['driver' => 'file']);
@@ -43,8 +40,8 @@ Config::set('CACHE', ['driver' => 'file']);
     ]
 ]);*/
 
-//插件加载配置 默认:遍历插件目录
-Config::set('PLUGINS', []);
-
 //模块加载配置 默认:遍历模块目录
 Config::set('MODULES', []);
+
+//插件加载配置 默认:遍历插件目录
+Config::set('PLUGINS', []);

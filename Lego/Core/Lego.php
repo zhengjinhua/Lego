@@ -49,15 +49,15 @@ class Lego
         Log::info('REQUEST START');
 
         try {
-            //加载插件
-            Extension::loadPlugin();
-
-            Event::raise('CORE.REQUEST.INIT');
-
             //加载模块
             Extension::loadModule();
 
+            //加载插件
+            Extension::loadPlugin();
+
             #################请求处理###############################
+            Event::raise('CORE.REQUEST.INIT');
+
             //匹配路由
             Event::raise('CORE.ROUTE.PRE');
             list($callback, $args) = Router::match();
@@ -95,21 +95,21 @@ class Lego
             $_SERVER['REQUEST_METHOD'] === 'CLI' && $_SERVER['REQUEST_METHOD'] = 'GET';
             empty($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] = '/';
         }
+
+        !isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] = '';
     }
 
     private static function setIncludePath()
     {
-        $modulePathArr = glob(APP_PATH . '/Module/*');
-        $icludePathArr = array_merge(
-            array(
-                APP_PATH . PATH_SEPARATOR,
-                APP_PATH . '/Lib' . PATH_SEPARATOR,
-                LEGO_PATH . PATH_SEPARATOR,
-                LEGO_PATH . '/Lib' . PATH_SEPARATOR
-            ),
-            $modulePathArr);
-        $icludePathStr = implode(PATH_SEPARATOR, $icludePathArr);
-        set_include_path($icludePathStr);
+        $includePathArr = array(
+            APP_PATH . PATH_SEPARATOR,
+            APP_PATH . '/Lib' . PATH_SEPARATOR,
+            LEGO_PATH . PATH_SEPARATOR,
+            LEGO_PATH . '/Lib' . PATH_SEPARATOR
+        );
+
+        $includePathArr = implode(PATH_SEPARATOR, $includePathArr);
+        set_include_path($includePathArr);
     }
 
     /**
@@ -144,16 +144,15 @@ class Lego
                 echo $err, "\n";
             }
         });
-        set_exception_handler(function (\Exception $e) {
+        set_exception_handler(function ($e) {
 
             $err = sprintf('%s %s(%s)', $e->getMessage(), $e->getFile(), $e->getLine());
             Log::error($err);
-            ini_set('display_errors',0);
             if (ini_get('display_errors') == 1) {
                 echo $err, "\n";
             } else {
                 $code = $e->getCode();
-                if($code < 600 || $code > 690){
+                if ($code < 600 || $code > 690) {
                     $code = 699;
                 }
                 header("HTTP/1.1 {$code} Exception");

@@ -101,7 +101,9 @@ namespace Core {
                 }
             }
 
-            throw new \Exception("{$method} {$pathInfo} NOT FIND", 604);
+            Log::debug("{$method} {$pathInfo} NOT FIND");
+            header("HTTP/1.0 404 Not Found");
+            die;
         }
 
         /**
@@ -142,13 +144,7 @@ namespace Core {
                 $pathInfo = $pathArr;
             }
 
-            //URL重写
-            $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
-            if (Config::get('URL_REWRITE')) {
-                $pathInfo = $protocol . $_SERVER['HTTP_HOST'] . $pathInfo;
-            } else {
-                $pathInfo = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'] . $pathInfo;
-            }
+            $pathInfo = "//{$_SERVER['HTTP_HOST']}{$pathInfo}";
 
             if ($get) {
                 $pathInfo .= '?' . http_build_query($get);

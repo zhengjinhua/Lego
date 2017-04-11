@@ -16,16 +16,6 @@ use Core\PluginInterface;
  */
 class Plugin implements PluginInterface
 {
-    public static function name()
-    {
-        return 'HTML压缩';
-    }
-
-    public static function desc()
-    {
-        return 'HTML压缩';
-    }
-
     public static function register()
     {
         Event::attach('CORE.VIEW.RENDER.PRE', function () {

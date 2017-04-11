@@ -8,12 +8,12 @@
 
 namespace Module\Auth;
 
-use Core\ModuleInterface;
 use Core\Router;
+use Core\ModuleInterface;
 
 /**
- * 帐号管理模块
- * @package Module\Account
+ * 权限管理模块
+ * @package Module\Auth
  */
 class Module implements ModuleInterface
 {

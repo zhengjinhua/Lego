@@ -25,7 +25,7 @@ class Page
      */
     public function __construct($pageNumber = 1, $pageSize = 10)
     {
-        $this->pageNumber = $pageNumber;
+        $this->pageNumber = $pageNumber < 500 ? $pageNumber : 500;
         $this->pageSize = $pageSize;
     }
 

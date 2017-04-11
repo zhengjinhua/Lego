@@ -8,8 +8,8 @@
 namespace Plugin\SQLDump;
 
 use Core\Event;
+use Core\Config;
 use Core\PluginInterface;
-use Util;
 
 /**
  * SQL调试输出
@@ -23,6 +23,11 @@ class Plugin implements PluginInterface
     public static function register()
     {
         if (!isset($_GET['SQLDUMP'])) {
+            return;
+        }
+
+        $SYS_KEY = Config::get('SYS_KEY');
+        if (!isset($_GET['SKEY']) || $_GET['SKEY'] !== substr($SYS_KEY, 0, 6)) {
             return;
         }
 

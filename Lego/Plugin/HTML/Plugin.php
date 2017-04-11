@@ -7,9 +7,9 @@
  */
 namespace Plugin\HTML;
 
-use Core\Extension;
 use Core\Event;
 use Core\Config;
+use Core\Extension;
 use Core\PluginInterface;
 
 /**
@@ -26,8 +26,16 @@ class Plugin implements PluginInterface
 
     public static function register()
     {
+        if (empty($_SERVER['HTTP_HOST'])) {
+            return;
+        }
+
         //AFTER_ROUTE阶段检测静态化需求
         Event::attach('CORE.ACTION.RUN.PRE', function ($Controller) {
+
+            if (!property_exists($Controller, 'staticActionList')) {
+                return;
+            }
 
             $action = $Controller->action;
             $staticActionList = $Controller->staticActionList;
@@ -37,7 +45,7 @@ class Plugin implements PluginInterface
                 self::$lifeTime = $staticActionList[$action];
 
                 $htmlPath = Config::get('HTML_DIR');
-                $htmlPath || $htmlPath = APP_PATH . '/html';
+                $htmlPath || $htmlPath = APP_PATH . "/Var/html/{$_SERVER['HTTP_HOST']}";
 
                 $path = $htmlPath . substr($_SERVER['PATH_INFO'], 0, strrpos($_SERVER['PATH_INFO'], '/'));
                 if (!is_dir($path)) {

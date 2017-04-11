@@ -8,8 +8,8 @@
 namespace Plugin\Captcha;
 
 use Core\Event;
-use Core\PluginInterface;
 use Core\Router;
+use Core\PluginInterface;
 
 /**
  * 验证码插件

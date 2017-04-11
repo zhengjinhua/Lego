@@ -174,10 +174,11 @@ class DB
      *
      * @param string $table 表名
      * @param array $datas 数据
+     * @param bool $replace
      * @return int 受影响的行数
      * @throws \Exception
      */
-    public function insert($table, $datas)
+    public function insert($table, $datas, $replace = false)
     {
         if (!isset($datas[0])) {
             $datas = [$datas];
@@ -191,7 +192,9 @@ class DB
             }
             array_push($values, '(' . implode(',', $bindVarNames) . ')');
         }
-        $Statement = $this->execute("INSERT INTO `{$table}` (`" . implode('`,`', $columns) . '`) VALUES ' . implode(',', $values));
+
+        $method = $replace ? 'REPLACE' : 'INSERT';
+        $Statement = $this->execute("{$method} INTO `{$table}` (`" . implode('`,`', $columns) . '`) VALUES ' . implode(',', $values));
 
         return $Statement->rowCount();
     }
@@ -376,9 +379,17 @@ class DB
             throw new \Exception("PDO PREPARE ERROR: {$sql} " . json_encode($this->bindVar), 603);
         }
 
-        $Statement->execute($this->bindVar);
+        foreach ($this->bindVar as $name => $value) {
+            if (is_int($value) || is_float($value)) {
+                $Statement->bindValue($name, $value, PDO::PARAM_INT);
+            } else {
+                $Statement->bindValue($name, $value, PDO::PARAM_STR);
+            }
+        }
 
         $this->bindVar = [];
+
+        $Statement->execute();
 
         return $Statement;
     }
@@ -557,11 +568,10 @@ class DB
     {
         $wheres = [];
         foreach ($condition as $key => $value) {
-            $type = gettype($value);
             $upKey = strtoupper(trim($key));
-            if (in_array($upKey, ['AND', 'OR']) && $type === 'array') {
+            if (in_array($upKey, ['AND', 'OR']) && is_array($value)) {
                 array_push($wheres, '(' . implode(" {$upKey} ", $this->whereCondition($value)) . ')');
-            } elseif (is_int($key) && $type === 'array') {
+            } elseif (is_int($key) && is_array($value)) {
                 array_push($wheres, implode(" AND ", $this->whereCondition($value)));
             } else {
                 preg_match('/([\w]+)\s*(\[(\>|\>\=|\<|\<\=|\!\=|\<\>|\&|\!\&|IN|\!IN|LIKE|\!LIKE|BETWEEN|\!BETWEEN)\])?/i', $key, $match);
@@ -583,7 +593,7 @@ class DB
                         }
                         array_push($wheres, "{$column} IN (" . $this->placeholder($value) . ")");
                     } elseif ($operator === 'BETWEEN' || $operator === '!BETWEEN') {
-                        if ($type === 'array') {
+                        if (is_array($value)) {
                             if ($operator === '!BETWEEN') {
                                 $column .= ' NOT';
                             }
