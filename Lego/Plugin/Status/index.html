@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>Lego框架</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+<div class="row">
+    <div class="col-md-6">
+        <p>MODULE LIST</p>
+        <ol>
+            <?php sort($moduleList); ?>
+            <?php foreach ($moduleList as $name): ?>
+            <li><?= $name; ?></li>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+    <div class="col-md-6">
+        <p>AUTOLOAD PLUGIN LIST</p>
+        <ol>
+            <?php foreach ($autoLoadPluginList as $modelName=>$plugins): ?>
+            <?php foreach ($plugins as $pluginName): ?>
+            <li><?= $modelName ?> > <?= $pluginName,"\t"; ?> </li>
+            <?php endforeach; ?>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+    <div class="col-md-6">
+        <p>PLUGIN LIST</p>
+        <ol>
+            <?php foreach ($pluginList as $name): ?>
+            <li><?= $name; ?></li>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <p>EVENT MAP</p>
+        <ol>
+            <?php foreach ($eventMap as $event => $map): ?>
+            <li><?= $event ?> => <?= count($map) ?> func</li>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-10">
+        <p>ROUTER MAP</p>
+        <ol>
+            <?php foreach ($routerMap as $method => $map): ?>
+            <li><?= $method ?></li>
+            <ol>
+                <?php ksort($map); ?>
+                <?php foreach ($map as $pathInfo => $action): ?>
+                <li><span
+                        style="display:inline-block;width: 300px"><?= $pathInfo ?></span><?= is_string($action) ? $action : 'Closure' ?>
+                </li>
+                <?php endforeach; ?>
+            </ol>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+</div>
+</div>
+<footer class="footer">
+    <div class="container">
+    </div>
+</footer>
+</body>
+</html>
