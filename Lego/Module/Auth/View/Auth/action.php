@@ -48,7 +48,8 @@
                         <div class="col-sm-12 ser-list">
                             <div class="name" title="<?= $action['action'] ?>">
                                 <input type="checkbox" class="actionID app <?= $key ?>" name="action"
-                                       value="<?= $action['id'] ?>" <?= in_array($action['id'], $roleActions) ? 'checked' : ''; ?>> <?= $action['name'] ?>
+                                       value="<?= $action['id'] ?>" <?= in_array($action['id'], $roleActions) ? 'checked' : ''; ?>>
+                                <span class="set"><?= !empty($action['name']) ? $action['name'] : $action['action'] ?></span>
                             </div>
                         </div>
                     </div>

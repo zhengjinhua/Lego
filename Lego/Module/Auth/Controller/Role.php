@@ -80,7 +80,7 @@ class Role extends AdminBase
         }
         if ($_POST) {
             $data['name'] = $_POST['name'];
-            $result = $this->Model->update($data, ['id' => $id]);
+            $result = $this->Model->updateOne($data, ['id' => $id]);
             if ($result) {
                 Util::redirect(url(['\Module\Auth\Controller\Role::index']));
             } else {
@@ -96,7 +96,7 @@ class Role extends AdminBase
      */
     public function delete($id)
     {
-        $result = $this->Model->delete(['id' => $id]);
+        $result = $this->Model->deleteOne(['id' => $id]);
         if ($result) {
 
             $RoleActionModel = RoleActionModel::instance();

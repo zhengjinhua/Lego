@@ -46,7 +46,7 @@ class ControllerName extends AdminBase
     public function delete($id)
     {
         $attribute = $this->findOne($id);
-        $did = $this->attributeModel->delete(['id' => $id]);
+        $did = $this->attributeModel->deleteOne(['id' => $id]);
         if ($did) {
             Util::redirect(url(['\Module\ModuleName\Controller\ControllerName::index']));
         }
@@ -68,7 +68,7 @@ class ControllerName extends AdminBase
     {
         $attribute = $this->findOne($id);
         if (isset($_POST['dosubmit'])) {
-            $uid = $this->attributeModel->update($_POST['info'], ['id' => $id]);
+            $uid = $this->attributeModel->updateOne($_POST['info'], ['id' => $id]);
             if ($uid) {
                 Util::redirect(url(['\Module\ModuleName\Controller\ControllerName::index']));
             }

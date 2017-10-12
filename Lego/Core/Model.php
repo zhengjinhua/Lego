@@ -18,6 +18,7 @@ abstract class Model
     private static $instance;
 
     protected $table;
+    protected $originalTable;
     protected $config = [];
 
     protected $shardingKey = null;
@@ -43,6 +44,8 @@ abstract class Model
         if (isset($this->config['table_pre'])) {
             $this->table = trim($this->config['table_pre'] . $this->table);
         }
+        $this->originalTable = $this->table;
+
         $this->db = DB::instance($this->config);
     }
 
@@ -89,25 +92,12 @@ abstract class Model
             throw new \Exception("MODEL SHARDING ERROR", 613);
         }
 
-        //避免重复修改表名
-        static $shardingKeyValue = null;
-        if ($shardingKeyValue !== $whereCondition[$this->shardingKey]) {
-            $shardingKeyValue = $whereCondition[$this->shardingKey];
-        } else {
-            return;
-        }
-
-        $tableNumber = $this->shardingAlgorithm($shardingKeyValue);
+        $tableNumber = $this->shardingAlgorithm($whereCondition[$this->shardingKey]);
         if ($tableNumber === false) {
             throw new \Exception("MODEL SHARDING_ALGORITHM ERROR", 614);
         }
 
-        static $oTable = null;
-        if ($oTable === null) {
-            $oTable = $this->table;
-        }
-
-        $this->table = $oTable . '_' . $tableNumber;
+        $this->table = $this->originalTable . '_' . $tableNumber;
     }
 
     /**
@@ -241,6 +231,19 @@ abstract class Model
     }
 
     /**
+     * 更新数据
+     * @param array $data
+     * @param array $where
+     * @return int
+     */
+    final public function updateOne($data, $where = [])
+    {
+        $this->shardingTable($where);
+        $where['LIMIT'] = 1;
+        return $this->db->update($this->table, $data, $where);
+    }
+
+    /**
      * 删除数据
      * @param array $where
      * @return int
@@ -248,6 +251,17 @@ abstract class Model
     final public function delete($where)
     {
         $this->shardingTable($where);
+        return $this->db->delete($this->table, $where);
+    }
+    /**
+     * 删除数据
+     * @param array $where
+     * @return int
+     */
+    final public function deleteOne($where)
+    {
+        $this->shardingTable($where);
+        $where['LIMIT'] = 1;
         return $this->db->delete($this->table, $where);
     }
 

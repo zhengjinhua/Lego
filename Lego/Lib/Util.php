@@ -162,25 +162,14 @@ class Util
     /**
      * Encrypt a value using AES-256.
      *
-     * *Caveat* You cannot properly encrypt/decrypt data with trailing null bytes.
-     * Any trailing null bytes will be removed on decryption due to how PHP pads messages
-     * with nulls prior to encryption.
-     *
      * @param string $plain The value to encrypt.
      * @param string $key The 256 bit/32 byte key to use as a cipher key.
-     * @return string Encrypted data.
-     * @throws \InvalidArgumentException On invalid data or key.
+     * @return string Encrypted string.
      */
     public static function encrypt($plain, $key)
     {
-        $algorithm = MCRYPT_RIJNDAEL_128;
-        $mode = MCRYPT_MODE_CBC;
-        $ivSize = mcrypt_get_iv_size($algorithm, $mode);
-        $iv = mcrypt_create_iv($ivSize, MCRYPT_DEV_URANDOM);
-        // Pad out plain to make it AES compatible.
-        $pad = ($ivSize - (mb_strlen($plain, '8bit') % $ivSize));
-        $plain .= str_repeat(chr($pad), $pad);
-        return base64_encode($iv . mcrypt_encrypt($algorithm, md5($key), $plain, $mode, $iv));
+        $cipher = openssl_encrypt($plain, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, str_repeat('1',16));
+        return base64_encode($cipher);
     }
 
     /**
@@ -189,27 +178,12 @@ class Util
      * @param string $cipher The ciphertext to decrypt.
      * @param string $key The 256 bit/32 byte key to use as a cipher key.
      * @return string Decrypted data. Any trailing null bytes will be removed.
-     * @throws InvalidArgumentException On invalid data or key.
      */
     public static function decrypt($cipher, $key)
     {
-        $algorithm = MCRYPT_RIJNDAEL_128;
-        $mode = MCRYPT_MODE_CBC;
-        $ivSize = mcrypt_get_iv_size($algorithm, $mode);
-        $cipher = base64_decode($cipher);
-        $iv = mb_substr($cipher, 0, $ivSize, '8bit');
-        $cipher = mb_substr($cipher, $ivSize, null, '8bit');
-        $plain = mcrypt_decrypt($algorithm, md5($key), $cipher, $mode, $iv);
-        // Remove PKCS#7 padding or Null bytes
-        // Newer values will be PKCS#7 padded, while old
-        // mcrypt values will be null byte padded.
-        $padChar = mb_substr($plain, -1, null, '8bit');
-        if ($padChar === "\0") {
-            return trim($plain, "\0");
-        }
-        $padLen = ord($padChar);
-        $result = mb_substr($plain, 0, -$padLen, '8bit');
-        return $result === '' ? false : $result;
+        $encryptStr = base64_decode($cipher);
+        $plain = openssl_decrypt($encryptStr, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, str_repeat('1',16));
+        return $plain;
     }
 
     /**
@@ -344,6 +318,7 @@ class Util
     }
 
 }
+
 
 
 

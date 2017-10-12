@@ -65,7 +65,7 @@
                                 </a>
                                 <a class="btn btn-warning btn-xs"
                                    href="<?= url(['\Module\Admin\Controller\User::delete', $list['id']]) ?>"
-                                   onclick="return confirm('确定删除【<?= $list['username'] ?>】');">删除
+                                   onclick="return confirm('确定删除吗？');">删除
                                 </a>
 
                             </td>

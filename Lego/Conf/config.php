@@ -14,7 +14,7 @@ Config::set('LOG_LEVEL', 4);
 
 //缓存
 Config::set('CACHE', ['driver' => 'file']);
-//Config::set('CACHE', ['driver' => 'redis','host'=>'data.602.com','port'=>6379,'timeout'=>3,'db'=>0]);
+//Config::set('CACHE', ['driver' => 'redis','host'=>'data.test.com','port'=>6379,'timeout'=>3,'db'=>0]);
 
 //数据库
 /*Config::set('DB', [

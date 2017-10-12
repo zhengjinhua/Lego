@@ -76,7 +76,7 @@ class Controller
      * @param string $name
      * @param mixed $val
      */
-    final protected function assign($name, $val)
+    final protected function assign($name, $val = null)
     {
         if (is_array($name)) {
             $this->tplVar = array_merge($this->tplVar, $name);

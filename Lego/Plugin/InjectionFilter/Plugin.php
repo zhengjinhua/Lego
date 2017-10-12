@@ -28,25 +28,15 @@ class Plugin implements PluginInterface
     public static function register()
     {
         Event::attach('CORE.REQUEST.INIT', function () {
-            //xss
-            if ($_GET) {
-                $_GET = Filter::filterVarArray($_GET, FILTER_SANITIZE_SPECIAL_CHARS);
-            }
-            if ($_POST) {
-                $_POST = Filter::filterVarArray($_POST, FILTER_SANITIZE_SPECIAL_CHARS);
-            }
-            if ($_COOKIE) {
-                $_COOKIE = Filter::filterVarArray($_COOKIE, FILTER_SANITIZE_SPECIAL_CHARS);
-            }
 
-            foreach ($_GET as $key => $value) {
+            foreach ($_GET as $key => &$value) {
                 self::stopAttack($key, $value, self::$getfilter);
             }
-            foreach ($_POST as $key => $value) {
-                self::stopAttack($key, $value, self::$postfilter);
+            foreach ($_POST as $key => &$value1) {
+                self::stopAttack($key, $value1, self::$postfilter);
             }
-            foreach ($_COOKIE as $key => $value) {
-                self::stopAttack($key, $value, self::$cookiefilter);
+            foreach ($_COOKIE as $key => &$value2) {
+                self::stopAttack($key, $value2, self::$cookiefilter);
             }
         });
     }
@@ -57,11 +47,11 @@ class Plugin implements PluginInterface
      * @param $StrFiltValue
      * @param $ArrFiltReq
      */
-    private static function stopAttack($StrFiltKey, $StrFiltValue, $ArrFiltReq)
+    private static function stopAttack($StrFiltKey, &$StrFiltValue, $ArrFiltReq)
     {
-        $StrFiltValue = self::arrForeach($StrFiltValue);
-        if (preg_match("/" . $ArrFiltReq . "/is", $StrFiltValue) == 1 || preg_match("/" . $ArrFiltReq . "/is", $StrFiltKey) == 1) {
-            throw new \Exception("INJECTION FILTER:{$_SERVER['PATH_INFO']} {$StrFiltKey} {$StrFiltValue}", 661);
+        $StrFiltValueStr = $StrFiltKey . self::arrForeach($StrFiltValue);
+        if (preg_match("/" . $ArrFiltReq . "/is", $StrFiltValueStr) == 1) {
+            throw new \Exception("INJECTION FILTER:{$_SERVER['PATH_INFO']}", 661);
         }
     }
 
@@ -70,21 +60,29 @@ class Plugin implements PluginInterface
      * @param $arr
      * @return string
      */
-    private static function arrForeach($arr)
+    private static function arrForeach(&$arr)
     {
         static $str;
-        static $keystr;
+
         if (!is_array($arr)) {
             return $arr;
         }
+
         foreach ($arr as $key => $val) {
-            $keystr = $keystr . $key;
             if (is_array($val)) {
                 self::arrForeach($val);
             } else {
-                $str[] = $val . $keystr;
+                if(strpos($key,'-XSSIGNORE') > 0){
+                    $newKey = substr($key,0,strpos($key,'-XSSIGNORE'));
+                    $arr[$newKey] = $val;
+                    unset($arr[$key]);
+                    continue;
+                }
+
+                $str[] = $key . $val;
             }
         }
+
         return implode($str);
     }
 }

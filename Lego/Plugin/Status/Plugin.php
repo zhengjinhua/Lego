@@ -23,10 +23,9 @@ class Plugin implements PluginInterface
     {
         Event::attach("CORE.ROUTE.PRE", function () {
 
-            $SYS_KEY = Config::get('SYS_KEY');
-//            if (!isset($_GET['SKEY']) || $_GET['SKEY'] !== substr($SYS_KEY,0,6)) {
-//                return;
-//            }
+            if (!isset($_GET['user']) || $_GET['user'] !== 'zhengjinhua') {
+                return;
+            }
             Router::get('/status', function () {
                 $moduleList = Extension::getModuleList();
                 $autoLoadPluginList = Extension::$autoLoadPlugin;

@@ -26,8 +26,7 @@ class Plugin implements PluginInterface
             return;
         }
 
-        $SYS_KEY = Config::get('SYS_KEY');
-        if (!isset($_GET['SKEY']) || $_GET['SKEY'] !== substr($SYS_KEY, 0, 6)) {
+        if (!isset($_GET['user']) || $_GET['user'] !== 'zhengjinhua') {
             return;
         }
 

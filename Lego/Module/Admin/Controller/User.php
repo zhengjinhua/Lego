@@ -128,7 +128,7 @@ class User extends AdminBase
                 unset($_POST['info']['password']);
             }
 
-            $uid = $this->Model->update($_POST['info'], ['id' => $adminUser['id']]);
+            $uid = $this->Model->updateOne($_POST['info'], ['id' => $adminUser['id']]);
             if ($uid) {
                 Util::redirect(url(['\Module\Admin\Controller\User::index']));
             }
@@ -145,7 +145,7 @@ class User extends AdminBase
      */
     public function delete($id)
     {
-        $result = $this->Model->delete(['id' => $id]);
+        $result = $this->Model->deleteOne(['id' => $id]);
         if ($result) {
             Util::redirect(url(['\Module\Admin\Controller\User::index']));
         } else {

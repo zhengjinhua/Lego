@@ -103,8 +103,8 @@ class Lego
     {
         $includePathArr = array(
             APP_PATH . PATH_SEPARATOR,
-            APP_PATH . '/Lib' . PATH_SEPARATOR,
             LEGO_PATH . PATH_SEPARATOR,
+            APP_PATH . '/Lib' . PATH_SEPARATOR,
             LEGO_PATH . '/Lib' . PATH_SEPARATOR
         );
 

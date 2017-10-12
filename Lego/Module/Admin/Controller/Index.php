@@ -63,7 +63,7 @@ class Index extends Controller
                             $data['lastip'] = Util::clientIp();
                             $data['lasttime'] = time();
                             $data['loginerrtimes'] = 0;
-                            $AdminUserModel->update($data, ['id' => $user['id']]);
+                            $AdminUserModel->updateOne($data, ['id' => $user['id']]);
                             $_SESSION['user'] = $user;
 
                             Event::raise('APP.USER.LOGINED', $user);
@@ -78,7 +78,7 @@ class Index extends Controller
                             $result['code'] = 6;
                             $result['msg'] = 'Password error,剩余尝试次数' . $failedTimes . '次!';
 
-                            $AdminUserModel->update(['loginerrtimes' => $restTimes], ['id' => $user['id']]);
+                            $AdminUserModel->updateOne(['loginerrtimes' => $restTimes], ['id' => $user['id']]);
                             if ($user['loginerrtimes'] >= 3) {
                                 $result['code'] = 7;
                                 $result['msg'] = '账户被锁定，请联系管理员!';

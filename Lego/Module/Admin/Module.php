@@ -26,7 +26,7 @@ class Module implements ModuleInterface
 
         //ajax检查用户是否存在
         Router::get('/account/ajaxUsername', function () {
-            (new Controller\User)->run('ajaxUsername', []);
+            (new Controller\AdminUser)->run('ajaxUsername', []);
         });
         //管理员操作日志
         Router::get('/auth/userLog', '\Module\Admin\Controller\AuthUserLog::index');

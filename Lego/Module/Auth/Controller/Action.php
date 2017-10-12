@@ -81,7 +81,7 @@ class Action extends AdminBase
         $name = $_POST['name'];
 
         $ActionModel = ActionModel::instance();
-        $result = $ActionModel->update(['class' => $class, 'name' => $name], ['id' => $id]);
+        $result = $ActionModel->updateOne(['class' => $class, 'name' => $name], ['id' => $id]);
 
         if ($result) {
             echo json_encode(['error' => 0, 'msg' => '更新完成'], JSON_UNESCAPED_UNICODE);

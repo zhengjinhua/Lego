@@ -55,7 +55,7 @@ class Home extends AdminBase
                 }
 
                 $password_one = Util::passwordX($_POST['password_one'], $user['salt']);
-                $query = $this->AdminUserModel->update(['password' => $password_one], ['id' => $userid]);
+                $query = $this->AdminUserModel->updateOne(['password' => $password_one], ['id' => $userid]);
                 if ($query) {
                     Util::redirect(url('/home'));
                 } else {
@@ -83,7 +83,7 @@ class Home extends AdminBase
             //$data['realname'] = iconv('utf-8', 'gbk', trim($_POST['realname']));
             $data['email'] = trim($_POST['email']);
             $data['nickname'] = trim($_POST['nickname']);
-            $query = $this->AdminUserModel->update($data, ['id' => $userid]);
+            $query = $this->AdminUserModel->updateOne($data, ['id' => $userid]);
             if ($query) {
                 Util::redirect(url('/home'));
             } else {

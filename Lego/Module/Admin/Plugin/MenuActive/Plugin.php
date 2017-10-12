@@ -44,33 +44,23 @@ class Plugin implements PluginInterface
                 return;
             }
 
-            if (!isset($_SESSION['auth'])) {
-                return;
-            }
+            $menu = Config::get('MENU');
+            $authExcludedAction = Config::get('AUTH_EXCLUDED_ACTION');
+            $authExcluded = isset($authExcludedAction) ? $authExcludedAction : [];
+            $userAuth = isset($_SESSION['auth']) ? $_SESSION['auth'] : [];
+            $userAllAuth = array_unique(array_merge($authExcluded, $userAuth));
 
-            if (!isset($_SESSION['menu'])) {
-                $menu = Config::get('MENU');
-                $authExcludedAction = Config::get('AUTH_EXCLUDED_ACTION');
-                $authExcluded = isset($authExcludedAction) ? $authExcludedAction : [];
-                $userAuth = isset($_SESSION['auth']) ? $_SESSION['auth'] : [];
-                $userAllAuth = array_unique(array_merge($authExcluded, $userAuth));
-
-                foreach ($menu as $k => $v) {
-                    foreach ($v['submenu'] as $kk => $vv) {
-                        if (!in_array($vv['path'], $userAllAuth)) {
-                            unset($menu[$k]['submenu'][$kk]);
-                        }
-                    }
-                    if (empty($menu[$k]['submenu'])) {
-                        unset($menu[$k]);
+            foreach ($menu as $k => $v) {
+                foreach ($v['submenu'] as $kk => $vv) {
+                    if (!in_array($vv['path'], $userAllAuth)) {
+                        unset($menu[$k]['submenu'][$kk]);
                     }
                 }
-                $_SESSION['menu'] = $menu;
+                if (empty($menu[$k]['submenu'])) {
+                    unset($menu[$k]);
+                }
             }
 
-            $menu = $_SESSION['menu'];
-
-            //$menu = Config::get('MENU');
             $findActive = false;
             if (is_array($menu)) {
                 foreach ($menu as &$group) {

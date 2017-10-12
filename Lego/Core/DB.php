@@ -154,9 +154,14 @@ class DB
     {
         $columns = [];
         foreach ($data as $key => $value) {
-            preg_match('/([\w]+)\s*(\[(\+|\-|\*|\/|\%|\&|\|)\])?/i', $key, $match);//mysql运算符
-            if (isset($match[3])) {
-                array_push($columns, "`{$match[1]}` = `{$match[1]}` {$match[3]} " . $this->placeholder($value));
+            preg_match('/\[(\+|\-|\*|\/|\%|\&|\|)\]?/i', $key, $match);//mysql运算符
+            $operator = null;
+            if($match){
+                $operator = $match[1];
+                $key = trim(str_replace($match[0],'',$key));
+            }
+            if ($operator) {
+                array_push($columns, "`{$key}` = `{$key}` {$operator} " . $this->placeholder($value));
             } else {
                 array_push($columns, "`{$key}` = " . $this->placeholder($value));
             }
@@ -376,7 +381,9 @@ class DB
         }
         $Statement = $pdo->prepare($sql);
         if ($Statement === false) {
-            throw new \Exception("PDO PREPARE ERROR: {$sql} " . json_encode($this->bindVar), 603);
+            $errorInfo = $pdo->errorInfo();
+            $errMsg = isset($errorInfo[2]) ? $errorInfo[2] : '';
+            throw new \Exception("PDO PREPARE ERROR: {$errMsg} {$sql}" . json_encode($this->bindVar), 603);
         }
 
         foreach ($this->bindVar as $name => $value) {
@@ -456,16 +463,17 @@ class DB
 
         $columnArr = [];
         foreach ($columns as $column) {
-            preg_match('/([\w\-\.\(\)\*]+)\s+AS\s+([\w\-]+)/i', $column, $match);
+            preg_match('/\s+AS\s+/i', $column, $match);
 
-            if (isset($match[1], $match[2])) {
-                if (strpos($match[1], '(')) {
-                    array_push($columnArr, "{$match[1]} AS `{$match[2]}`");
+            if ($match) {
+                $columnAs = explode($match[0],$column,2);
+                if (strpos($columnAs[0], ')')) {
+                    array_push($columnArr, "{$columnAs[0]} AS `{$columnAs[1]}`");
                 } else {
-                    array_push($columnArr, "`{$match[1]}` AS `{$match[2]}`");
+                    array_push($columnArr, "`{$columnAs[0]}` AS `{$columnAs[1]}`");
                 }
             } else {
-                if ($column === '*' || strpos($column, ' ') || strpos($column, '(')) {
+                if ($column === '*' || strpos($column, ' ') || strpos($column, ')')) {
                     array_push($columnArr, $column);
                 } else {
                     array_push($columnArr, "`{$column}`");
@@ -574,39 +582,48 @@ class DB
             } elseif (is_int($key) && is_array($value)) {
                 array_push($wheres, implode(" AND ", $this->whereCondition($value)));
             } else {
-                preg_match('/([\w]+)\s*(\[(\>|\>\=|\<|\<\=|\!\=|\<\>|\&|\!\&|IN|\!IN|LIKE|\!LIKE|BETWEEN|\!BETWEEN)\])?/i', $key, $match);
-                $column = "`{$match[1]}`";
-                if (isset($match[3])) {
-                    $operator = strtoupper($match[3]);
+                preg_match('/\[(\>|\>\=|\<|\<\=|\!\=|\<\>|\&|\!\&|IN|\!IN|LIKE|\!LIKE|BETWEEN|\!BETWEEN)\]/i', $key, $match);
+                $operator = null;
+                if($match){
+                    $operator = $match[1];
+                    $key = trim(str_replace($match[0],'',$key));
+                }
+
+                if(!strpos($key,')')){
+                    $key = "`{$key}`";
+                }
+
+                if ($operator) {
+                    $operator = strtoupper($operator);
                     if (in_array($operator, ['>', '>=', '<', '<=', '<>', '!='])) {
-                        array_push($wheres, "{$column} {$operator} " . $this->placeholder($value));
+                        array_push($wheres, "{$key} {$operator} " . $this->placeholder($value));
                     } elseif (in_array($operator, ['&', '!&'])) {
                         $value = intval($value);
                         if ($operator === '!&') {
-                            array_push($wheres, "!({$column} & {$value})");
+                            array_push($wheres, "!({$key} & {$value})");
                         } else {
-                            array_push($wheres, "{$column} & {$value} ");
+                            array_push($wheres, "{$key} & {$value} ");
                         }
                     } elseif ($operator === 'IN' || $operator === '!IN') {
                         if ($operator === '!IN') {
-                            $column .= ' NOT';
+                            $key .= ' NOT';
                         }
-                        array_push($wheres, "{$column} IN (" . $this->placeholder($value) . ")");
+                        array_push($wheres, "{$key} IN (" . $this->placeholder($value) . ")");
                     } elseif ($operator === 'BETWEEN' || $operator === '!BETWEEN') {
                         if (is_array($value)) {
                             if ($operator === '!BETWEEN') {
-                                $column .= ' NOT';
+                                $key .= ' NOT';
                             }
-                            array_push($wheres, "{$column} BETWEEN " . $this->placeholder($value[0]) . ' AND ' . $this->placeholder($value[1]));
+                            array_push($wheres, "{$key} BETWEEN " . $this->placeholder($value[0]) . ' AND ' . $this->placeholder($value[1]));
                         }
                     } elseif ($operator === 'LIKE' || $operator === '!LIKE') {
                         if ($operator === '!LIKE') {
-                            $column .= ' NOT';
+                            $key .= ' NOT';
                         }
-                        array_push($wheres, "{$column} LIKE " . $this->placeholder($value));
+                        array_push($wheres, "{$key} LIKE " . $this->placeholder($value));
                     }
                 } else {
-                    array_push($wheres, "{$column} = " . $this->placeholder($value));
+                    array_push($wheres, "{$key} = " . $this->placeholder($value));
                 }
             }
         }

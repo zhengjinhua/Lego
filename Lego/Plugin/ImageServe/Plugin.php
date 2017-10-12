@@ -24,14 +24,14 @@ class Plugin implements PluginInterface
         Config::set('IMAGE_SERVE_CONFIG', [
             'storage' => 'ftp',//'local'
             'ftp' => [
-                'hostname' => 'database.lego.com',
+                'hostname' => 'database.test.com',
                 'port' => '21',
                 'username' => 'FTP_USER_PHP',
                 'password' => '3E8RIa92cb99',
             ],
             'allowExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
             'savePath' => 'game',   //文件显示目录
-            'showPath' => '//image.lego.com/game',   //文件显示目录
+            'showPath' => '//image.test.com/game',   //文件显示目录
         ]);
 
         Event::attach("CORE.ROUTE.PRE", function () {
