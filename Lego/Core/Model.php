@@ -22,6 +22,7 @@ abstract class Model
     protected $config = [];
 
     protected $shardingKey = null;
+    protected $shardingKeyValue = null;
 
     /**
      * @var \Core\Cache
@@ -68,13 +69,24 @@ abstract class Model
     abstract protected function init();
 
     /**
+     * 分表值
+     * @param int $value 分表值
+     * @return $this
+     */
+    final public function sharding($value)
+    {
+        $this->shardingKeyValue = $value;
+        return $this;
+    }
+
+    /**
      * 分表算法
      * @param int $key 分表字段
      * @return bool|int
      */
     protected function shardingAlgorithm($key)
     {
-        return false;
+        return null;
     }
 
     /**
@@ -88,16 +100,21 @@ abstract class Model
         if (!$this->shardingKey) {
             return;
         }
-        if (!isset($whereCondition[$this->shardingKey])) {
-            throw new \Exception("MODEL SHARDING ERROR", 613);
+        if($this->shardingKeyValue === null){
+            if (!isset($whereCondition[$this->shardingKey])) {
+                throw new \Exception("MODEL SHARDING ERROR", 613);
+            }
+
+            $this->shardingKeyValue = $this->shardingAlgorithm($whereCondition[$this->shardingKey]);
+            if ($this->shardingKeyValue === null) {
+                throw new \Exception("MODEL SHARDING_ALGORITHM ERROR", 614);
+            }
         }
 
-        $tableNumber = $this->shardingAlgorithm($whereCondition[$this->shardingKey]);
-        if ($tableNumber === false) {
-            throw new \Exception("MODEL SHARDING_ALGORITHM ERROR", 614);
-        }
 
-        $this->table = $this->originalTable . '_' . $tableNumber;
+        $this->table = $this->originalTable . '_' . $this->shardingKeyValue;
+
+        $this->shardingKeyValue = null;
     }
 
     /**
