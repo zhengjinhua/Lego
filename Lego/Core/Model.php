@@ -100,7 +100,7 @@ abstract class Model
         if (!$this->shardingKey) {
             return;
         }
-        if($this->shardingKeyValue === null){
+        if ($this->shardingKeyValue === null) {
             if (!isset($whereCondition[$this->shardingKey])) {
                 throw new \Exception("MODEL SHARDING ERROR", 613);
             }
@@ -270,6 +270,7 @@ abstract class Model
         $this->shardingTable($where);
         return $this->db->delete($this->table, $where);
     }
+
     /**
      * 删除数据
      * @param array $where

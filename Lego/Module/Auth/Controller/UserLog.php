@@ -5,13 +5,14 @@
  * Date: 2016/9/30
  * Time: 9:24
  */
-namespace Module\Admin\Controller;
+
+namespace Module\Auth\Controller;
 
 use Page;
-use Controller\AdminBase;
+use Module\Admin\Controller\Base;
 use Module\Auth\Model\UserLogModel;
 
-class AuthUserLog extends AdminBase
+class UserLog extends Base
 {
 
     private $UserLogModel;
@@ -31,12 +32,12 @@ class AuthUserLog extends AdminBase
         $pageGet = array_merge($_GET, ['page' => Page::placeholder]);
         $pageNum = isset($_GET['page']) ? intval($_GET['page']) : 1;
         $Page = new Page($pageNum, 15);
-        $Page->setUrl(url(['\Module\Admin\Controller\AuthUserLog::index'], $pageGet));
+        $Page->setUrl(url(['\Module\Auth\Controller\UserLog::index'], $pageGet));
 
         $lists = $this->UserLogModel->pageList($Page, $where);
 
         $this->assign('lists', $lists);
         $this->assign('Page', $Page);
-        $this->render('AuthUserLog/index');
+        $this->render('UserLog/index');
     }
 }

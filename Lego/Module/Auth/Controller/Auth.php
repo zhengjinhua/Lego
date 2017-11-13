@@ -9,14 +9,14 @@
 namespace Module\Auth\Controller;
 
 use Util;
-use Controller\AdminBase;
+use Module\Admin\Controller\Base;
 use Module\Auth\Model\RoleModel;
 use Module\Auth\Model\ActionModel;
 use Module\Auth\Model\RoleActionModel;
 use Module\Admin\Model\AdminUserModel;
 use Module\Auth\Model\UserRoleModel;
 
-class Auth extends AdminBase
+class Auth extends Base
 {
     /**
      * 角色授权页面
@@ -72,12 +72,12 @@ class Auth extends AdminBase
                 $result = $RoleActionModel->insert($data);
             }
             if ($result) {
-                echo json_encode(['error' => 0, 'msg' => '更新成功'], JSON_UNESCAPED_UNICODE);
+                echo json_encode(['error' => 0, 'msg' => '操作成功'], JSON_UNESCAPED_UNICODE);
             } else {
-                echo json_encode(['error' => 1, 'msg' => '更新失败'], JSON_UNESCAPED_UNICODE);
+                echo json_encode(['error' => 1, 'msg' => '操作失败'], JSON_UNESCAPED_UNICODE);
             }
         } else {
-            echo json_encode(['error' => 1, 'msg' => '更新失败'], JSON_UNESCAPED_UNICODE);
+            echo json_encode(['error' => 1, 'msg' => '操作失败'], JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -130,12 +130,12 @@ class Auth extends AdminBase
                 $result = $UserRoleModel->insert($data);
             }
             if ($result) {
-                echo json_encode(['error' => 0, 'msg' => '更新成功'], JSON_UNESCAPED_UNICODE);
+                echo json_encode(['error' => 0, 'msg' => '操作成功'], JSON_UNESCAPED_UNICODE);
             } else {
-                echo json_encode(['error' => 1, 'msg' => '更新失败'], JSON_UNESCAPED_UNICODE);
+                echo json_encode(['error' => 1, 'msg' => '操作失败'], JSON_UNESCAPED_UNICODE);
             }
         } else {
-            echo json_encode(['error' => 1, 'msg' => '更新失败'], JSON_UNESCAPED_UNICODE);
+            echo json_encode(['error' => 1, 'msg' => '操作失败'], JSON_UNESCAPED_UNICODE);
         }
     }
 }

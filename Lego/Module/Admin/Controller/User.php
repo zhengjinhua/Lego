@@ -10,7 +10,6 @@ namespace Module\Admin\Controller;
 
 use Page;
 use Util;
-use Controller\AdminBase;
 use Module\Auth\Model\RoleModel;
 use Module\Auth\Model\UserRoleModel;
 use Module\Admin\Model\AdminUserModel;
@@ -20,7 +19,7 @@ use Module\Admin\Model\AdminUserModel;
  * Class Index
  * @package Module\Admin\Controller
  */
-class User extends AdminBase
+class User extends Base
 {
     /**
      * @var \Module\Admin\Model\AdminUserModel
@@ -97,20 +96,6 @@ class User extends AdminBase
     }
 
     /**
-     * ajax检查username是否存在
-     */
-    public function ajaxUsername()
-    {
-        $username = isset($_GET['username']) && trim($_GET['username']) ? trim($_GET['username']) : exit(1);
-        $res = $this->Model->get(['username' => $username]);
-        if ($res) {
-            exit('1');
-        } else {
-            exit('0');
-        }
-    }
-
-    /**
      * 更新管理員信息
      *
      * @param int $id 账号id
@@ -131,6 +116,8 @@ class User extends AdminBase
             $uid = $this->Model->updateOne($_POST['info'], ['id' => $adminUser['id']]);
             if ($uid) {
                 Util::redirect(url(['\Module\Admin\Controller\User::index']));
+            }else{
+                Util::showmessage("操作失败");
             }
         }
 

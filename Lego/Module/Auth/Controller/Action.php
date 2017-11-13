@@ -10,11 +10,11 @@ namespace Module\Auth\Controller;
 
 use Core\Router;
 use Core\Config;
-use Controller\AdminBase;
+use Module\Admin\Controller\Base;
 use Module\Auth\Model\ActionModel;
 use Module\Auth\Model\RoleActionModel;
 
-class Action extends AdminBase
+class Action extends Base
 {
     public function initDbX()
     {
@@ -86,7 +86,7 @@ class Action extends AdminBase
         if ($result) {
             echo json_encode(['error' => 0, 'msg' => '更新完成'], JSON_UNESCAPED_UNICODE);
         } else {
-            echo json_encode(['error' => 1, 'msg' => '更新失败'], JSON_UNESCAPED_UNICODE);
+            echo json_encode(['error' => 1, 'msg' => '操作失败'], JSON_UNESCAPED_UNICODE);
         }
     }
 }

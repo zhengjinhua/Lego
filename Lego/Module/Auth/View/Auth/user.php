@@ -1,12 +1,11 @@
-<div class="page-heading">
-    <h3>用户信息</h3>
-</div>
-
 <div class="wrapper">
     <div class="panel">
+        <header class="panel-heading">
+            用户信息
+        </header>
         <div class="panel-body">
             <?php foreach ($roles as $role): ?>
-                <div class=" col-sm-2 mb">
+                <div class=" col-sm-3 mb">
                     <div class="col-sm-12 ser-list">
                         <div class="name">
                             <input type="checkbox" name="action"
@@ -27,9 +26,9 @@
             function ($result) {
                 console.log($result);
                 if ($result.error === 0) {
-                    console.log('更新成功');
+                    console.log('操作成功');
                 } else {
-                    console.log('更新失败');
+                    console.log('操作失败');
                 }
             }, 'json');
     })

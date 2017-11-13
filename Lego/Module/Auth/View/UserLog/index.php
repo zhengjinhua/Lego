@@ -1,30 +1,20 @@
-<div class="page-heading">
-    <h3>
-        管理员操作日志
-    </h3>
-</div>
-
-
 <div class="wrapper">
     <div class="panel">
+        <header class="panel-heading">
+            管理员操作日志
+        </header>
         <!-- search-form /-->
         <div class="panel-body">
-            <div class="form-inline">
-                <form action="<?= url(['\Module\Admin\Controller\AuthUserLog::index']) ?>" method="GET">
-                    <div class="form-group">
-                        <div class="input-group" style="width:220px;">
-                            <input type="text" class="form-control" name="username"
-                                   value="<?= isset($_GET['username']) ? trim($_GET['username']) : '' ?>"
-                                   placeholder="用户名">
-							<span class="input-group-btn">
-								<button class="btn btn-default" type="SUBMIT" name="dosubmit"><i
-                                        class="fa fa-search"></i> 查询
-                                </button>
-							</span>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            <form class="form-inline" action="<?= url(['\Module\Auth\Controller\UserLog::index']) ?>" method="GET">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username"
+                           value="<?= isset($_GET['username']) ? trim($_GET['username']) : '' ?>"
+                           placeholder="用户名">
+                    <button class="btn btn-default" type="SUBMIT" name="dosubmit"><i
+                                class="fa fa-search"></i> 查询
+                    </button>
+                </div>
+            </form>
             <!-- search-form /-->
         </div>
 

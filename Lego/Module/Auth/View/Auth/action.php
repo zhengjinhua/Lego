@@ -4,6 +4,10 @@
         display: block;
     }
 
+    .height-30 {
+        height: 30px;
+    }
+
     .alert-modification {
         width: 310px;
         height: 220px;
@@ -29,22 +33,20 @@
     }
 </style>
 
-
-<div class="page-heading">
-    <h3>角色信息</h3>
-</div>
-
 <div class="wrapper">
     <div class="panel">
+        <header class="panel-heading">
+            角色信息
+        </header>
         <?php foreach ($actionGroups as $key => $actions): ?>
             <div class="panel-body">
                 <div class="row" style="margin-left : 15px;">
-                    <div class="col-sm-2">
+                    <div class="col-sm-2 height-30">
                         <input type="checkbox" class='checkAll' value="<?= $key ?>"> 全选/全不选
                     </div>
                 </div>
                 <?php foreach ($actions as $action): ?>
-                    <div class=" col-sm-2 mb">
+                    <div class=" col-sm-3 mb height-30">
                         <div class="col-sm-12 ser-list">
                             <div class="name" title="<?= $action['action'] ?>">
                                 <input type="checkbox" class="actionID app <?= $key ?>" name="action"
@@ -57,7 +59,7 @@
             </div>
         <?php endforeach; ?>
         <div class="alert-modification">
-            <h4>修改权限名</h4>
+            <h4>编辑权限名</h4>
 
             <p class="src"></p>
 
@@ -83,11 +85,11 @@
             $.post("<?=url(['\Module\Auth\Controller\Action::setNameX'])?>", msg, function (data) {
                 var json = eval('(' + data + ')');
                 if (json.error == 0) {
-                    alert('更新成功')
+                    alert('操作成功')
                     $(".col-sm-2").eq(setings.msg.index).find(".set").text(setings.msg.name)
                 }
                 else {
-                    alert('更新失败')
+                    alert('操作失败')
                 }
                 $(".alert-modification").removeClass("action")
             })
@@ -97,9 +99,9 @@
             var msg = {"roleId": setings.roleId, "actionId": _this.val()}
             $.post("<?=url(['\Module\Auth\Controller\Auth::actionAuthX'])?>", msg, function ($result) {
                 if ($result.error === 0) {
-                    console.log('更新成功');
+                    console.log('操作成功');
                 } else {
-                    console.log('更新失败');
+                    console.log('操作失败');
                 }
             }, 'json');
 
@@ -116,7 +118,7 @@
             setings.editName(setings.msg)
         },
         InsertElement: function (_this) {
-            var html = "<a class=\"set-name btn btn-info btn-xs\">修改权限名</a>";
+            var html = "<a class=\"set-name btn btn-info btn-xs\">编辑权限名</a>";
             _this.append(html)
         },
         RemoveElement: function (_this) {

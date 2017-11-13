@@ -5,6 +5,7 @@
  * Date: 15/8/10
  * Time: 14:06
  */
+
 namespace Plugin\InjectionFilter;
 
 use Filter;
@@ -72,8 +73,8 @@ class Plugin implements PluginInterface
             if (is_array($val)) {
                 self::arrForeach($val);
             } else {
-                if(strpos($key,'-XSSIGNORE') > 0){
-                    $newKey = substr($key,0,strpos($key,'-XSSIGNORE'));
+                if (strpos($key, '-XSSIGNORE') > 0) {
+                    $newKey = substr($key, 0, strpos($key, '-XSSIGNORE'));
                     $arr[$newKey] = $val;
                     unset($arr[$key]);
                     continue;

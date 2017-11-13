@@ -5,6 +5,7 @@
  * Date: 15/8/10
  * Time: 14:06
  */
+
 namespace Module\Admin\Plugin\MenuActive;
 
 use Core\Event;

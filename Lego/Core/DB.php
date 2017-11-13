@@ -156,9 +156,9 @@ class DB
         foreach ($data as $key => $value) {
             preg_match('/\[(\+|\-|\*|\/|\%|\&|\|)\]?/i', $key, $match);//mysql运算符
             $operator = null;
-            if($match){
+            if ($match) {
                 $operator = $match[1];
-                $key = trim(str_replace($match[0],'',$key));
+                $key = trim(str_replace($match[0], '', $key));
             }
             if ($operator) {
                 array_push($columns, "`{$key}` = `{$key}` {$operator} " . $this->placeholder($value));
@@ -466,7 +466,7 @@ class DB
             preg_match('/\s+AS\s+/i', $column, $match);
 
             if ($match) {
-                $columnAs = explode($match[0],$column,2);
+                $columnAs = explode($match[0], $column, 2);
                 if (strpos($columnAs[0], ')')) {
                     array_push($columnArr, "{$columnAs[0]} AS `{$columnAs[1]}`");
                 } else {
@@ -584,12 +584,12 @@ class DB
             } else {
                 preg_match('/\[(\>|\>\=|\<|\<\=|\!\=|\<\>|\&|\!\&|IN|\!IN|LIKE|\!LIKE|BETWEEN|\!BETWEEN)\]/i', $key, $match);
                 $operator = null;
-                if($match){
+                if ($match) {
                     $operator = $match[1];
-                    $key = trim(str_replace($match[0],'',$key));
+                    $key = trim(str_replace($match[0], '', $key));
                 }
 
-                if(!strpos($key,')')){
+                if (!strpos($key, ')')) {
                     $key = "`{$key}`";
                 }
 

@@ -37,5 +37,8 @@ class Module implements ModuleInterface
         //用户授予
         Router::get('/auth/user/(\d+)', '\Module\Auth\Controller\Auth::user');
         Router::post('/auth/userAuthX', '\Module\Auth\Controller\Auth::userAuthX');
+
+        //操作日志
+        Router::get('/auth/userLog', '\Module\Auth\Controller\UserLog::index');
     }
 }

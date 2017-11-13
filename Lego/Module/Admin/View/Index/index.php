@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <title>WebGame Admin</title>
+    <title>ADMIN</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->

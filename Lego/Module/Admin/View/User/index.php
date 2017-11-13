@@ -1,29 +1,23 @@
-<div class="page-heading">
-    <h3>
-        账号管理
-    </h3>
-</div>
-
-
 <div class="wrapper">
     <div class="panel">
+        <header class="panel-heading">
+            账号管理
+        </header>
         <!-- search-form -->
         <div class="panel-body">
-            <div class="form-inline">
-                <form action="<?= url(['\Module\Admin\Controller\User::index']) ?>" method="GET">
-                    <div class="form-group">
-                        <div>
-                            <input class="form-control" type="text" name="username"
-                                   value="" placeholder="用户名" style="width: 150px;margin-right: 5px;"/>
-                            <button class="btn btn-default" type="SUBMIT" name="dosubmit"><i class="fa fa-search"></i>查询
-                            </button>
-                            <a class="btn btn-success"
-                               href="<?= url(['\Module\Admin\Controller\User::add']) ?>"><i
-                                    class="fa fa-plus"></i>添加账号</a>
-                        </div>
+            <form class="form-inline" action="<?= url(['\Module\Admin\Controller\User::index']) ?>" method="GET">
+                <div class="form-group">
+                    <div>
+                        <input class="form-control" type="text" name="username"
+                               value="" placeholder="用户名"/>
+                        <button class="btn btn-default" type="SUBMIT" name="dosubmit"><i class="fa fa-search"></i>查询
+                        </button>
+                        <a class="btn btn-success"
+                           href="<?= url(['\Module\Admin\Controller\User::add']) ?>"><i
+                                    class="fa fa-plus"></i>添加</a>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
             <!-- search-form /-->
         </div>
 
@@ -61,7 +55,7 @@
                                 <a href="<?= url(['\Module\Auth\Controller\Auth::user', $list['id']]) ?>"
                                    class="btn btn-primary btn-xs">授权</a>
                                 <a class="btn btn-info btn-xs"
-                                   href="<?= url(['\Module\Admin\Controller\User::update', $list['id']]) ?>">修改
+                                   href="<?= url(['\Module\Admin\Controller\User::update', $list['id']]) ?>">编辑
                                 </a>
                                 <a class="btn btn-warning btn-xs"
                                    href="<?= url(['\Module\Admin\Controller\User::delete', $list['id']]) ?>"

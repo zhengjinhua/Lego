@@ -40,9 +40,9 @@ class Extension
             Log::info("INIT MODULE {$moduleName}");
             $className::init();
 
-            if(is_dir(APP_PATH . '/Module/' . $moduleName)){
+            if (is_dir(APP_PATH . '/Module/' . $moduleName)) {
                 $plugins = glob(APP_PATH . '/Module/' . $moduleName . '/Plugin/*');
-            }else{
+            } else {
                 $plugins = glob(LEGO_PATH . '/Module/' . $moduleName . '/Plugin/*');
             }
 

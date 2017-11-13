@@ -5,6 +5,7 @@
  * Date: 15/8/10
  * Time: 14:06
  */
+
 namespace Plugin\HTML;
 
 use Core\Event;

@@ -168,7 +168,7 @@ class Util
      */
     public static function encrypt($plain, $key)
     {
-        $cipher = openssl_encrypt($plain, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, str_repeat('1',16));
+        $cipher = openssl_encrypt($plain, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, str_repeat('1', 16));
         return base64_encode($cipher);
     }
 
@@ -182,7 +182,7 @@ class Util
     public static function decrypt($cipher, $key)
     {
         $encryptStr = base64_decode($cipher);
-        $plain = openssl_decrypt($encryptStr, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, str_repeat('1',16));
+        $plain = openssl_decrypt($encryptStr, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, str_repeat('1', 16));
         return $plain;
     }
 

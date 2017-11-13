@@ -10,12 +10,12 @@ namespace Module\Auth\Controller;
 
 use Page;
 use Util;
-use Controller\AdminBase;
+use Module\Admin\Controller\Base;
 use Module\Auth\Model\RoleModel;
 use Module\Auth\Model\UserRoleModel;
 use Module\Auth\Model\RoleActionModel;
 
-class Role extends AdminBase
+class Role extends Base
 {
     /**
      * @var \Module\Auth\Model\Role
@@ -61,7 +61,7 @@ class Role extends AdminBase
             if ($result) {
                 Util::redirect(url(['\Module\Auth\Controller\Role::index']));
             } else {
-                Util::showmessage("添加失败");
+                Util::showmessage("操作失败");
             }
         }
         $this->render('Role/add');
@@ -84,7 +84,7 @@ class Role extends AdminBase
             if ($result) {
                 Util::redirect(url(['\Module\Auth\Controller\Role::index']));
             } else {
-                Util::showmessage("更新失败");
+                Util::showmessage("操作失败");
             }
         }
         $this->assign('role', $role);
@@ -107,7 +107,7 @@ class Role extends AdminBase
 
             Util::redirect(url(['\Module\Auth\Controller\Role::index']));
         } else {
-            Util::showmessage("删除失败");
+            Util::showmessage("操作失败");
         }
     }
 }

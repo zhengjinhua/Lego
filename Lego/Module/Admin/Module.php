@@ -24,13 +24,6 @@ class Module implements ModuleInterface
         Router::mixed('/account/add', '\Module\Admin\Controller\User::add');
         Router::mixed('/account/update/(\d+)', '\Module\Admin\Controller\User::update');
 
-        //ajax检查用户是否存在
-        Router::get('/account/ajaxUsername', function () {
-            (new Controller\AdminUser)->run('ajaxUsername', []);
-        });
-        //管理员操作日志
-        Router::get('/auth/userLog', '\Module\Admin\Controller\AuthUserLog::index');
-
         Router::get('/', function () {
             (new Controller\Index)->run('index', []);
         });
@@ -47,14 +40,8 @@ class Module implements ModuleInterface
         Router::mixed('/home/password', function () {
             (new Controller\Home)->run('password', []);
         });
-        Router::mixed('/home/memberInfo', function () {
-            (new Controller\Home)->run('memberInfo', []);
-        });
         Router::get('/home/passwordAjax', function () {
             (new Controller\Home)->run('passwordAjax', []);
-        });
-        Router::get('/home/emailAjax', function () {
-            (new Controller\Home)->run('emailAjax', []);
         });
 
     }
