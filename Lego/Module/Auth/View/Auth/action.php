@@ -41,13 +41,13 @@
         <?php foreach ($actionGroups as $key => $actions): ?>
             <div class="panel-body">
                 <div class="row" style="margin-left : 15px;">
-                    <div class="col-sm-2 height-30">
+                    <div class="col-lg-2 height-30">
                         <input type="checkbox" class='checkAll' value="<?= $key ?>"> 全选/全不选
                     </div>
                 </div>
                 <?php foreach ($actions as $action): ?>
-                    <div class=" col-sm-3 mb height-30">
-                        <div class="col-sm-12 ser-list">
+                    <div class=" col-lg-3 mb height-30">
+                        <div class="col-lg-12 ser-list">
                             <div class="name" title="<?= $action['action'] ?>">
                                 <input type="checkbox" class="actionID app <?= $key ?>" name="action"
                                        value="<?= $action['id'] ?>" <?= in_array($action['id'], $roleActions) ? 'checked' : ''; ?>>
@@ -86,7 +86,7 @@
                 var json = eval('(' + data + ')');
                 if (json.error == 0) {
                     alert('操作成功')
-                    $(".col-sm-2").eq(setings.msg.index).find(".set").text(setings.msg.name)
+                    $(".col-lg-2").eq(setings.msg.index).find(".set").text(setings.msg.name)
                 }
                 else {
                     alert('操作失败')
@@ -111,7 +111,7 @@
             var content = _this.siblings(".set").text();
             $(".alert-modification").addClass("action").children(".src").html(url).siblings("input").val(content)
             setings.msg.id = _this.siblings(".actionID").val()
-            setings.msg.index = _this.parents(".col-sm-2 ").index()
+            setings.msg.index = _this.parents(".col-lg-2 ").index()
         },
         Success: function (_this) {
             setings.msg.name = _this.siblings("input").val();

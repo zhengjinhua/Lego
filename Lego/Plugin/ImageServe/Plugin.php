@@ -22,7 +22,7 @@ class Plugin implements PluginInterface
     public static function register()
     {
 
-        Config::set('IMAGE_SERVE_CONFIG', [
+        /*Config::set('IMAGE_SERVE_CONFIG', [
             'storage' => 'ftp',//'local'
             'ftp' => [
                 'hostname' => 'database.test.com',
@@ -33,11 +33,11 @@ class Plugin implements PluginInterface
             'allowExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
             'savePath' => 'game',   //文件显示目录
             'showPath' => '//image.test.com/game',   //文件显示目录
-        ]);
+        ]);*/
 
         Event::attach("CORE.ROUTE.PRE", function () {
 
-            Router::get('/uploadFile/index/(\w+)', function ($flag) {
+            Router::get('/uploadFile/index/(.+)', function ($flag) {
                 include __DIR__ . '/popwin.html';
             });
 

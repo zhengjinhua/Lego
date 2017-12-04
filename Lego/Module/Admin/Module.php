@@ -40,9 +40,6 @@ class Module implements ModuleInterface
         Router::mixed('/home/password', function () {
             (new Controller\Home)->run('password', []);
         });
-        Router::get('/home/passwordAjax', function () {
-            (new Controller\Home)->run('passwordAjax', []);
-        });
 
     }
 }

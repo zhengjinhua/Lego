@@ -46,21 +46,26 @@ class Plugin implements PluginInterface
             }
 
             $menu = Config::get('MENU');
-            $authExcludedAction = Config::get('AUTH_EXCLUDED_ACTION');
-            $authExcluded = isset($authExcludedAction) ? $authExcludedAction : [];
-            $userAuth = isset($_SESSION['auth']) ? $_SESSION['auth'] : [];
-            $userAllAuth = array_unique(array_merge($authExcluded, $userAuth));
 
-            foreach ($menu as $k => $v) {
-                foreach ($v['submenu'] as $kk => $vv) {
-                    if (!in_array($vv['path'], $userAllAuth)) {
-                        unset($menu[$k]['submenu'][$kk]);
+            if(\Util::clientIp() === '127.0.0.1'){ //开发环境
+
+                $authExcludedAction = Config::get('AUTH_EXCLUDED_ACTION');
+                $authExcluded = isset($authExcludedAction) ? $authExcludedAction : [];
+                $userAuth = isset($_SESSION['auth']) ? $_SESSION['auth'] : [];
+                $userAllAuth = array_unique(array_merge($authExcluded, $userAuth));
+
+                foreach ($menu as $k => $v) {
+                    foreach ($v['submenu'] as $kk => $vv) {
+                        if (!in_array($vv['path'], $userAllAuth)) {
+                            unset($menu[$k]['submenu'][$kk]);
+                        }
+                    }
+                    if (empty($menu[$k]['submenu'])) {
+                        unset($menu[$k]);
                     }
                 }
-                if (empty($menu[$k]['submenu'])) {
-                    unset($menu[$k]);
-                }
             }
+
 
             $findActive = false;
             if (is_array($menu)) {

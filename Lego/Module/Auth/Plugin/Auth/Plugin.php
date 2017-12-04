@@ -67,6 +67,11 @@ class Plugin implements PluginInterface
                 return;
             }
 
+            //开发环境
+            if (\Util::clientIp() === '127.0.0.1') {
+                return;
+            }
+
             if (isset($_SESSION['user'])) {
                 //排除接口
                 $configAuthExcludedAction = Config::get('AUTH_EXCLUDED_ACTION');

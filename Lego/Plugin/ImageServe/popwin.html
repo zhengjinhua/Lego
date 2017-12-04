@@ -234,10 +234,10 @@
             // });
 
             // 添加“添加文件”的按钮，
-            uploader.addButton({
-                id: '#filePicker2',
-                label: '继续添加'
-            });
+//            uploader.addButton({
+//                id: '#filePicker2',
+//                label: '继续添加'
+//            });
 
             uploader.on('ready', function () {
                 window.uploader = uploader;
@@ -586,10 +586,12 @@
                 var response = eval('(' + response._raw + ')');
                 var responseObj = response[0];
                 if (responseObj.err == 0) {
-                    //console.log(responseObj.showPath);
+                    //console.log(responseObj);return;
                     var id = document.getElementById("parent_input_id").value;
-                    //console.log(id);
                     parent.document.getElementById(id).value = responseObj.showPath;
+                    ev = document.createEvent("HTMLEvents");
+                    ev.initEvent("change", false, true);
+                    parent.document.getElementById(id).dispatchEvent(ev);
                 }
 
             });

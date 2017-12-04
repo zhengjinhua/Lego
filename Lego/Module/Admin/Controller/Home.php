@@ -61,20 +61,4 @@ class Home extends Base
 
     }
 
-
-    /**
-     * ajax验证用户密码
-     */
-    public
-    function passwordAjax()
-    {
-        $userid = $_SESSION['user']['id'];
-        $user = $this->AdminUserModel->get(['id' => $userid]);
-        $old_password = trim($_GET['old_password']);
-        if (Util::passwordX($old_password, $user['salt']) === $user['password']) {
-            exit('1');
-        }
-        exit('0');
-    }
-
 }

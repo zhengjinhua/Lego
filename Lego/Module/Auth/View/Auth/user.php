@@ -5,8 +5,8 @@
         </header>
         <div class="panel-body">
             <?php foreach ($roles as $role): ?>
-                <div class=" col-sm-3 mb">
-                    <div class="col-sm-12 ser-list">
+                <div class=" col-lg-3 mb">
+                    <div class="col-lg-12 ser-list">
                         <div class="name">
                             <input type="checkbox" name="action"
                                    value="<?= $role['id'] ?>" <?= in_array($role['id'], $userRoles) ? 'checked' : ''; ?>> <?= $role['name'] ?>

@@ -7,15 +7,13 @@
         <div class="panel-body">
             <form class="form-inline" action="<?= url(['\Module\Admin\Controller\User::index']) ?>" method="GET">
                 <div class="form-group">
-                    <div>
-                        <input class="form-control" type="text" name="username"
-                               value="" placeholder="用户名"/>
-                        <button class="btn btn-default" type="SUBMIT" name="dosubmit"><i class="fa fa-search"></i>查询
-                        </button>
-                        <a class="btn btn-success"
-                           href="<?= url(['\Module\Admin\Controller\User::add']) ?>"><i
-                                    class="fa fa-plus"></i>添加</a>
-                    </div>
+                    <input class="form-control" type="text" name="keyword"
+                           value="<?= isset($_GET['keyword']) ? trim($_GET['keyword']) : '' ?>" placeholder="账号"/>
+                    <button class="btn btn-default" type="submit"><i class="fa fa-search"></i>查询
+                    </button>
+                    <a class="btn btn-success"
+                       href="<?= url(['\Module\Admin\Controller\User::add']) ?>"><i
+                                class="fa fa-plus"></i>添加</a>
                 </div>
             </form>
             <!-- search-form /-->
@@ -38,30 +36,27 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php if (is_array($lists)): ?>
-                    <?php foreach ($lists as $list): ?>
+                <?php if (is_array($list)): ?>
+                    <?php foreach ($list as $row): ?>
                         <tr>
-                            <td><?= $list['id'] ?></td>
-                            <td><?= $list['username'] ?></td>
-                            <td><?= $list['nickname'] ?></td>
-                            <td><?= isset($roleIds[$list['id']]) ? $roleName[$roleIds[$list['id']]] : '' ?></td>
-                            <td><?= $list['lastip'] ?></td>
-                            <td><?= $list['lasttime'] ? date('Y-m-d H:i:s', $list['lasttime']) : '' ?></td>
-                            <td><?= $list['email'] ?></td>
-                            <td></td>
-
+                            <td><?= $row['id'] ?></td>
+                            <td><?= $row['username'] ?></td>
+                            <td><?= $row['nickname'] ?></td>
+                            <td><?= isset($roleIds[$row['id']]) ? $roleName[$roleIds[$row['id']]] : '' ?></td>
+                            <td><?= $row['lastip'] ?></td>
+                            <td><?= $row['lasttime'] ? date('Y-m-d H:i:s', $row['lasttime']) : '' ?></td>
+                            <td><?= $row['email'] ?></td>
+                            <td><?= $row['status'] === 1 ? "激活" : "关闭" ?></td>
                             <td>
-
-                                <a href="<?= url(['\Module\Auth\Controller\Auth::user', $list['id']]) ?>"
+                                <a href="<?= url(['\Module\Auth\Controller\Auth::user', $row['id']]) ?>"
                                    class="btn btn-primary btn-xs">授权</a>
                                 <a class="btn btn-info btn-xs"
-                                   href="<?= url(['\Module\Admin\Controller\User::update', $list['id']]) ?>">编辑
+                                   href="<?= url(['\Module\Admin\Controller\User::update', $row['id']]) ?>">编辑
                                 </a>
                                 <a class="btn btn-warning btn-xs"
-                                   href="<?= url(['\Module\Admin\Controller\User::delete', $list['id']]) ?>"
+                                   href="<?= url(['\Module\Admin\Controller\User::delete', $row['id']]) ?>"
                                    onclick="return confirm('确定删除吗？');">删除
                                 </a>
-
                             </td>
                         </tr>
                     <?php endforeach; ?>

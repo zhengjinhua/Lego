@@ -7,10 +7,10 @@
         <div class="panel-body">
             <form class="form-inline" action="<?= url(['\Module\Auth\Controller\UserLog::index']) ?>" method="GET">
                 <div class="form-group">
-                    <input type="text" class="form-control" name="username"
-                           value="<?= isset($_GET['username']) ? trim($_GET['username']) : '' ?>"
-                           placeholder="用户名">
-                    <button class="btn btn-default" type="SUBMIT" name="dosubmit"><i
+                    <input type="text" class="form-control" name="keyword"
+                           value="<?= isset($_GET['keyword']) ? trim($_GET['keyword']) : '' ?>"
+                           placeholder="账号">
+                    <button class="btn btn-default" type="submit"><i
                                 class="fa fa-search"></i> 查询
                     </button>
                 </div>
@@ -32,16 +32,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php if (is_array($lists)): ?>
-                    <?php foreach ($lists as $list): ?>
+                <?php if (is_array($list)): ?>
+                    <?php foreach ($list as $row): ?>
                         <tr>
-                            <td><?= $list['id'] ?></td>
-                            <td><?= $list['username'] ?></td>
-                            <td><?= $list['method'] ?></td>
-                            <td><?= $list['pathinfo'] ?></td>
-                            <td><?= $list['action'] ?></td>
+                            <td><?= $row['id'] ?></td>
+                            <td><?= $row['username'] ?></td>
+                            <td><?= $row['method'] ?></td>
+                            <td><?= $row['pathinfo'] ?></td>
+                            <td><?= $row['action'] ?></td>
                             <td>
-                                <?= $list['createtime'] ?>
+                                <?= $row['createtime'] ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

@@ -1,15 +1,15 @@
 <div class="wrapper">
     <div class="panel">
         <header class="panel-heading">
-            权限角色列表
+            角色列表
         </header>
         <!-- search-form -->
         <div class="panel-body">
             <form class="form-inline" action="<?= url(['\Module\Auth\Controller\Role::index']) ?>">
                 <div class="form-group">
-                    <input class="form-control" placeholder="名称" name="name" type="text"
-                           value="<?= isset($_GET['name']) ? $_GET['name'] : '' ?>"/>
-                    <button class="btn btn-default" type="SUBMIT"><i class="fa fa-search"></i> 查询</button>
+                    <input class="form-control" placeholder="角色" name="keyword" type="text"
+                           value="<?= isset($_GET['keyword']) ? $_GET['keyword'] : '' ?>"/>
+                    <button class="btn btn-default" type="submit"><i class="fa fa-search"></i> 查询</button>
                 </div>
                 <div class="form-group">
                     <a class="btn btn-important" href="<?= url(['\Module\Auth\Controller\Role::add']) ?>"><i
@@ -30,20 +30,31 @@
                 <tr>
                     <th>ID</th>
                     <th>角色名称</th>
+                    <th>账号数量</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($list as $role): ?>
+                <?php foreach ($list as $row): ?>
                     <tr>
-                        <td><?= $role['id'] ?></td>
-                        <td><?= $role['name'] ?></td>
+                        <td><?= $row['id'] ?></td>
+                        <td><?= $row['name'] ?></td>
                         <td>
-                            <a href="<?= url(['\Module\Auth\Controller\Role::update', $role['id']]) ?>"
+                            <?= isset($roleCount[$row['id']]) ? $roleCount[$row['id']]['cnt'] : '0'; ?>
+                            <a href="<?= url(['\Module\Admin\Controller\User::index'], ['role_id' => $row['id']]); ?>">查看</a>
+                        </td>
+                        <td>
+                            <a href="<?= url(['\Module\Auth\Controller\Role::update', $row['id']]) ?>"
                                class="btn btn-info btn-xs">编辑</a>&nbsp;
-                            <a href="<?= url(['\Module\Auth\Controller\Auth::action', $role['id']]) ?>"
+                            <a href="<?= url(['\Module\Auth\Controller\Auth::action', $row['id']]) ?>"
                                class="btn btn-warning btn-xs">授权</a>&nbsp;
-                            <a href="<?= url(['\Module\Auth\Controller\Role::delete', $role['id']]) ?>"
+
+                            <?php if (strpos($_SERVER['HTTP_HOST'], 'link') !== false): ?>
+                                <a href="<?= url(['\Module\Linking\Controller\Auth::index', $row['id']]) ?>"
+                                   class="btn btn-warning btn-xs">授权APP</a>&nbsp;
+                            <?php endif; ?>
+
+                            <a href="<?= url(['\Module\Auth\Controller\Role::delete', $row['id']]) ?>"
                                onclick="return confirm('确定删除吗?');" class="btn btn-warning btn-xs">删除</a>&nbsp;
                         </td>
                     </tr>
