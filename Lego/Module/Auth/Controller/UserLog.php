@@ -26,7 +26,7 @@ class UserLog extends Base
     public function index()
     {
         $where['ORDER'] = 'id DESC';
-        !empty($_GET['keyword']) && $where['username'] = trim($_GET['keyword']);
+        !empty($_GET['keyword']) && $where['username'] = $_GET['keyword'];
 
         $pageGet = array_merge($_GET, ['page' => Page::placeholder]);
         $pageNum = isset($_GET['page']) ? intval($_GET['page']) : 1;

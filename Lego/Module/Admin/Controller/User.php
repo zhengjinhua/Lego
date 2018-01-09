@@ -46,7 +46,7 @@ class User extends Base
     public function index()
     {
         $where['ORDER'] = 'id DESC';
-        !empty($_GET['keyword']) && $where['username'] = trim($_GET['keyword']);
+        !empty($_GET['keyword']) && $where['username'] = $_GET['keyword'];
 
         if (!empty($_GET['role_id'])) {
             $roleUsers = $this->UserRoleModel->select(['role_id' => $_GET['role_id']], ['user_id'], 'user_id');

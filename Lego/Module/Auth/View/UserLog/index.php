@@ -8,7 +8,7 @@
             <form class="form-inline" action="<?= url(['\Module\Auth\Controller\UserLog::index']) ?>" method="GET">
                 <div class="form-group">
                     <input type="text" class="form-control" name="keyword"
-                           value="<?= isset($_GET['keyword']) ? trim($_GET['keyword']) : '' ?>"
+                           value="<?= isset($_GET['keyword']) ? $_GET['keyword'] : '' ?>"
                            placeholder="账号">
                     <button class="btn btn-default" type="submit"><i
                                 class="fa fa-search"></i> 查询

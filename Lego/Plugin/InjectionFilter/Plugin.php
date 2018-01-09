@@ -47,6 +47,7 @@ class Plugin implements PluginInterface
      * @param $StrFiltKey
      * @param $StrFiltValue
      * @param $ArrFiltReq
+     * @throws
      */
     private static function stopAttack($StrFiltKey, &$StrFiltValue, $ArrFiltReq)
     {
@@ -69,10 +70,11 @@ class Plugin implements PluginInterface
             return $arr;
         }
 
-        foreach ($arr as $key => $val) {
+        foreach ($arr as $key => &$val) {
             if (is_array($val)) {
                 self::arrForeach($val);
             } else {
+                $val = trim($val);
                 if (strpos($key, '-XSSIGNORE') > 0) {
                     $newKey = substr($key, 0, strpos($key, '-XSSIGNORE'));
                     $arr[$newKey] = $val;

@@ -18,7 +18,7 @@ trait CURD
         $this->beforeIndex();
 
         $where['ORDER'] = 'id DESC';
-        !empty($_GET['keyword']) && $where['name'] = trim($_GET['keyword']);
+        !empty($_GET['keyword']) && $where['name'] = $_GET['keyword'];
 
         $pageGet = array_merge($_GET, ['page' => Page::placeholder]);
         $pageNum = isset($_GET['page']) ? intval($_GET['page']) : 1;

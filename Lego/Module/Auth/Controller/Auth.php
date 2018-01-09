@@ -41,7 +41,7 @@ class Auth extends Base
         unset($result);
 
         $ActionModel = ActionModel::instance();
-        $actions = $ActionModel->select(['ORDER' => 'action'], ['id', 'action', 'class', 'name']);
+        $actions = $ActionModel->select(['ORDER' => 'class,action'], ['id', 'action', 'class', 'name']);
         $actionGroups = [];
         foreach ($actions as $act) {
             $actionGroups[$act['class']][] = $act;

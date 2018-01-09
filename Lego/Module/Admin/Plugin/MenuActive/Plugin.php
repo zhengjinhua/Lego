@@ -47,7 +47,7 @@ class Plugin implements PluginInterface
 
             $menu = Config::get('MENU');
 
-            if(\Util::clientIp() === '127.0.0.1'){ //开发环境
+            if (\Util::clientIp() === '127.0.0.1') { //开发环境
 
                 $authExcludedAction = Config::get('AUTH_EXCLUDED_ACTION');
                 $authExcluded = isset($authExcludedAction) ? $authExcludedAction : [];

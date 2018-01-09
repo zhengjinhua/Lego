@@ -39,9 +39,9 @@ class Index extends Controller
             $result['code'] = 2;
             $result['msg'] = '页面已过期';
         } else {
-            $username = isset($_POST['username']) ? trim($_POST['username']) : '';
-            $password = isset($_POST['password']) ? trim($_POST['password']) : '';
-            $checkcode = isset($_POST['checkcode']) ? trim($_POST['checkcode']) : '';
+            $username = isset($_POST['username']) ? $_POST['username'] : '';
+            $password = isset($_POST['password']) ? $_POST['password'] : '';
+            $checkcode = isset($_POST['checkcode']) ? $_POST['checkcode'] : '';
             $captcha = $_SESSION['captcha'];
             if (!$username || !$password || !$checkcode || !$captcha) {
                 $result['code'] = 3;

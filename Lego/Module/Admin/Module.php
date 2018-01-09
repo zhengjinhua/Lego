@@ -19,10 +19,10 @@ class Module implements ModuleInterface
 {
     public static function init()
     {
-        Router::get('/account/index', '\Module\Admin\Controller\User::index');
-        Router::get('/account/delete/(\d+)', '\Module\Admin\Controller\User::delete');
-        Router::mixed('/account/add', '\Module\Admin\Controller\User::add');
-        Router::mixed('/account/update/(\d+)', '\Module\Admin\Controller\User::update');
+        Router::get('/Admin/User/index', '\Module\Admin\Controller\User::index');
+        Router::get('/Admin/User/delete/(\d+)', '\Module\Admin\Controller\User::delete');
+        Router::mixed('/Admin/User/add', '\Module\Admin\Controller\User::add');
+        Router::mixed('/Admin/User/update/(\d+)', '\Module\Admin\Controller\User::update');
 
         Router::get('/', function () {
             (new Controller\Index)->run('index', []);

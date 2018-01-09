@@ -8,6 +8,7 @@
 
 namespace Module\Auth\Controller;
 
+use Util;
 use Core\Router;
 use Core\Config;
 use Module\Admin\Controller\Base;
@@ -74,19 +75,25 @@ class Action extends Base
         echo json_encode(['error' => 0, 'msg' => '更新完成'], JSON_UNESCAPED_UNICODE);
     }
 
-    public function setNameX()
+    public function update($id)
     {
-        $id = intval($_POST['id']);
-        $class = $_POST['class'];
-        $name = $_POST['name'];
-
         $ActionModel = ActionModel::instance();
-        $result = $ActionModel->updateOne(['class' => $class, 'name' => $name], ['id' => $id]);
-
-        if ($result) {
-            echo json_encode(['error' => 0, 'msg' => '更新完成'], JSON_UNESCAPED_UNICODE);
-        } else {
-            echo json_encode(['error' => 1, 'msg' => '操作失败'], JSON_UNESCAPED_UNICODE);
+        $info = $ActionModel->get(['id' => $id]);
+        if (!$info) {
+            Util::showmessage("操作失败");
         }
+
+        if (!empty($_POST)) {
+
+            $uid = $ActionModel->updateOne($_POST['info'], ['id' => $info['id']]);
+            if ($uid) {
+                Util::redirect($_POST['back']);
+            } else {
+                Util::showmessage("操作失败");
+            }
+        }
+
+        $this->assign('info', $info);
+        $this->render('Action/update');
     }
 }
