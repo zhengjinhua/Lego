@@ -15,8 +15,7 @@ class AdminUserModel extends Model
 {
     protected function init()
     {
-        $this->config = Config::get('ADMIN_DB');
-        $this->table = 'user';
+        $this->table = 'admin_user';
     }
 
 }

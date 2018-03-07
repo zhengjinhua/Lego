@@ -20,7 +20,6 @@ class UserLogModel extends Model
      */
     protected function init()
     {
-        $this->config = Config::get('ADMIN_DB');
         $this->table = 'auth_user_log';
     }
 }

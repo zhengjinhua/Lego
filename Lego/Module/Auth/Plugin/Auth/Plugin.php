@@ -21,9 +21,6 @@ use Module\Auth\Model\UserLogModel;
 /**
  * 权限控制插件
  *
- * 权限控制排除接口配置
- * Config::set('AUTH_EXCLUDED_ACTION', []]);
- *
  * @package Module\Auth\Plugin\Auth
  */
 class Plugin implements PluginInterface
@@ -73,13 +70,6 @@ class Plugin implements PluginInterface
             }
 
             if (isset($_SESSION['user'])) {
-                //排除接口
-                $configAuthExcludedAction = Config::get('AUTH_EXCLUDED_ACTION');
-                if ($configAuthExcludedAction &&
-                    array_search($callback, $configAuthExcludedAction) !== false
-                ) {
-                    return;
-                }
 
                 $pass = isset($_SESSION['auth']) &&
                     array_search($callback, $_SESSION['auth']) !== false;

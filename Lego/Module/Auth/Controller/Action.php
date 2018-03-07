@@ -32,12 +32,6 @@ class Action extends Base
         });
         $routerMap = array_unique(array_merge($routerMap['GET'], $routerMap['POST']));
 
-        //排除接口
-        $configAuthExcludedAction = Config::get('AUTH_EXCLUDED_ACTION');
-        if ($configAuthExcludedAction) {
-            $routerMap = array_diff($routerMap, $configAuthExcludedAction);
-        }
-
         //数据库中接口列表
         $ActionModel = ActionModel::instance();
         $result = $ActionModel->select([], ['action']);

@@ -16,7 +16,6 @@ class RoleModel extends Model
 
     protected function init()
     {
-        $this->config = Config::get('ADMIN_DB');
         $this->table = 'auth_role';
     }
 }
