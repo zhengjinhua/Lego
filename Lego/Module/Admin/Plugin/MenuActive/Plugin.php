@@ -47,7 +47,7 @@ class Plugin implements PluginInterface
 
             $menu = Config::get('MENU');
 
-            if (\Util::clientIp() === '127.0.0.1') { //开发环境
+            if (\Util::clientIp() !== '127.0.0.1') { //开发环境
 
                 $userAuth = isset($_SESSION['auth']) ? $_SESSION['auth'] : [];
 
