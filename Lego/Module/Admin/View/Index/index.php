@@ -9,7 +9,6 @@
 
     <link rel="stylesheet" href="<?= _STATIC_URL_ ?>/adminEX/src/css/style.css">
     <link rel="stylesheet" href="<?= _STATIC_URL_ ?>/adminEX/src/css/style-responsive.css">
-    <link rel="stylesheet" href="<?= _STATIC_URL_ ?>/dialog/dialog.css">
 
     <script>
         $(function () {

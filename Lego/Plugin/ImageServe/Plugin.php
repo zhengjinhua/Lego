@@ -28,7 +28,7 @@ class Plugin implements PluginInterface
                 'hostname' => 'database.test.com',
                 'port' => '21',
                 'username' => 'FTP_USER_PHP',
-                'password' => '3E8RIa92cb99',
+                'password' => '3E8RIa92c',
             ],
             'allowExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
             'savePath' => 'game',   //文件显示目录
