@@ -18,6 +18,7 @@ Config::set('LOG_LEVEL', 4);
 Config::set('MODULES', [
     'Admin',
     'Auth',
+    'Demo'
 ]);
 
 //插件加载配置 默认:遍历插件目录
