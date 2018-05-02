@@ -29,8 +29,8 @@ Config::set('DB', [
     'host' => 'database.test.com',
     'port' => 3306,
     'username' => 'root',
-    'password' => '3E8RIa92cb99',
-    'database_name' => 'h5game',
+    'password' => 'test',
+    'database_name' => 'demo',
 ]);
 
 /*Config::set('CACHE', [
