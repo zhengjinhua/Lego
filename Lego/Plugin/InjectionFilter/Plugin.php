@@ -8,7 +8,7 @@
 
 namespace Plugin\InjectionFilter;
 
-use Filter;
+use Core\Env;
 use Core\Event;
 use Core\PluginInterface;
 
@@ -26,6 +26,10 @@ class Plugin implements PluginInterface
     //cookie拦截规则
     private static $cookiefilter = "benchmark\s*?\(.*\)|sleep\s*?\(.*\)|load_file\s*?\\(|\\b(and|or)\\b\\s*?([\\(\\)'\"\\d]+?=[\\(\\)'\"\\d]+?|[\\(\\)'\"a-zA-Z]+?=[\\(\\)'\"a-zA-Z]+?|>|<|\s+?[\\w]+?\\s+?\\bin\\b\\s*?\(|\\blike\\b\\s+?[\"'])|\\/\\*.*\\*\\/|<\\s*script\\b|\\bEXEC\\b|UNION.+?SELECT\s*(\(.+\)\s*|@{1,2}.+?\s*|\s+?.+?|(`|'|\").*?(`|'|\")\s*)|UPDATE\s*(\(.+\)\s*|@{1,2}.+?\s*|\s+?.+?|(`|'|\").*?(`|'|\")\s*)SET|INSERT\\s+INTO.+?VALUES|(SELECT|DELETE)@{0,2}(\\(.+\\)|\\s+?.+?\\s+?|(`|'|\").*?(`|'|\"))FROM(\\(.+\\)|\\s+?.+?|(`|'|\").*?(`|'|\"))|(CREATE|ALTER|DROP|TRUNCATE)\\s+(TABLE|DATABASE)";
 
+    /**
+     * @return mixed|void
+     * @throws \Exception
+     */
     public static function register()
     {
         Event::attach('CORE.REQUEST.INIT', function () {
@@ -53,7 +57,7 @@ class Plugin implements PluginInterface
     {
         $StrFiltValueStr = $StrFiltKey . self::arrForeach($StrFiltValue);
         if (preg_match("/" . $ArrFiltReq . "/is", $StrFiltValueStr) == 1) {
-            throw new \Exception("INJECTION FILTER:{$_SERVER['PATH_INFO']}", 661);
+            throw new \Exception("INJECTION FILTER:" . Env::get('PATH_INFO'), 661);
         }
     }
 

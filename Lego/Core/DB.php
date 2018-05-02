@@ -68,6 +68,7 @@ class DB
      * @param array $columns
      * @param array $where
      * @return bool
+     * @throws \Exception
      */
     public function get($table, $columns = [], $where = [])
     {
@@ -81,6 +82,7 @@ class DB
      * @param string $column 字段
      * @param array $where 条件
      * @return int
+     * @throws \Exception
      */
     public function column($table, $column, $where = [])
     {
@@ -97,6 +99,7 @@ class DB
      * @param array $columns 查询列
      * @param array $where 条件
      * @return array|bool
+     * @throws \Exception
      */
     public function select($table, $columns = [], $where = [])
     {
@@ -109,6 +112,7 @@ class DB
      * @param string $table 表名
      * @param array $where 条件
      * @return bool
+     * @throws \Exception
      */
     public function has($table, $where = [])
     {
@@ -121,6 +125,7 @@ class DB
      * @param string $table 表名
      * @param array $where 条件
      * @return int
+     * @throws \Exception
      */
     public function delete($table, $where)
     {
@@ -226,6 +231,10 @@ class DB
         return $this->master()->exec($sql);
     }
 
+    /**
+     * @return string
+     * @throws \Exception
+     */
     public function lastInsertId()
     {
         return $this->master()->lastInsertId();

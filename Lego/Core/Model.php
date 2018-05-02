@@ -178,6 +178,7 @@ abstract class Model
      * @param array $where 条件
      * @param array $columns 列名
      * @return array|bool
+     * @throws \Exception
      */
     final public function get($where = [], $columns = [])
     {
@@ -190,7 +191,9 @@ abstract class Model
      * 查询数据
      * @param array $where 条件
      * @param array $columns 列名
+     * @param string $returnArrayKey
      * @return array|bool
+     * @throws \Exception
      */
     final public function select($where = [], $columns = [], $returnArrayKey = '')
     {
@@ -216,6 +219,7 @@ abstract class Model
      * @param string $column 列名
      * @param array $where 条件
      * @return bool
+     * @throws \Exception
      */
     final public function column($column, $where = [])
     {
@@ -228,6 +232,7 @@ abstract class Model
      * @param array $data
      * @param bool $replace
      * @return array|int
+     * @throws \Exception
      */
     final public function insert($data, $replace = false)
     {
@@ -240,6 +245,7 @@ abstract class Model
      * @param array $data
      * @param array $where
      * @return int
+     * @throws \Exception
      */
     final public function update($data, $where = [])
     {
@@ -252,6 +258,7 @@ abstract class Model
      * @param array $data
      * @param array $where
      * @return int
+     * @throws \Exception
      */
     final public function updateOne($data, $where = [])
     {
@@ -264,6 +271,7 @@ abstract class Model
      * 删除数据
      * @param array $where
      * @return int
+     * @throws \Exception
      */
     final public function delete($where)
     {
@@ -275,6 +283,7 @@ abstract class Model
      * 删除数据
      * @param array $where
      * @return int
+     * @throws \Exception
      */
     final public function deleteOne($where)
     {
@@ -287,6 +296,7 @@ abstract class Model
      * 查询是否存在数据
      * @param array $where
      * @return bool
+     * @throws \Exception
      */
     final public function has($where = [])
     {
@@ -346,6 +356,10 @@ abstract class Model
         return $this->db->exec($sql);
     }
 
+    /**
+     * @return string
+     * @throws \Exception
+     */
     final public function lastInsertId()
     {
         return $this->db->lastInsertId();
@@ -357,6 +371,7 @@ abstract class Model
      * @param array $where 条件
      * @param array $columns 列名
      * @return array|bool
+     * @throws \Exception
      */
     final public function pageList(\Page $Page, $where = [], $columns = [])
     {

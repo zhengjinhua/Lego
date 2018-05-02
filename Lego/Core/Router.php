@@ -21,6 +21,7 @@ namespace Core {
          *
          * @param string $pattern
          * @param callback $callback
+         * @throws \Exception
          */
         public static function cli($pattern, $callback)
         {
@@ -32,6 +33,7 @@ namespace Core {
          *
          * @param string $pattern
          * @param callback $callback
+         * @throws \Exception
          */
         public static function get($pattern, $callback)
         {
@@ -43,6 +45,7 @@ namespace Core {
          *
          * @param $pattern
          * @param $callback
+         * @throws \Exception
          */
         public static function post($pattern, $callback)
         {
@@ -54,6 +57,7 @@ namespace Core {
          *
          * @param $pattern
          * @param $callback
+         * @throws \Exception
          */
         public static function mixed($pattern, $callback)
         {
@@ -84,8 +88,8 @@ namespace Core {
          */
         public static function match()
         {
-            $method = $_SERVER['REQUEST_METHOD'];
-            $pathInfo = $_SERVER['PATH_INFO'];
+            $method = Env::get('REQUEST_METHOD');
+            $pathInfo = Env::get('PATH_INFO');
 
             if (isset(self::$map[$method])) {
                 if (isset(self::$map[$method][$pathInfo])) {
@@ -144,7 +148,7 @@ namespace Core {
                 $pathInfo = $pathArr;
             }
 
-            $pathInfo = "//{$_SERVER['HTTP_HOST']}{$pathInfo}";
+            $pathInfo = '//' . Env::get('HTTP_HOST') . $pathInfo;
 
             if ($get) {
                 $pathInfo .= '?' . http_build_query($get);

@@ -107,7 +107,7 @@ class FileCache
 
         $data = file_get_contents($cacheFile);
         $dataArr = explode('|', $data, 2);
-        if (intval($dataArr[0]) >= $_SERVER['REQUEST_TIME']) {
+        if (intval($dataArr[0]) >= Env::get('REQUEST_TIME')) {
             return unserialize($dataArr[1]);
         } else {
             unlink($cacheFile);
@@ -117,7 +117,7 @@ class FileCache
 
     public function set($key, $data, $time)
     {
-        $expireTime = $_SERVER['REQUEST_TIME'] + $time;
+        $expireTime = Env::get('REQUEST_TIME') + $time;
         $data = $expireTime . "|" . serialize($data);
 
         $result = file_put_contents($this->cacheDir . $key, $data);

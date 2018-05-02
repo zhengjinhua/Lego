@@ -29,11 +29,12 @@ class Lego
         define('APP_PATH', $appPath);
         define('LEGO_PATH', dirname(__DIR__));
 
-        self::repairPathInfo();
-
         //自动加载
         self::setIncludePath();
         spl_autoload_register('self::autoLoad');
+
+        //初始化依赖参数
+        Env::init();
 
         //异常处理
         self::registerHandler();
@@ -62,7 +63,7 @@ class Lego
             Event::raise('CORE.ROUTE.PRE');
             list($callback, $args) = Router::match();
             $callbackName = is_string($callback) ? $callback : null;
-            Log::info("ROUTER MATCH {$_SERVER['PATH_INFO']} => {$callbackName}");
+            Log::info("ROUTER MATCH " . Env::get('PATH_INFO') . " => " . $callbackName);
 
             Event::raise('CORE.ROUTE.POST', $callbackName);
 
@@ -81,22 +82,6 @@ class Lego
         //请求结束
         Event::raise('CORE.REQUEST.OVER');
         Log::info('REQUEST OVER');
-    }
-
-    /**
-     * 规范PATH_INFO,为了路由
-     */
-    private static function repairPathInfo()
-    {
-        if (PHP_SAPI === 'cli') {
-            $_SERVER['REQUEST_METHOD'] = 'CLI';
-            $_SERVER['PATH_INFO'] = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : '/';
-        } else {
-            $_SERVER['REQUEST_METHOD'] === 'CLI' && $_SERVER['REQUEST_METHOD'] = 'GET';
-            empty($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] = '/';
-        }
-
-        !isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] = '';
     }
 
     private static function setIncludePath()
