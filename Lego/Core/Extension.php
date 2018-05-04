@@ -17,12 +17,10 @@ namespace Core;
 class Extension
 {
     private static $defaultLoadPlugin = [
-        'Captcha',
         'InjectionFilter',
         'SQLDump',
-        'Status',
-        'SystemInit',
-        'TimeSpend'
+        'TimeSpend',
+        'Status'
     ];
     public static $autoLoadPlugin = [];
 

@@ -24,10 +24,6 @@ class Plugin implements PluginInterface
             return;
         }
 
-        if (!isset($_GET['user']) || $_GET['user'] !== 'zhengjinhua') {
-            return;
-        }
-
         //程序运行耗时
         Event::attach('CORE.REQUEST.OVER', function () {
             echo "<script>console.log('TimeSpend: " . round((microtime(1) - $_SERVER['REQUEST_TIME_FLOAT']) * 1000, 3) . "ms')</script>";

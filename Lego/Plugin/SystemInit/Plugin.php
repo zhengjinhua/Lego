@@ -21,14 +21,8 @@ class Plugin implements PluginInterface
     public static function register()
     {
         Event::attach('CORE.REQUEST.INIT', function () {
-
-            //字符集
-            header("Content-type: text/html; charset=utf-8");
-            //时区
-            date_default_timezone_set("Asia/Shanghai");
             //会话
             session_start();
-
         }, true);
 
     }

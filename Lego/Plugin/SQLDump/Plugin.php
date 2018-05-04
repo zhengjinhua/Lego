@@ -27,10 +27,6 @@ class Plugin implements PluginInterface
             return;
         }
 
-        if (!isset($_GET['user']) || $_GET['user'] !== 'zhengjinhua') {
-            return;
-        }
-
         Event::attach('CORE.DB.EXECUTE.PRE', function ($sql, $bindVar) {
             self::$sqls[] = $sql . ' ' . json_encode($bindVar);
         });

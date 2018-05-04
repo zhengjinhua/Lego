@@ -24,7 +24,7 @@ class Plugin implements PluginInterface
     {
         Event::attach("CORE.ROUTE.PRE", function () {
 
-            if (!isset($_GET['user']) || $_GET['user'] !== 'zhengjinhua') {
+            if (!isset($_GET['key']) || $_GET['key'] !== substr(Config::get('SYS_KEY'),0,2)) {
                 return;
             }
             Router::get('/status', function () {
