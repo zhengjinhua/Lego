@@ -22,7 +22,7 @@ Config::set('MODULES', [
 ]);
 
 //插件加载配置 默认:遍历插件目录
-Config::set('PLUGINS', []);
+Config::set('PLUGINS', ['SystemInit','Captcha']);
 
 //数据库
 Config::set('DB', [
