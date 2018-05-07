@@ -74,13 +74,18 @@ class Plugin implements PluginInterface
             return $arr;
         }
 
+        $ignoreKeyArr = [];
+
         foreach ($arr as $key => &$val) {
+            if(in_array($key,$ignoreKeyArr)){
+                continue;
+            }
             if (is_array($val)) {
                 self::arrForeach($val);
             } else {
                 $val = trim($val);
                 if (strpos($key, '-XSSIGNORE') > 0) {
-                    $newKey = substr($key, 0, strpos($key, '-XSSIGNORE'));
+                    $ignoreKeyArr[] = $newKey = substr($key, 0, strpos($key, '-XSSIGNORE'));
                     $arr[$newKey] = $val;
                     unset($arr[$key]);
                     continue;
