@@ -92,7 +92,6 @@ abstract class Model
     /**
      * 分表情况下算出表名
      * @param $whereCondition
-     * @throws \Exception
      */
     private function shardingTable($whereCondition)
     {
@@ -178,7 +177,6 @@ abstract class Model
      * @param array $where 条件
      * @param array $columns 列名
      * @return array|bool
-     * @throws \Exception
      */
     final public function get($where = [], $columns = [])
     {
@@ -193,7 +191,6 @@ abstract class Model
      * @param array $columns 列名
      * @param string $returnArrayKey
      * @return array|bool
-     * @throws \Exception
      */
     final public function select($where = [], $columns = [], $returnArrayKey = '')
     {
@@ -219,7 +216,6 @@ abstract class Model
      * @param string $column 列名
      * @param array $where 条件
      * @return bool
-     * @throws \Exception
      */
     final public function column($column, $where = [])
     {
@@ -232,7 +228,6 @@ abstract class Model
      * @param array $data
      * @param bool $replace
      * @return array|int
-     * @throws \Exception
      */
     final public function insert($data, $replace = false)
     {
@@ -245,7 +240,6 @@ abstract class Model
      * @param array $data
      * @param array $where
      * @return int
-     * @throws \Exception
      */
     final public function update($data, $where = [])
     {
@@ -258,7 +252,6 @@ abstract class Model
      * @param array $data
      * @param array $where
      * @return int
-     * @throws \Exception
      */
     final public function updateOne($data, $where = [])
     {
@@ -271,7 +264,6 @@ abstract class Model
      * 删除数据
      * @param array $where
      * @return int
-     * @throws \Exception
      */
     final public function delete($where)
     {
@@ -283,7 +275,6 @@ abstract class Model
      * 删除数据
      * @param array $where
      * @return int
-     * @throws \Exception
      */
     final public function deleteOne($where)
     {
@@ -296,7 +287,6 @@ abstract class Model
      * 查询是否存在数据
      * @param array $where
      * @return bool
-     * @throws \Exception
      */
     final public function has($where = [])
     {
@@ -307,7 +297,6 @@ abstract class Model
     /**
      * 事务开启
      * @return bool
-     * @throws \Exception
      */
     final public function beginTransaction()
     {
@@ -317,7 +306,6 @@ abstract class Model
     /**
      * 事务提交
      * @return bool
-     * @throws \Exception
      */
     final public function commit()
     {
@@ -327,7 +315,6 @@ abstract class Model
     /**
      * 事务回滚
      * @return bool
-     * @throws \Exception
      */
     final public function rollBack()
     {
@@ -338,7 +325,6 @@ abstract class Model
      * SQL查询接口
      * @param string $sql
      * @return \PDOStatement
-     * @throws \Exception
      */
     final public function query($sql)
     {
@@ -349,7 +335,6 @@ abstract class Model
      * SQL执行接口
      * @param string $sql
      * @return int
-     * @throws \Exception
      */
     final public function exec($sql)
     {
@@ -358,7 +343,6 @@ abstract class Model
 
     /**
      * @return string
-     * @throws \Exception
      */
     final public function lastInsertId()
     {
@@ -367,19 +351,18 @@ abstract class Model
 
     /**
      * 分页查询
-     * @param \Page $Page 分页对象
+     * @param \Page $page 分页对象
      * @param array $where 条件
      * @param array $columns 列名
      * @return array|bool
-     * @throws \Exception
      */
-    final public function pageList(\Page $Page, $where = [], $columns = [])
+    final public function pageList(\Page $page, $where = [], $columns = [])
     {
         $total = $this->column('COUNT(1)', $where);
 
-        $Page->totalSize($total);
+        $page->totalSize($total);
 
-        $where['LIMIT'] = array(($Page->pageNumber() - 1) * $Page->pageSize(), $Page->pageSize());
+        $where['LIMIT'] = array(($page->pageNumber() - 1) * $page->pageSize(), $page->pageSize());
 
         return $this->select($where, $columns);
     }

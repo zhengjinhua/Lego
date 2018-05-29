@@ -17,7 +17,7 @@ class Home extends Base
     public function __construct()
     {
         parent::__construct();
-        $this->AdminUserModel = AdminUserModel::instance();
+        $this->adminUserModel = AdminUserModel::instance();
     }
 
     /**
@@ -35,7 +35,7 @@ class Home extends Base
     public function password()
     {
         $userid = $_SESSION['user']['id'];
-        $user = $this->AdminUserModel->get(['id' => $userid]);
+        $user = $this->adminUserModel->get(['id' => $userid]);
         if ($_POST) {
             if (!$_POST['password'] || !$_POST['password_one']) {
                 Util::showmessage("表单提交不完整！");
@@ -48,7 +48,7 @@ class Home extends Base
             }
 
             $password_one = Util::passwordX($_POST['password_one'], $user['salt']);
-            $query = $this->AdminUserModel->updateOne(['password' => $password_one], ['id' => $userid]);
+            $query = $this->adminUserModel->updateOne(['password' => $password_one], ['id' => $userid]);
             if ($query) {
                 Util::redirect(url('/home'));
             } else {

@@ -27,17 +27,17 @@ class User extends Base
     /**
      * @var \Module\Admin\Model\AdminUserModel
      */
-    private $Model;
-    private $UserRoleModel;
-    private $RoleModel;
+    private $model;
+    private $userRoleModel;
+    private $roleModel;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->Model = AdminUserModel::instance();
-        $this->UserRoleModel = UserRoleModel::instance();
-        $this->RoleModel = RoleModel::instance();
+        $this->model = AdminUserModel::instance();
+        $this->userRoleModel = UserRoleModel::instance();
+        $this->roleModel = RoleModel::instance();
     }
 
     /**
@@ -49,30 +49,30 @@ class User extends Base
         !empty($_GET['keyword']) && $where['username'] = $_GET['keyword'];
 
         if (!empty($_GET['role_id'])) {
-            $roleUsers = $this->UserRoleModel->select(['role_id' => $_GET['role_id']], ['user_id'], 'user_id');
+            $roleUsers = $this->userRoleModel->select(['role_id' => $_GET['role_id']], ['user_id'], 'user_id');
             $ids = array_keys($roleUsers);
             $where['id [IN]'] = $ids ? $ids : [0];
         }
 
         $pageGet = array_merge($_GET, ['page' => Page::placeholder]);
         $pageNum = isset($_GET['page']) ? intval($_GET['page']) : 1;
-        $Page = new Page($pageNum, 20);
-        $Page->setUrl(url(['\Module\Admin\Controller\User::index'], $pageGet));
-        $list = $this->Model->pageList($Page, $where);
+        $page = new Page($pageNum, 20);
+        $page->setUrl(url(['\Module\Admin\Controller\User::index'], $pageGet));
+        $list = $this->model->pageList($page, $where);
 
         $roleIds = $roleName = [];
-        $userRoles = $this->UserRoleModel->select([], ['user_id', 'role_id']);
+        $userRoles = $this->userRoleModel->select([], ['user_id', 'role_id']);
         foreach ($userRoles as $v) {
             $roleIds[$v['user_id']] = $v['role_id'];
         }
 
-        $roleList = $this->RoleModel->select([], ['id', 'name']);
+        $roleList = $this->roleModel->select([], ['id', 'name']);
         foreach ($roleList as $v) {
             $roleName[$v['id']] = $v['name'];
         }
 
         $this->assign('list', $list);
-        $this->assign('Page', $Page);
+        $this->assign('page', $page);
         $this->assign('roleIds', $roleIds);
         $this->assign('roleName', $roleName);
         $this->render('User/index');

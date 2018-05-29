@@ -21,7 +21,6 @@ namespace Core {
          *
          * @param string $pattern
          * @param callback $callback
-         * @throws \Exception
          */
         public static function cli($pattern, $callback)
         {
@@ -33,7 +32,6 @@ namespace Core {
          *
          * @param string $pattern
          * @param callback $callback
-         * @throws \Exception
          */
         public static function get($pattern, $callback)
         {
@@ -45,7 +43,6 @@ namespace Core {
          *
          * @param $pattern
          * @param $callback
-         * @throws \Exception
          */
         public static function post($pattern, $callback)
         {
@@ -57,7 +54,6 @@ namespace Core {
          *
          * @param $pattern
          * @param $callback
-         * @throws \Exception
          */
         public static function mixed($pattern, $callback)
         {
@@ -71,7 +67,6 @@ namespace Core {
          * @param string $method HTTP方法
          * @param string $pattern 匹配模式
          * @param callback $callback 回调函数
-         * @throws \Exception
          */
         public static function register($method, $pattern, $callback)
         {
@@ -84,7 +79,6 @@ namespace Core {
         /**
          * 根据PATH_INFO路由
          * @return array
-         * @throws \Exception
          */
         public static function match()
         {

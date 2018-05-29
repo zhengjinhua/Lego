@@ -143,36 +143,36 @@ class RedisCache
     /**
      * @var \Redis
      */
-    private $Redis = null;
+    private $redis = null;
 
     /**
      * @param $config
      */
     public function __construct($config)
     {
-        $this->Redis = new \Redis();
-        $this->Redis->connect($config['host'], $config['port'], $config['timeout']);
+        $this->redis = new \Redis();
+        $this->redis->connect($config['host'], $config['port'], $config['timeout']);
         if (!empty($config['password'])) {
-            $this->Redis->auth($config['password']);
+            $this->redis->auth($config['password']);
         }
         if (!empty($config['db'])) {
-            $this->Redis->select($config['db']);
+            $this->redis->select($config['db']);
         }
     }
 
     public function get($key)
     {
-        $value = $this->Redis->get($key);
+        $value = $this->redis->get($key);
         return unserialize($value);
     }
 
     public function set($key, $data, $time)
     {
-        return $this->Redis->set($key, serialize($data), $time);
+        return $this->redis->set($key, serialize($data), $time);
     }
 
     public function del($key)
     {
-        return $this->Redis->delete($key);
+        return $this->redis->delete($key);
     }
 }

@@ -22,26 +22,25 @@ class Auth extends Base
      * 角色授权页面
      *
      * @param $id
-     * @throws \Exception
      */
     public function action($id)
     {
-        $RoleModel = RoleModel::instance();
-        $role = $RoleModel->get(['id' => $id]);
+        $roleModel = RoleModel::instance();
+        $role = $roleModel->get(['id' => $id]);
         if (!$role) {
             Util::showmessage("角色不存在");
         }
 
-        $RoleActionModel = RoleActionModel::instance();
-        $result = $RoleActionModel->select(['role_id' => $id], ['action_id']);
+        $roleActionModel = RoleActionModel::instance();
+        $result = $roleActionModel->select(['role_id' => $id], ['action_id']);
         $roleActions = [];
         foreach ($result as $row) {
             $roleActions[] = $row['action_id'];
         }
         unset($result);
 
-        $ActionModel = ActionModel::instance();
-        $actions = $ActionModel->select(['ORDER' => 'class,action'], ['id', 'action', 'class', 'name']);
+        $actionModel = ActionModel::instance();
+        $actions = $actionModel->select(['ORDER' => 'class,action'], ['id', 'action', 'class', 'name']);
         $actionGroups = [];
         foreach ($actions as $act) {
             $actionGroups[$act['class']][] = $act;
@@ -64,12 +63,12 @@ class Auth extends Base
 
         if ($roleId || $actionId) {
             $data = ['role_id' => $roleId, 'action_id' => $actionId];
-            $RoleActionModel = RoleActionModel::instance();
-            $count = $RoleActionModel->column(['COUNT(1)'], $data);
+            $roleActionModel = RoleActionModel::instance();
+            $count = $roleActionModel->column(['COUNT(1)'], $data);
             if ($count) {
-                $result = $RoleActionModel->delete($data);
+                $result = $roleActionModel->delete($data);
             } else {
-                $result = $RoleActionModel->insert($data);
+                $result = $roleActionModel->insert($data);
             }
             if ($result) {
                 echo json_encode(['error' => 0, 'msg' => '操作成功'], JSON_UNESCAPED_UNICODE);
@@ -84,26 +83,25 @@ class Auth extends Base
     /**
      * 用户授权页面
      * @param $id
-     * @throws \Exception
      */
     public function user($id)
     {
-        $AdminUserModel = AdminUserModel::instance();
-        $user = $AdminUserModel->get(['id' => $id]);
+        $adminUserModel = AdminUserModel::instance();
+        $user = $adminUserModel->get(['id' => $id]);
         if (!$user) {
             Util::showmessage("用户不存在");
         }
 
-        $UserRoleModel = UserRoleModel::instance();
-        $result = $UserRoleModel->select(['user_id' => $id], ['role_id']);
+        $userRoleModel = UserRoleModel::instance();
+        $result = $userRoleModel->select(['user_id' => $id], ['role_id']);
         $userRoles = [];
         foreach ($result as $row) {
             $userRoles[] = $row['role_id'];
         }
         unset($result);
 
-        $RoleModel = RoleModel::instance();
-        $roles = $RoleModel->select([], ['id', 'name']);
+        $roleModel = RoleModel::instance();
+        $roles = $roleModel->select([], ['id', 'name']);
 
         $this->assign('user', $user);
         $this->assign('roles', $roles);
@@ -122,12 +120,12 @@ class Auth extends Base
 
         if ($userId || $roleId) {
             $data = ['user_id' => $userId, 'role_id' => $roleId];
-            $UserRoleModel = UserRoleModel::instance();
-            $count = $UserRoleModel->column(['COUNT(1)'], $data);
+            $userRoleModel = UserRoleModel::instance();
+            $count = $userRoleModel->column(['COUNT(1)'], $data);
             if ($count) {
-                $result = $UserRoleModel->delete($data);
+                $result = $userRoleModel->delete($data);
             } else {
-                $result = $UserRoleModel->insert($data);
+                $result = $userRoleModel->insert($data);
             }
             if ($result) {
                 echo json_encode(['error' => 0, 'msg' => '操作成功'], JSON_UNESCAPED_UNICODE);

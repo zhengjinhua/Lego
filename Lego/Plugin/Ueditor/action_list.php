@@ -10,22 +10,22 @@ namespace Plugin\Ueditor;
 
 class action_list
 {
-    public function init($CONFIG, $action)
+    public function init($config, $action)
     {
         /* 判断类型 */
         switch ($action) {
             /* 列出文件 */
             case 'listfile':
-                $allowFiles = $CONFIG['fileManagerAllowFiles'];
-                $listSize = $CONFIG['fileManagerListSize'];
-                $path = $CONFIG['fileManagerListPath'];
+                $allowFiles = $config['fileManagerAllowFiles'];
+                $listSize = $config['fileManagerListSize'];
+                $path = $config['fileManagerListPath'];
                 break;
             /* 列出图片 */
             case 'listimage':
             default:
-                $allowFiles = $CONFIG['imageManagerAllowFiles'];
-                $listSize = $CONFIG['imageManagerListSize'];
-                $path = $CONFIG['imageManagerListPath'];
+                $allowFiles = $config['imageManagerAllowFiles'];
+                $listSize = $config['imageManagerListSize'];
+                $path = $config['imageManagerListPath'];
         }
         $allowFiles = substr(str_replace(".", "|", join("", $allowFiles)), 1);
 

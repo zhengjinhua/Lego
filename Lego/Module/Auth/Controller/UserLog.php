@@ -15,12 +15,12 @@ use Module\Auth\Model\UserLogModel;
 class UserLog extends Base
 {
 
-    private $UserLogModel;
+    private $userLogModel;
 
     public function __construct()
     {
         parent::__construct();
-        $this->UserLogModel = UserLogModel::instance();
+        $this->userLogModel = UserLogModel::instance();
     }
 
     public function index()
@@ -30,13 +30,13 @@ class UserLog extends Base
 
         $pageGet = array_merge($_GET, ['page' => Page::placeholder]);
         $pageNum = isset($_GET['page']) ? intval($_GET['page']) : 1;
-        $Page = new Page($pageNum, 20);
-        $Page->setUrl(url(['\Module\Auth\Controller\UserLog::index'], $pageGet));
+        $page = new Page($pageNum, 20);
+        $page->setUrl(url(['\Module\Auth\Controller\UserLog::index'], $pageGet));
 
-        $list = $this->UserLogModel->pageList($Page, $where);
+        $list = $this->userLogModel->pageList($page, $where);
 
         $this->assign('list', $list);
-        $this->assign('Page', $Page);
+        $this->assign('page', $page);
         $this->render('UserLog/index');
     }
 }

@@ -21,7 +21,6 @@ class Lego
      * @param string $appPath 项目路径
      * @param string $appConfigFile 配置文件
      *
-     * @throws \Exception
      */
     public static function run($appPath, $appConfigFile = 'config')
     {
@@ -69,9 +68,9 @@ class Lego
 
             //实例化控制器
             if ($callbackName && strpos($callbackName, '::') !== false) {
-                list($controller, $action) = explode('::', $callback);
-                $Controller = new $controller;
-                $Controller->run($action, $args);
+                list($controllerClass, $action) = explode('::', $callback);
+                $controller = new $controllerClass;
+                $controller->run($action, $args);
             } else {
                 call_user_func_array($callback, $args);
             }
@@ -106,7 +105,6 @@ class Lego
      *
      * @param string $className 类名
      *
-     * @throws \Exception
      */
     private static function autoLoad($className)
     {
@@ -131,7 +129,7 @@ class Lego
         });
         set_exception_handler(function ($e) {
 
-            $err = sprintf('%s %s(%s)', $e->getMessage(), $e->getFile(), $e->getLine());
+            $err = sprintf("%s %s(%s)\n%s", $e->getMessage(), $e->getFile(), $e->getLine(), $e->getTraceAsString());
             Log::error($err);
             if (ini_get('display_errors') == 1) {
                 echo $err, "\n";

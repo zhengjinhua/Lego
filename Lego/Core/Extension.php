@@ -26,7 +26,6 @@ class Extension
 
     /**
      * 加载模块
-     * @throws \Exception
      */
     public static function loadModule()
     {
@@ -57,7 +56,6 @@ class Extension
      *
      * @param array $plugins 模块插件列表
      * @param string $moduleName
-     * @throws \Exception
      */
     public static function loadPlugin($plugins = [], $moduleName = '')
     {

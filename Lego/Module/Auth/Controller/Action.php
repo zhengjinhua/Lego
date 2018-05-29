@@ -33,8 +33,8 @@ class Action extends Base
         $routerMap = array_unique(array_merge($routerMap['GET'], $routerMap['POST']));
 
         //数据库中接口列表
-        $ActionModel = ActionModel::instance();
-        $result = $ActionModel->select([], ['action']);
+        $actionModel = ActionModel::instance();
+        $result = $actionModel->select([], ['action']);
         $dbActionList = [];
         foreach ($result as $action) {
             $dbActionList[] = $action['action'];
@@ -45,15 +45,15 @@ class Action extends Base
         $deleteActions = array_diff($dbActionList, $routerMap);
         if ($deleteActions) {
             $deleteCondition['action [IN]'] = $deleteActions;
-            $result = $ActionModel->select($deleteCondition, ['id']);
+            $result = $actionModel->select($deleteCondition, ['id']);
             $deleteIdArr = [];
             foreach ($result as $actionId) {
                 $deleteIdArr[] = $actionId['id'];
             }
             unset($result);
-            $ActionModel->delete(['id [IN]' => $deleteIdArr]);
-            $RoleActionModel = RoleActionModel::instance();
-            $RoleActionModel->delete(['action_id [IN]' => $deleteIdArr]);
+            $actionModel->delete(['id [IN]' => $deleteIdArr]);
+            $roleActionModel = RoleActionModel::instance();
+            $roleActionModel->delete(['action_id [IN]' => $deleteIdArr]);
         }
 
         //取新增接口差集
@@ -63,7 +63,7 @@ class Action extends Base
             foreach ($insertActions as $action) {
                 $isertData[] = ['action' => $action];
             }
-            $ActionModel->insert($isertData);
+            $actionModel->insert($isertData);
         }
 
         echo json_encode(['error' => 0, 'msg' => '更新完成'], JSON_UNESCAPED_UNICODE);
@@ -71,15 +71,15 @@ class Action extends Base
 
     public function update($id)
     {
-        $ActionModel = ActionModel::instance();
-        $info = $ActionModel->get(['id' => $id]);
+        $actionModel = ActionModel::instance();
+        $info = $actionModel->get(['id' => $id]);
         if (!$info) {
             Util::showmessage("操作失败");
         }
 
         if (!empty($_POST)) {
 
-            $uid = $ActionModel->updateOne($_POST['info'], ['id' => $info['id']]);
+            $uid = $actionModel->updateOne($_POST['info'], ['id' => $info['id']]);
             if ($uid) {
                 Util::redirect($_POST['back']);
             } else {

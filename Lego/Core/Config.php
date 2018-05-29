@@ -19,7 +19,6 @@ class Config
     /**
      * 加载配置文件
      * @param string $appConfigFile
-     * @throws \Exception
      */
     public static function load($appConfigFile)
     {

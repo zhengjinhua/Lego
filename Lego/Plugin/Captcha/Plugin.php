@@ -23,9 +23,9 @@ class Plugin implements PluginInterface
         Event::attach("CORE.ROUTE.PRE", function () {
 
             Router::get('/captcha', function () {
-                $Captcha = new Captcha(140, 40, 4);
-                $Captcha->showImage();
-                $_SESSION['captcha'] = $Captcha->getCode();
+                $captcha = new Captcha(140, 40, 4);
+                $captcha->showImage();
+                $_SESSION['captcha'] = $captcha->getCode();
             });
         });
     }

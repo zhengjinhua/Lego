@@ -62,7 +62,7 @@
                 </tbody>
             </table>
             <!-- table /-->
-            <?= $Page->show() ?>
+            <?= $page->show() ?>
         </div>
 
 

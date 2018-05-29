@@ -28,7 +28,6 @@ class Plugin implements PluginInterface
 
     /**
      * @return mixed|void
-     * @throws \Exception
      */
     public static function register()
     {
@@ -48,15 +47,15 @@ class Plugin implements PluginInterface
 
     /**
      * 攻击检查拦截
-     * @param $StrFiltKey
-     * @param $StrFiltValue
-     * @param $ArrFiltReq
+     * @param $strFiltKey
+     * @param $strFiltValue
+     * @param $arrFiltReq
      * @throws
      */
-    private static function stopAttack($StrFiltKey, &$StrFiltValue, $ArrFiltReq)
+    private static function stopAttack($strFiltKey, &$strFiltValue, $arrFiltReq)
     {
-        $StrFiltValueStr = $StrFiltKey . self::arrForeach($StrFiltValue);
-        if (preg_match("/" . $ArrFiltReq . "/is", $StrFiltValueStr) == 1) {
+        $strFiltValueStr = $strFiltKey . self::arrForeach($strFiltValue);
+        if (preg_match("/" . $arrFiltReq . "/is", $strFiltValueStr) == 1) {
             throw new \Exception("INJECTION FILTER:" . Env::get('PATH_INFO'), 661);
         }
     }

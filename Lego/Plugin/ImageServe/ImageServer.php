@@ -98,7 +98,7 @@ class ImageServer
 
     private function ftpSave($files)
     {
-        $Ftp = Ftp::instance();
+        $ftp = Ftp::instance();
 
         $path = date("/Y/md/");
 
@@ -119,7 +119,7 @@ class ImageServer
                     $filePath = $path . md5(time() . $file['name']) . '.' . $file['ext'];
                     $savePath = $this->config['savePath'] . $filePath;
                     $showPath = $this->config['showPath'] . $filePath;;
-                    if (!$Ftp->upload($file['tmp_name'], $savePath)) {
+                    if (!$ftp->upload($file['tmp_name'], $savePath)) {
                         $err = 1;
                         $errMsg = '文件上传保存错误';
                         $filePath = $savePath = $showPath = '';

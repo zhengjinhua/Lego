@@ -68,12 +68,11 @@ class DB
      * @param array $columns
      * @param array $where
      * @return bool
-     * @throws \Exception
      */
     public function get($table, $columns = [], $where = [])
     {
-        $Statement = $this->execute($this->selectContext($table, $columns, $where) . ' LIMIT 1');
-        return $Statement->fetch(PDO::FETCH_ASSOC);
+        $statement = $this->execute($this->selectContext($table, $columns, $where) . ' LIMIT 1');
+        return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -82,15 +81,14 @@ class DB
      * @param string $column 字段
      * @param array $where 条件
      * @return int
-     * @throws \Exception
      */
     public function column($table, $column, $where = [])
     {
         if (isset($where['ORDER'])) {
             unset($where['ORDER']);
         }
-        $Statement = $this->execute($this->selectContext($table, $column, $where) . ' LIMIT 1');
-        return $Statement->fetchColumn();
+        $statement = $this->execute($this->selectContext($table, $column, $where) . ' LIMIT 1');
+        return $statement->fetchColumn();
     }
 
     /**
@@ -99,12 +97,11 @@ class DB
      * @param array $columns 查询列
      * @param array $where 条件
      * @return array|bool
-     * @throws \Exception
      */
     public function select($table, $columns = [], $where = [])
     {
-        $Statement = $this->execute($this->selectContext($table, $columns, $where));
-        return $Statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement = $this->execute($this->selectContext($table, $columns, $where));
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -112,12 +109,11 @@ class DB
      * @param string $table 表名
      * @param array $where 条件
      * @return bool
-     * @throws \Exception
      */
     public function has($table, $where = [])
     {
-        $Statement = $this->execute('SELECT EXISTS(' . $this->selectContext($table, [], $where) . ')');
-        return intval($Statement->fetchColumn());
+        $statement = $this->execute('SELECT EXISTS(' . $this->selectContext($table, [], $where) . ')');
+        return intval($statement->fetchColumn());
     }
 
     /**
@@ -125,12 +121,11 @@ class DB
      * @param string $table 表名
      * @param array $where 条件
      * @return int
-     * @throws \Exception
      */
     public function delete($table, $where)
     {
-        $Statement = $this->execute("DELETE FROM `{$table}` " . $this->where($where));
-        return $Statement->rowCount();
+        $statement = $this->execute("DELETE FROM `{$table}` " . $this->where($where));
+        return $statement->rowCount();
     }
 
     /**
@@ -153,7 +148,6 @@ class DB
      * @param array $data 数据
      * @param array $where 条件
      * @return int  受影响的行数
-     * @throws \Exception
      */
     public function update($table, $data, $where = [])
     {
@@ -171,8 +165,8 @@ class DB
                 array_push($columns, "`{$key}` = " . $this->placeholder($value));
             }
         }
-        $Statement = $this->execute("UPDATE `{$table}` SET " . implode(',', $columns) . $this->where($where));
-        return $Statement->rowCount();
+        $statement = $this->execute("UPDATE `{$table}` SET " . implode(',', $columns) . $this->where($where));
+        return $statement->rowCount();
     }
 
     /**
@@ -186,7 +180,6 @@ class DB
      * @param array $datas 数据
      * @param bool $replace
      * @return int 受影响的行数
-     * @throws \Exception
      */
     public function insert($table, $datas, $replace = false)
     {
@@ -204,16 +197,15 @@ class DB
         }
 
         $method = $replace ? 'REPLACE' : 'INSERT';
-        $Statement = $this->execute("{$method} INTO `{$table}` (`" . implode('`,`', $columns) . '`) VALUES ' . implode(',', $values));
+        $statement = $this->execute("{$method} INTO `{$table}` (`" . implode('`,`', $columns) . '`) VALUES ' . implode(',', $values));
 
-        return $Statement->rowCount();
+        return $statement->rowCount();
     }
 
     /**
      * SQL查询
      * @param $sql
      * @return \PDOStatement
-     * @throws \Exception
      */
     public function query($sql)
     {
@@ -224,7 +216,6 @@ class DB
      * SQL执行
      * @param $sql
      * @return int
-     * @throws \Exception
      */
     public function exec($sql)
     {
@@ -233,7 +224,6 @@ class DB
 
     /**
      * @return string
-     * @throws \Exception
      */
     public function lastInsertId()
     {
@@ -243,7 +233,6 @@ class DB
     /**
      * 事务开启
      * @return bool
-     * @throws \Exception
      */
     public function beginTransaction()
     {
@@ -253,7 +242,6 @@ class DB
     /**
      * 事务提交
      * @return bool
-     * @throws \Exception
      */
     public function commit()
     {
@@ -263,7 +251,6 @@ class DB
     /**
      * 事务回滚
      * @return bool
-     * @throws \Exception
      */
     public function rollBack()
     {
@@ -273,7 +260,6 @@ class DB
     /**
      * master链接
      * @return \PDO
-     * @throws \Exception
      */
     private function master()
     {
@@ -297,7 +283,6 @@ class DB
     /**
      * slave链接
      * @return \PDO
-     * @throws \Exception
      */
     private function slave()
     {
@@ -377,7 +362,6 @@ class DB
      * SQL执行
      * @param string $sql
      * @return \PDOStatement
-     * @throws \Exception
      */
     private function execute($sql)
     {
@@ -388,8 +372,8 @@ class DB
         } else {
             $pdo = $this->master();
         }
-        $Statement = $pdo->prepare($sql);
-        if ($Statement === false) {
+        $statement = $pdo->prepare($sql);
+        if ($statement === false) {
             $errorInfo = $pdo->errorInfo();
             $errMsg = isset($errorInfo[2]) ? $errorInfo[2] : '';
             throw new \Exception("PDO PREPARE ERROR: {$errMsg} {$sql}" . json_encode($this->bindVar), 603);
@@ -397,17 +381,17 @@ class DB
 
         foreach ($this->bindVar as $name => $value) {
             if (is_int($value) || is_float($value)) {
-                $Statement->bindValue($name, $value, PDO::PARAM_INT);
+                $statement->bindValue($name, $value, PDO::PARAM_INT);
             } else {
-                $Statement->bindValue($name, $value, PDO::PARAM_STR);
+                $statement->bindValue($name, $value, PDO::PARAM_STR);
             }
         }
 
         $this->bindVar = [];
 
-        $Statement->execute();
+        $statement->execute();
 
-        return $Statement;
+        return $statement;
     }
 
     /**
@@ -536,15 +520,15 @@ class DB
             }
 
             if (isset($where['LIMIT'])) {
-                $LIMIT = $where['LIMIT'];
-                if (is_numeric($LIMIT)) {
-                    $where_clause .= " LIMIT {$LIMIT}";
+                $limit = $where['LIMIT'];
+                if (is_numeric($limit)) {
+                    $where_clause .= " LIMIT {$limit}";
                 }
-                if (is_array($LIMIT) && is_numeric($LIMIT[0]) && is_numeric($LIMIT[1])) {
+                if (is_array($limit) && is_numeric($limit[0]) && is_numeric($limit[1])) {
                     if ($this->config['database_type'] === 'pgsql') {
-                        $where_clause .= " OFFSET {$LIMIT[0]} LIMIT {$LIMIT[1]}";
+                        $where_clause .= " OFFSET {$limit[0]} LIMIT {$limit[1]}";
                     } else {
-                        $where_clause .= " LIMIT {$LIMIT[0]},{$LIMIT[1]}";
+                        $where_clause .= " LIMIT {$limit[0]},{$limit[1]}";
                     }
                 }
             }

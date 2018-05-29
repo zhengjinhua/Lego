@@ -22,12 +22,12 @@ trait CURD
 
         $pageGet = array_merge($_GET, ['page' => Page::placeholder]);
         $pageNum = isset($_GET['page']) ? intval($_GET['page']) : 1;
-        $Page = new Page($pageNum, 20);
-        $Page->setUrl(url(['\\' . get_called_class() . '::index'], $pageGet));
-        $list = $this->Model->pageList($Page, $where);
+        $page = new Page($pageNum, 20);
+        $page->setUrl(url(['\\' . get_called_class() . '::index'], $pageGet));
+        $list = $this->model->pageList($page, $where);
 
         $this->assign('list', $list);
-        $this->assign('Page', $Page);
+        $this->assign('page', $page);
         $this->render(self::getClassName() . '/index');
     }
 
@@ -37,7 +37,7 @@ trait CURD
 
             $this->beforeAdd($_POST);
 
-            $result = $this->Model->insert($_POST['info']);
+            $result = $this->model->insert($_POST['info']);
             if ($result) {
                 Util::redirect(url(['\\' . get_called_class() . '::index']));
             } else {
@@ -50,7 +50,7 @@ trait CURD
 
     public function update($id)
     {
-        $info = $this->Model->get(['id' => $id]);
+        $info = $this->model->get(['id' => $id]);
         if (!$info) {
             Util::showmessage("操作失败");
         }
@@ -59,7 +59,7 @@ trait CURD
 
             $this->beforeUpdate($_POST);
 
-            $uid = $this->Model->updateOne($_POST['info'], ['id' => $info['id']]);
+            $uid = $this->model->updateOne($_POST['info'], ['id' => $info['id']]);
             if ($uid) {
                 Util::redirect(url(['\\' . get_called_class() . '::index']));
             } else {
@@ -76,7 +76,7 @@ trait CURD
     {
         $this->beforeDelete($id);
 
-        $result = $this->Model->deleteOne(['id' => $id]);
+        $result = $this->model->deleteOne(['id' => $id]);
         if ($result) {
             Util::redirect(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : url(['\\' . get_called_class() . '::index']));
         } else {

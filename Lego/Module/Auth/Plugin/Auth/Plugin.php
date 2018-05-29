@@ -29,26 +29,26 @@ class Plugin implements PluginInterface
     {
         //登录时从数据库拉取用户权限
         Event::attach('APP.USER.LOGINED', function ($user) {
-            $UserRoleModel = UserRoleModel::instance();
-            $RoleActionModel = RoleActionModel::instance();
-            $ActionModel = ActionModel::instance();
+            $userRoleModel = UserRoleModel::instance();
+            $roleActionModel = RoleActionModel::instance();
+            $actionModel = ActionModel::instance();
 
             $userRoleIds = $roleActionIds = $roleActions = [];
 
-            $result = $UserRoleModel->select(['user_id' => $user['id']]);
+            $result = $userRoleModel->select(['user_id' => $user['id']]);
             foreach ($result as $row) {
                 $userRoleIds[] = $row['role_id'];
             }
 
             if ($userRoleIds) {
-                $result = $RoleActionModel->select(['role_id [IN]' => $userRoleIds]);
+                $result = $roleActionModel->select(['role_id [IN]' => $userRoleIds]);
                 foreach ($result as $row) {
                     $roleActionIds[] = $row['action_id'];
                 }
             }
 
             if ($roleActionIds) {
-                $result = $ActionModel->select(['id [IN]' => $roleActionIds]);
+                $result = $actionModel->select(['id [IN]' => $roleActionIds]);
                 foreach ($result as $row) {
                     $roleActions[] = $row['action'];
                 }
@@ -81,8 +81,8 @@ class Plugin implements PluginInterface
                     }
                 } else {
                     //操作日志
-                    $UserLogModel = UserLogModel::instance();
-                    $UserLogModel->insert([
+                    $userLogModel = UserLogModel::instance();
+                    $userLogModel->insert([
                         'user_id' => $_SESSION['user']['id'],
                         'username' => $_SESSION['user']['username'],
                         'method' => $_SERVER['REQUEST_METHOD'],

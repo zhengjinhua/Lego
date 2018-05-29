@@ -22,14 +22,14 @@ class Role extends Base
     /**
      * @var \Module\Auth\Model\Role
      */
-    private $Model;
-    private $UserRoleModel;
+    private $model;
+    private $userRoleModel;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->Model = RoleModel::instance();
+        $this->model = RoleModel::instance();
     }
 
     /**
@@ -37,14 +37,14 @@ class Role extends Base
      */
     public function delete($id)
     {
-        $result = $this->Model->deleteOne(['id' => $id]);
+        $result = $this->model->deleteOne(['id' => $id]);
         if ($result) {
 
-            $RoleActionModel = RoleActionModel::instance();
-            $RoleActionModel->delete(['role_id' => $id]);
+            $roleActionModel = RoleActionModel::instance();
+            $roleActionModel->delete(['role_id' => $id]);
 
-            $UserRoleModel = UserRoleModel::instance();
-            $UserRoleModel->delete(['role_id' => $id]);
+            $userRoleModel = UserRoleModel::instance();
+            $userRoleModel->delete(['role_id' => $id]);
             Util::redirect(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : url(['\Module\Auth\Controller\Role::index']));
         } else {
             Util::showmessage("操作失败");
@@ -53,8 +53,8 @@ class Role extends Base
 
     private function beforeIndex()
     {
-        $this->UserRoleModel = UserRoleModel::instance();
-        $roleCount = $this->UserRoleModel->select(['GROUP' => 'role_id'], ['COUNT(1) as cnt', 'role_id'], 'role_id');
+        $this->userRoleModel = UserRoleModel::instance();
+        $roleCount = $this->userRoleModel->select(['GROUP' => 'role_id'], ['COUNT(1) as cnt', 'role_id'], 'role_id');
         $this->assign('roleCount', $roleCount);
     }
 }

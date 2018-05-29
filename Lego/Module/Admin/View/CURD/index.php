@@ -52,7 +52,7 @@
                 </tbody>
             </table>
 
-            <?= $Page->show() ?>
+            <?= $page->show() ?>
 
         </div>
 

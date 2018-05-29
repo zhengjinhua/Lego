@@ -11,20 +11,20 @@ use Core\Config;
 class Sync
 {
     private static $instance;
-    private $Redis = null;
+    private $redis = null;
 
     private function __construct()
     {
         $cacheConfig = Config::get('CACHE');
         if ($cacheConfig['driver'] === 'redis') {
-            $this->Redis = new \Redis();
-            $this->Redis->connect($cacheConfig['host'], $cacheConfig['port'], $cacheConfig['timeout']);
+            $this->redis = new \Redis();
+            $this->redis->connect($cacheConfig['host'], $cacheConfig['port'], $cacheConfig['timeout']);
 
             if (!empty($config['password'])) {
-                $this->Redis->auth($config['password']);
+                $this->redis->auth($config['password']);
             }
             if (!empty($config['db'])) {
-                $this->Redis->select($config['db']);
+                $this->redis->select($config['db']);
             }
         } else {
             throw new \Exception("Sync CANNOT FIND Redis", 615);
@@ -41,9 +41,9 @@ class Sync
 
     public function lock($identify, $timeout = 1)
     {
-        $result = $this->Redis->setnx($identify, 1);
+        $result = $this->redis->setnx($identify, 1);
         if ($result) {
-            $this->Redis->expire($identify, $timeout);
+            $this->redis->expire($identify, $timeout);
             return true;
         } else {
             return false;
@@ -52,6 +52,6 @@ class Sync
 
     public function unlock($identify)
     {
-        return $this->Redis->delete($identify);
+        return $this->redis->delete($identify);
     }
 }

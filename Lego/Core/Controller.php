@@ -21,11 +21,6 @@ class Controller
     public $action = '';
 
     /**
-     * @var string 主题
-     */
-    private $theme = '';
-
-    /**
      * @var string 页面框架
      */
     private $layout = 'default';
@@ -39,7 +34,6 @@ class Controller
      * 执行当前请求的方法
      * @param $action
      * @param $args
-     * @throws \Exception
      */
     final public function run($action, $args)
     {
@@ -92,7 +86,6 @@ class Controller
      * 框架文件查找路径:主题下的框架->模块下的框架->公用的框架
      * @param string $view
      * @param string $layout
-     * @throws \Exception
      */
     final protected function render($view, $layout = null)
     {
@@ -105,13 +98,7 @@ class Controller
         $calledClassPath = explode('\\', get_called_class());
         $moduleName = implode('/', array_slice($calledClassPath, 1, -2));
 
-        // STEP: I 查找主题下的视图文件和框架文件
-        if ($this->theme) {
-            $viewFile = APP_PATH . '/View/' . $this->theme . '/' . $moduleName . '/' . $view . '.php';
-            $layoutFile = APP_PATH . '/View/' . $this->theme . '/Layout/' . $this->layout . '.php';
-        }
-
-        // STEP: II.I 查找APP模块下的视图文件和框架文件
+        // STEP: I 查找APP模块下的视图文件和框架文件
         $appModuleViewPath = APP_PATH . '/Module/' . $moduleName . '/' . 'View';
         if (is_dir($appModuleViewPath)) {
             if (!$viewFile || !is_file($viewFile)) {
@@ -121,7 +108,7 @@ class Controller
                 $layoutFile = $appModuleViewPath . '/Layout/' . $this->layout . '.php';
             }
         } else {
-            // STEP: II.II 查找公用模块下的视图文件和框架文件
+            // STEP: II 查找公用模块下的视图文件和框架文件
             $commonModuleViewPath = LEGO_PATH . '/Module/' . $moduleName . '/' . 'View';
             if (!$viewFile || !is_file($viewFile)) {
                 $viewFile = $commonModuleViewPath . '/' . $view . '.php';
@@ -131,7 +118,10 @@ class Controller
             }
         }
 
-        //STEP: III 查找APP公用的框架文件
+        //STEP: III 查找APP公用的视图文件和框架文件
+        if (!$viewFile || !is_file($viewFile)) {
+            $viewFile = APP_PATH . '/View/' . $view . '.php';
+        }
         if (!$layoutFile || !is_file($layoutFile)) {
             $layoutFile = APP_PATH . '/View/Layout/' . $this->layout . '.php';
         }

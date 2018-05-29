@@ -28,7 +28,6 @@ class Plugin implements PluginInterface
 
     /**
      * @return mixed|void
-     * @throws \Exception
      */
     public static function register()
     {
@@ -40,14 +39,14 @@ class Plugin implements PluginInterface
         }
 
         //AFTER_ROUTE阶段检测静态化需求
-        Event::attach('CORE.ACTION.RUN.PRE', function ($Controller) use ($hostName, $pathInfo) {
+        Event::attach('CORE.ACTION.RUN.PRE', function ($controller) use ($hostName, $pathInfo) {
 
-            if (!property_exists($Controller, 'staticActionList')) {
+            if (!property_exists($controller, 'staticActionList')) {
                 return;
             }
 
-            $action = $Controller->action;
-            $staticActionList = $Controller->staticActionList;
+            $action = $controller->action;
+            $staticActionList = $controller->staticActionList;
 
             if (isset($staticActionList[$action]) && (substr($pathInfo, -5) === '.html' || $pathInfo === '/')) {
 
@@ -73,7 +72,7 @@ class Plugin implements PluginInterface
                 ob_start();
 
                 //AFTER_ACTION_RUN阶段捕获输出,写入html文件
-                Event::attach('CORE.ACTION.RUN.POST', function ($Controller) {
+                Event::attach('CORE.ACTION.RUN.POST', function ($controller) {
                     $content = ob_get_flush();
                     if (!is_file(self::$htmlFile) || filemtime(self::$htmlFile) < Env::get('REQUEST_TIME') - self::$lifeTime) {
                         file_put_contents(self::$htmlFile, $content);

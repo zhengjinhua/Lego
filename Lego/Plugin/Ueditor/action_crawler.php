@@ -11,18 +11,18 @@ namespace Plugin\Ueditor;
 class action_crawler
 {
 
-    public function init($CONFIG)
+    public function init($config)
     {
         set_time_limit(0);
 
         /* 上传配置 */
         $config = array(
-            "pathFormat" => $CONFIG['catcherPathFormat'],
-            "maxSize" => $CONFIG['catcherMaxSize'],
-            "allowFiles" => $CONFIG['catcherAllowFiles'],
+            "pathFormat" => $config['catcherPathFormat'],
+            "maxSize" => $config['catcherMaxSize'],
+            "allowFiles" => $config['catcherAllowFiles'],
             "oriName" => "remote.png"
         );
-        $fieldName = $CONFIG['catcherFieldName'];
+        $fieldName = $config['catcherFieldName'];
 
         /* 抓取远程图片 */
         $list = array();

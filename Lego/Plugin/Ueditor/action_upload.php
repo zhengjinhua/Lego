@@ -11,45 +11,45 @@ namespace Plugin\Ueditor;
 class action_upload
 {
 
-    public function init($CONFIG, $action)
+    public function init($config, $action)
     {
         /* 上传配置 */
         $base64 = "upload";
         switch ($action) {
             case 'uploadimage':
                 $config = array(
-                    "pathFormat" => $CONFIG['imagePathFormat'],
-                    "maxSize" => $CONFIG['imageMaxSize'],
-                    "allowFiles" => $CONFIG['imageAllowFiles']
+                    "pathFormat" => $config['imagePathFormat'],
+                    "maxSize" => $config['imageMaxSize'],
+                    "allowFiles" => $config['imageAllowFiles']
                 );
-                $fieldName = $CONFIG['imageFieldName'];
+                $fieldName = $config['imageFieldName'];
                 break;
             case 'uploadscrawl':
                 $config = array(
-                    "pathFormat" => $CONFIG['scrawlPathFormat'],
-                    "maxSize" => $CONFIG['scrawlMaxSize'],
-                    "allowFiles" => $CONFIG['scrawlAllowFiles'],
+                    "pathFormat" => $config['scrawlPathFormat'],
+                    "maxSize" => $config['scrawlMaxSize'],
+                    "allowFiles" => $config['scrawlAllowFiles'],
                     "oriName" => "scrawl.png"
                 );
-                $fieldName = $CONFIG['scrawlFieldName'];
+                $fieldName = $config['scrawlFieldName'];
                 $base64 = "base64";
                 break;
             case 'uploadvideo':
                 $config = array(
-                    "pathFormat" => $CONFIG['videoPathFormat'],
-                    "maxSize" => $CONFIG['videoMaxSize'],
-                    "allowFiles" => $CONFIG['videoAllowFiles']
+                    "pathFormat" => $config['videoPathFormat'],
+                    "maxSize" => $config['videoMaxSize'],
+                    "allowFiles" => $config['videoAllowFiles']
                 );
-                $fieldName = $CONFIG['videoFieldName'];
+                $fieldName = $config['videoFieldName'];
                 break;
             case 'uploadfile':
             default:
                 $config = array(
-                    "pathFormat" => $CONFIG['filePathFormat'],
-                    "maxSize" => $CONFIG['fileMaxSize'],
-                    "allowFiles" => $CONFIG['fileAllowFiles']
+                    "pathFormat" => $config['filePathFormat'],
+                    "maxSize" => $config['fileMaxSize'],
+                    "allowFiles" => $config['fileAllowFiles']
                 );
-                $fieldName = $CONFIG['fileFieldName'];
+                $fieldName = $config['fileFieldName'];
                 break;
         }
 

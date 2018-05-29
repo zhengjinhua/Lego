@@ -23,7 +23,6 @@ class Event
      * @param string $name 事件
      * @param callback $handler 回调
      * @param bool $priority 优先顺序
-     * @throws \Exception
      */
     public static function attach($name, $handler, $priority = false)
     {
