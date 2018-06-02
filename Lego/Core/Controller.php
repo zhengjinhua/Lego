@@ -48,15 +48,6 @@ class Controller
     }
 
     /**
-     * 设置主题目录
-     * @param string $dirName
-     */
-    final protected function setTheme($dirName)
-    {
-        $this->theme = $dirName;
-    }
-
-    /**
      * 设置框架文件名
      * @param string $fileName
      */
@@ -142,5 +133,12 @@ class Controller
         require $layoutFile;
 
         Event::raise('CORE.VIEW.RENDER.POST', $this);
+    }
+
+    final protected function renderJson($data = null)
+    {
+        $data = $data !== null ? $data : $this->tplVar;
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        throw new BreakException();
     }
 } 
