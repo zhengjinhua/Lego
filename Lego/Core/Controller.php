@@ -134,11 +134,4 @@ class Controller
 
         Event::raise('CORE.VIEW.RENDER.POST', $this);
     }
-
-    final protected function renderJson($data = null)
-    {
-        $data = $data !== null ? $data : $this->tplVar;
-        echo json_encode($data, JSON_UNESCAPED_UNICODE);
-        throw new BreakException();
-    }
-} 
+}
