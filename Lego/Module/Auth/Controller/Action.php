@@ -8,7 +8,7 @@
 
 namespace Module\Auth\Controller;
 
-use Util;
+use Util\Util;
 use Core\Router;
 use Core\Config;
 use Module\Admin\Controller\Base;

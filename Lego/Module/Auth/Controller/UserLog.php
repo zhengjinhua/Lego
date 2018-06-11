@@ -8,7 +8,7 @@
 
 namespace Module\Auth\Controller;
 
-use Page;
+use Util\Page;
 use Module\Admin\Controller\Base;
 use Module\Auth\Model\UserLogModel;
 

@@ -8,8 +8,8 @@
 
 namespace Module\Admin\Controller;
 
-use Page;
-use Util;
+use Util\Page;
+use Util\Util;
 use Module\Auth\Model\RoleModel;
 use Module\Auth\Model\UserRoleModel;
 use Module\Admin\Model\AdminUserModel;

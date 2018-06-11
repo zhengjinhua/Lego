@@ -8,7 +8,7 @@
 
 namespace Module\Admin\Controller;
 
-use Util;
+use Util\Util;
 use Module\Admin\Model\AdminUserModel;
 
 class Home extends Base

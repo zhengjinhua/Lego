@@ -8,8 +8,8 @@
 
 namespace Module\Admin\Controller;
 
-use Page;
-use Util;
+use Util\Page;
+use Util\Util;
 
 trait CURD
 {

@@ -351,12 +351,12 @@ abstract class Model
 
     /**
      * 分页查询
-     * @param \Page $page 分页对象
+     * @param \Util\Page $page 分页对象
      * @param array $where 条件
      * @param array $columns 列名
      * @return array|bool
      */
-    final public function pageList(\Page $page, $where = [], $columns = [])
+    final public function pageList(\Util\Page $page, $where = [], $columns = [])
     {
         $total = $this->column('COUNT(1)', $where);
 

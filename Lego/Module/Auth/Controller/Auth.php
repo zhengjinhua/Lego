@@ -8,7 +8,7 @@
 
 namespace Module\Auth\Controller;
 
-use Util;
+use Util\Util;
 use Module\Admin\Controller\Base;
 use Module\Auth\Model\RoleModel;
 use Module\Auth\Model\ActionModel;

@@ -8,7 +8,7 @@
 
 namespace Module\Admin\Controller;
 
-use Util;
+use Util\Util;
 use Core\Config;
 use Core\Controller;
 

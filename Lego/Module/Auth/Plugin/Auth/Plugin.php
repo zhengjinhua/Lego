@@ -9,7 +9,7 @@
 namespace Module\Auth\Plugin\Auth;
 
 
-use Util;
+use Util\Util;
 use Core\Event;
 use Core\Config;
 use Core\PluginInterface;
