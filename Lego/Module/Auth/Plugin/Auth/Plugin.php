@@ -65,7 +65,7 @@ class Plugin implements PluginInterface
             }
 
             //开发环境
-            if (\Util::clientIp() === '127.0.0.1') {
+            if (Util::clientIp() === '127.0.0.1') {
                 return;
             }
 
