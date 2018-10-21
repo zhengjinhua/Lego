@@ -22,7 +22,7 @@ trait CURD
 
         $pageGet = array_merge($_GET, ['page' => Page::placeholder]);
         $pageNum = isset($_GET['page']) ? intval($_GET['page']) : 1;
-        $page = new Page($pageNum, 20);
+        $page = new Page($pageNum, 30);
         $page->setUrl(url(['\\' . get_called_class() . '::index'], $pageGet));
         $list = $this->model->pageList($page, $where);
 
@@ -60,11 +60,7 @@ trait CURD
             $this->beforeUpdate($_POST);
 
             $uid = $this->model->updateOne($_POST['info'], ['id' => $info['id']]);
-            if ($uid) {
-                Util::redirect(url(['\\' . get_called_class() . '::index']));
-            } else {
-                Util::showmessage("操作失败");
-            }
+            Util::redirect(url(['\\' . get_called_class() . '::index']));
         }
 
         $this->assign('info', $info);

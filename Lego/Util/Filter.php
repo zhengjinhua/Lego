@@ -71,7 +71,7 @@ class Filter
 
     public static function validateJson($jsonString)
     {
-        return is_object(json_decode($jsonString));
+        return is_object(json_decode($jsonString,1));
     }
 
     public static function validateCn($string)

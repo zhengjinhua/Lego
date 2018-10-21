@@ -69,7 +69,7 @@ class Plugin implements PluginInterface
      */
     private static function arrForeach($arr)
     {
-        $str = '';
+        $str = [];
 
         if (!is_array($arr)) {
             return $arr;

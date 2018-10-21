@@ -389,7 +389,11 @@ class DB
 
         $this->bindVar = [];
 
-        $statement->execute();
+        $r = $statement->execute();
+        if(!$r){
+            $errorInfo = $statement->errorInfo();
+            throw new \Exception("PDO STATEMENT ERROR: {$errorInfo[2]}" , 604);
+        }
 
         return $statement;
     }
