@@ -42,10 +42,6 @@ class Plugin implements PluginInterface
         //AFTER_ROUTE阶段检测静态化需求
         Event::attach('CORE.ROUTE.POST', function ($callback) {
 
-            if (!$callback) {
-                return;
-            }
-
             $menu = Config::get('MENU');
 
             if (Util::clientIp() !== '127.0.0.1') { //开发环境
@@ -64,9 +60,8 @@ class Plugin implements PluginInterface
                 }
             }
 
-
             $findActive = false;
-            if (is_array($menu)) {
+            if (is_array($menu) && $callback) {
                 foreach ($menu as &$group) {
                     foreach ($group['submenu'] as &$menuItem) {
                         if ($menuItem['path'] === $callback) {
@@ -88,8 +83,9 @@ class Plugin implements PluginInterface
                         }
                     }
                 }
-                Config::set('MENU', $menu);
             }
+
+            Config::set('MENU', $menu);
         });
     }
 }

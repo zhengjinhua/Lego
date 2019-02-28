@@ -33,11 +33,15 @@ class Util
      */
     public static function showmessage($msg, $redirect = '', $time = 10)
     {
-        $redirect = $redirect !== '' ? $redirect : (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/');
+        if($redirect === ''){
+            $actionCode = "history.back();";
+        }else{
+            $actionCode = "location.assign('{$redirect}');";
+        }
         $time = $time * 1000;
         echo "<!DOCTYPE html><html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf8\"/>
-            <body><div style=\"font-size: 12px\">提示: {$msg}... <a href=\"{$redirect}\">返回</a>
-            <script language=\"javascript\">setTimeout(\"location.assign('{$redirect}');\", {$time});</script>
+            <body><div style=\"font-size: 12px\">提示: {$msg} <a href=\"javascript:void(0);\" onClick=\"javascript:{$actionCode}\">返回</a>
+            <script language=\"javascript\">setTimeout(\"{$actionCode}\", {$time});</script>
             </div></body></html>";
         exit;
     }
@@ -231,7 +235,7 @@ class Util
      * @param boolean $adv 是否进行高级模式获取（有可能被伪装）
      * @return mixed
      */
-    public static function clientIp($type = 0, $adv = false)
+    public static function clientIp($type = 0, $adv = true)
     {
         $type = $type ? 1 : 0;
         static $ip = null;
@@ -240,12 +244,7 @@ class Util
         }
         if ($adv) {
             if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                $arr = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-                $pos = array_search('unknown', $arr);
-                if (false !== $pos) {
-                    unset($arr[$pos]);
-                }
-                $ip = trim($arr[0]);
+                $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
             } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
                 $ip = $_SERVER['HTTP_CLIENT_IP'];
             } elseif (isset($_SERVER['REMOTE_ADDR'])) {

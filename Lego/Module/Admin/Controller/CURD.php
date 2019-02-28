@@ -60,7 +60,11 @@ trait CURD
             $this->beforeUpdate($_POST);
 
             $uid = $this->model->updateOne($_POST['info'], ['id' => $info['id']]);
-            Util::redirect(url(['\\' . get_called_class() . '::index']));
+            if ($uid) {
+                Util::redirect(url(['\\' . get_called_class() . '::index']));
+            } else {
+                Util::showmessage("操作失败");
+            }
         }
 
         $this->assign('info', $info);

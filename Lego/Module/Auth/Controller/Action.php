@@ -80,7 +80,11 @@ class Action extends Base
         if (!empty($_POST)) {
 
             $uid = $actionModel->updateOne($_POST['info'], ['id' => $info['id']]);
-            Util::redirect($_POST['back']);
+            if ($uid) {
+                Util::redirect($_POST['back']);
+            } else {
+                Util::showmessage("操作失败");
+            }
         }
 
         $this->assign('info', $info);
